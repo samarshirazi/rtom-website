@@ -7,6 +7,7 @@ import { DishModal } from './components/DishModal';
 import { CateringCalculator } from './components/CateringCalculator';
 import { StorySection } from './components/StorySection';
 import { CartDrawer } from './components/CartDrawer';
+import { InstallBanner } from './components/InstallBanner';
 import { Footer } from './components/Footer';
 
 export function App() {
@@ -83,6 +84,9 @@ export function App() {
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--bg-cream)' }}>
+      {/* Install Banner */}
+      <InstallBanner />
+
       {/* Header */}
       <Header
         cartItemCount={cartItemCount}
