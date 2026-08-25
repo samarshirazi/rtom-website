@@ -4,7 +4,12 @@ import type { Dish } from '../types';
 type DishModalProps = {
   dish: Dish | null;
   onClose: () => void;
-  onAddToCart: (dish: Dish, quantity: number, selectedOptions: { groupId: string; groupName: string; optionId: string; optionName: string; priceDelta: number }[], unitPrice: number) => void;
+  onAddToCart: (
+    dish: Dish,
+    quantity: number,
+    selectedOptions: { groupId: string; groupName: string; optionId: string; optionName: string; priceDelta: number }[],
+    unitPrice: number
+  ) => void;
 };
 
 export const DishModal: React.FC<DishModalProps> = ({ dish, onClose, onAddToCart }) => {
@@ -63,7 +68,7 @@ export const DishModal: React.FC<DishModalProps> = ({ dish, onClose, onAddToCart
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div
-        className="glass-panel"
+        className="paper-card"
         onClick={(e) => e.stopPropagation()}
         style={{
           width: '100%',
@@ -71,13 +76,13 @@ export const DishModal: React.FC<DishModalProps> = ({ dish, onClose, onAddToCart
           maxHeight: '90vh',
           overflowY: 'auto',
           padding: '28px',
-          animation: 'slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
-          background: 'var(--bg-card)',
-          border: '1px solid var(--border-gold)',
+          animation: 'slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+          background: '#FFFFFF',
+          border: '2px solid var(--border-dark)',
         }}
       >
         {/* Header Image */}
-        <div style={{ position: 'relative', height: 200, borderRadius: 'var(--radius-md)', overflow: 'hidden', marginBottom: 20 }}>
+        <div style={{ position: 'relative', height: 200, borderRadius: 'var(--radius-sm)', overflow: 'hidden', marginBottom: 20 }}>
           <img src={dish.image} alt={dish.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           <button
             onClick={onClose}
@@ -85,13 +90,13 @@ export const DishModal: React.FC<DishModalProps> = ({ dish, onClose, onAddToCart
               position: 'absolute',
               top: 12,
               right: 12,
-              background: 'rgba(0,0,0,0.65)',
+              background: 'rgba(26, 25, 24, 0.85)',
               color: '#FFF',
               border: 'none',
               borderRadius: '50%',
               width: 32,
               height: 32,
-              fontSize: '1.2rem',
+              fontSize: '1.1rem',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
@@ -105,13 +110,17 @@ export const DishModal: React.FC<DishModalProps> = ({ dish, onClose, onAddToCart
         {/* Dish Title & Description */}
         <div style={{ marginBottom: 20 }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
-            <h3 style={{ fontSize: '1.5rem', fontFamily: 'var(--font-display)' }}>{dish.name}</h3>
-            <span style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--gold-primary)' }}>${unitPrice.toFixed(2)}</span>
+            <h3 style={{ fontSize: '1.7rem', fontFamily: 'var(--font-woodcut)', color: 'var(--text-dark)' }}>{dish.name}</h3>
+            <span style={{ fontSize: '1.4rem', fontFamily: 'var(--font-heading)', fontWeight: 700, color: 'var(--color-rust)' }}>
+              ${unitPrice.toFixed(2)}
+            </span>
           </div>
-          <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>{dish.description}</p>
-          <div style={{ display: 'flex', gap: 8, marginTop: 10 }}>
-            <span className="badge badge-gold">Portion: {dish.portionSize}</span>
-            {dish.prepTimeMinutes && <span className="badge badge-flame">⏱ {dish.prepTimeMinutes} mins prep</span>}
+          <p style={{ fontSize: '0.95rem', fontFamily: 'var(--font-serif)', color: 'var(--text-charcoal)', lineHeight: 1.6 }}>
+            {dish.description}
+          </p>
+          <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
+            <span className="badge badge-rust">Portion: {dish.portionSize}</span>
+            {dish.prepTimeMinutes && <span className="badge badge-dark">⏱ {dish.prepTimeMinutes} mins prep</span>}
           </div>
         </div>
 
@@ -120,8 +129,8 @@ export const DishModal: React.FC<DishModalProps> = ({ dish, onClose, onAddToCart
           <div style={{ display: 'flex', flexDirection: 'column', gap: 20, marginBottom: 24 }}>
             {dish.variationGroups.map((group) => (
               <div key={group.id} style={{ borderTop: '1px solid var(--border-subtle)', paddingTop: 16 }}>
-                <div style={{ fontSize: '0.9rem', fontWeight: 700, color: 'var(--gold-light)', marginBottom: 10 }}>
-                  {group.name} {group.required && <span style={{ color: 'var(--flame-red)' }}>*</span>}
+                <div style={{ fontFamily: 'var(--font-heading)', fontSize: '0.95rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--text-dark)', marginBottom: 10 }}>
+                  {group.name} {group.required && <span style={{ color: 'var(--color-rust)' }}>*</span>}
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                   {group.options.map((opt) => {
@@ -134,12 +143,12 @@ export const DishModal: React.FC<DishModalProps> = ({ dish, onClose, onAddToCart
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'space-between',
-                          padding: '10px 14px',
+                          padding: '12px 14px',
                           borderRadius: 'var(--radius-sm)',
-                          background: isSelected ? 'rgba(212, 163, 56, 0.15)' : 'var(--bg-surface)',
-                          border: isSelected ? '1px solid var(--gold-primary)' : '1px solid var(--border-subtle)',
+                          background: isSelected ? 'var(--bg-paper)' : '#FFFFFF',
+                          border: isSelected ? '2px solid var(--color-rust)' : '1px solid var(--border-subtle)',
                           cursor: 'pointer',
-                          transition: 'all 0.18s ease',
+                          transition: 'all 0.15s ease',
                         }}
                       >
                         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
@@ -148,12 +157,14 @@ export const DishModal: React.FC<DishModalProps> = ({ dish, onClose, onAddToCart
                             name={`group-${group.id}`}
                             checked={isSelected}
                             onChange={() => {}}
-                            style={{ accentColor: 'var(--gold-primary)' }}
+                            style={{ accentColor: 'var(--color-rust)' }}
                           />
-                          <span style={{ fontSize: '0.9rem', fontWeight: isSelected ? 700 : 500 }}>{opt.name}</span>
+                          <span style={{ fontSize: '0.92rem', fontFamily: 'var(--font-heading)', fontWeight: isSelected ? 700 : 500, color: 'var(--text-dark)' }}>
+                            {opt.name}
+                          </span>
                         </div>
                         {opt.priceDelta !== 0 && (
-                          <span style={{ fontSize: '0.85rem', color: 'var(--gold-light)' }}>
+                          <span style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--color-rust)' }}>
                             {opt.priceDelta > 0 ? `+ $${opt.priceDelta.toFixed(2)}` : `- $${Math.abs(opt.priceDelta).toFixed(2)}`}
                           </span>
                         )}
@@ -168,23 +179,25 @@ export const DishModal: React.FC<DishModalProps> = ({ dish, onClose, onAddToCart
 
         {/* Quantity Controls & Add Button */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, borderTop: '1px solid var(--border-subtle)', paddingTop: 20 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12, background: 'var(--bg-surface)', padding: '6px 12px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, background: 'var(--bg-paper)', padding: '8px 14px', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-subtle)' }}>
             <button
               onClick={() => setQuantity(Math.max(1, quantity - 1))}
-              style={{ background: 'none', border: 'none', color: 'var(--text-main)', fontSize: '1.2rem', fontWeight: 700, cursor: 'pointer', width: 28, height: 28 }}
+              style={{ background: 'none', border: 'none', color: 'var(--text-dark)', fontSize: '1.2rem', fontWeight: 700, cursor: 'pointer', width: 28, height: 28 }}
             >
               −
             </button>
-            <span style={{ fontSize: '1rem', fontWeight: 700, minWidth: 20, textAlign: 'center' }}>{quantity}</span>
+            <span style={{ fontSize: '1.1rem', fontFamily: 'var(--font-heading)', fontWeight: 700, minWidth: 20, textAlign: 'center' }}>
+              {quantity}
+            </span>
             <button
               onClick={() => setQuantity(quantity + 1)}
-              style={{ background: 'none', border: 'none', color: 'var(--text-main)', fontSize: '1.2rem', fontWeight: 700, cursor: 'pointer', width: 28, height: 28 }}
+              style={{ background: 'none', border: 'none', color: 'var(--text-dark)', fontSize: '1.2rem', fontWeight: 700, cursor: 'pointer', width: 28, height: 28 }}
             >
               +
             </button>
           </div>
 
-          <button onClick={handleConfirm} className="btn btn-primary" style={{ flex: 1, padding: '14px', fontSize: '1rem' }}>
+          <button onClick={handleConfirm} className="btn btn-rust" style={{ flex: 1, padding: '14px', fontSize: '1rem' }}>
             <span>Add to Cart</span>
             <span style={{ fontWeight: 800 }}>• ${totalPrice.toFixed(2)}</span>
           </button>
@@ -196,13 +209,14 @@ export const DishModal: React.FC<DishModalProps> = ({ dish, onClose, onAddToCart
             target="_blank"
             rel="noopener noreferrer"
             style={{
-              fontSize: '0.8rem',
-              color: 'var(--gold-light)',
+              fontSize: '0.85rem',
+              color: 'var(--color-rust)',
               textDecoration: 'none',
+              fontFamily: 'var(--font-heading)',
+              fontWeight: 600,
               display: 'inline-flex',
               alignItems: 'center',
               gap: 4,
-              opacity: 0.9,
             }}
           >
             <span>📱 Or order directly on RTOM App (app.rtombbq.ca) ➔</span>

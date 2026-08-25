@@ -55,8 +55,8 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
           width: '100%',
           maxWidth: '460px',
           height: '100vh',
-          background: 'var(--bg-card)',
-          borderLeft: '1px solid var(--border-gold)',
+          background: '#FFFFFF',
+          borderLeft: '2px solid var(--border-dark)',
           display: 'flex',
           flexDirection: 'column',
           boxShadow: 'var(--shadow-lg)',
@@ -71,21 +71,24 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            background: 'var(--bg-surface)',
+            background: 'var(--bg-cream)',
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <span style={{ fontSize: '1.3rem' }}>🛒</span>
-            <h3 style={{ fontSize: '1.25rem', fontFamily: 'var(--font-display)' }}>Your BBQ Cart</h3>
+            <span style={{ fontSize: '1.4rem' }}>🛒</span>
+            <h3 style={{ fontSize: '1.45rem', fontFamily: 'var(--font-woodcut)', color: 'var(--text-dark)' }}>
+              YOUR BBQ CART
+            </h3>
           </div>
           <button
             onClick={onClose}
             style={{
               background: 'none',
               border: 'none',
-              color: 'var(--text-muted)',
-              fontSize: '1.4rem',
+              color: 'var(--text-dark)',
+              fontSize: '1.3rem',
               cursor: 'pointer',
+              fontWeight: 700,
             }}
           >
             ✕
@@ -96,10 +99,10 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
         {orderPlacedSuccess ? (
           <div style={{ padding: '40px 24px', textAlign: 'center', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
             <span style={{ fontSize: '3.5rem', marginBottom: 16 }}>🎉</span>
-            <h3 style={{ fontSize: '1.5rem', fontFamily: 'var(--font-display)', marginBottom: 8, color: 'var(--gold-light)' }}>
-              Order Inquiry Sent!
+            <h3 style={{ fontSize: '1.6rem', fontFamily: 'var(--font-woodcut)', marginBottom: 8, color: 'var(--color-rust)' }}>
+              ORDER INQUIRY SENT!
             </h3>
-            <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', marginBottom: 24, lineHeight: 1.5 }}>
+            <p style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-body)', fontSize: '0.95rem', marginBottom: 24, lineHeight: 1.6 }}>
               Your order payload has been generated and WhatsApp notification opened. Our pitmaster team will confirm your delivery slot shortly.
             </p>
             <button
@@ -108,7 +111,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                 onClearCart();
                 onClose();
               }}
-              className="btn btn-primary"
+              className="btn btn-rust"
             >
               Back to Menu
             </button>
@@ -116,8 +119,10 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
         ) : cartItems.length === 0 ? (
           <div style={{ padding: '60px 24px', textAlign: 'center', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
             <span style={{ fontSize: '3.5rem', marginBottom: 12, opacity: 0.6 }}>🍖</span>
-            <h4 style={{ fontSize: '1.2rem', marginBottom: 6 }}>Your cart is empty</h4>
-            <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginBottom: 20 }}>
+            <h4 style={{ fontSize: '1.4rem', fontFamily: 'var(--font-woodcut)', marginBottom: 6 }}>
+              YOUR CART IS EMPTY
+            </h4>
+            <p style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-body)', fontSize: '0.9rem', marginBottom: 20 }}>
               Add some tender goat biryani, beef shami kebabs, or charcoal chicken tikka to get started.
             </p>
             <button onClick={onClose} className="btn btn-outline">
@@ -127,7 +132,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
         ) : (
           <div style={{ flex: 1, overflowY: 'auto', padding: '20px 24px' }}>
             {/* Cart Items List */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 16, marginBottom: 24 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 14, marginBottom: 24 }}>
               {cartItems.map((item) => (
                 <div
                   key={item.cartId}
@@ -135,8 +140,8 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                     display: 'flex',
                     gap: 12,
                     padding: '12px',
-                    borderRadius: 'var(--radius-md)',
-                    background: 'var(--bg-surface)',
+                    borderRadius: 'var(--radius-sm)',
+                    background: 'var(--bg-paper)',
                     border: '1px solid var(--border-subtle)',
                   }}
                 >
@@ -148,30 +153,32 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                   <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                     <div>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                        <div style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--text-main)' }}>{item.name}</div>
-                        <div style={{ fontSize: '0.95rem', fontWeight: 800, color: 'var(--gold-primary)' }}>
+                        <div style={{ fontSize: '1.1rem', fontFamily: 'var(--font-woodcut)', color: 'var(--text-dark)' }}>
+                          {item.name}
+                        </div>
+                        <div style={{ fontSize: '1.05rem', fontFamily: 'var(--font-heading)', fontWeight: 700, color: 'var(--color-rust)' }}>
                           ${item.itemTotal.toFixed(2)}
                         </div>
                       </div>
                       {item.selectedOptions.length > 0 && (
-                        <div style={{ fontSize: '0.78rem', color: 'var(--text-dim)', marginTop: 2 }}>
+                        <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: 2 }}>
                           {item.selectedOptions.map((opt) => opt.optionName).join(', ')}
                         </div>
                       )}
                     </div>
 
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 8 }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'var(--bg-card)', padding: '2px 8px', borderRadius: 6, border: '1px solid var(--border-subtle)' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#FFFFFF', padding: '2px 8px', borderRadius: 4, border: '1px solid var(--border-subtle)' }}>
                         <button
                           onClick={() => onUpdateQuantity(item.cartId, item.quantity - 1)}
-                          style={{ background: 'none', border: 'none', color: 'var(--text-main)', cursor: 'pointer', fontSize: '1rem', fontWeight: 700 }}
+                          style={{ background: 'none', border: 'none', color: 'var(--text-dark)', cursor: 'pointer', fontSize: '1rem', fontWeight: 700 }}
                         >
                           −
                         </button>
-                        <span style={{ fontSize: '0.88rem', fontWeight: 700 }}>{item.quantity}</span>
+                        <span style={{ fontSize: '0.9rem', fontWeight: 700 }}>{item.quantity}</span>
                         <button
                           onClick={() => onUpdateQuantity(item.cartId, item.quantity + 1)}
-                          style={{ background: 'none', border: 'none', color: 'var(--text-main)', cursor: 'pointer', fontSize: '1rem', fontWeight: 700 }}
+                          style={{ background: 'none', border: 'none', color: 'var(--text-dark)', cursor: 'pointer', fontSize: '1rem', fontWeight: 700 }}
                         >
                           +
                         </button>
@@ -179,7 +186,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
 
                       <button
                         onClick={() => onUpdateQuantity(item.cartId, 0)}
-                        style={{ background: 'none', border: 'none', color: 'var(--flame-red)', fontSize: '0.8rem', cursor: 'pointer' }}
+                        style={{ background: 'none', border: 'none', color: 'var(--color-rust)', fontSize: '0.8rem', fontWeight: 600, cursor: 'pointer' }}
                       >
                         Remove
                       </button>
@@ -192,37 +199,37 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
             {/* Dual Option: App Express Checkout */}
             <div
               style={{
-                background: 'linear-gradient(135deg, rgba(212, 163, 56, 0.12) 0%, rgba(211, 72, 38, 0.15) 100%)',
-                border: '1px solid var(--border-gold)',
-                borderRadius: 'var(--radius-md)',
+                background: 'var(--bg-paper)',
+                border: '2px solid var(--color-rust)',
+                borderRadius: 'var(--radius-sm)',
                 padding: '16px',
                 marginBottom: 20,
                 display: 'flex',
                 flexDirection: 'column',
-                gap: 10,
+                gap: 8,
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <span style={{ fontSize: '1.2rem' }}>⚡</span>
-                <div style={{ fontSize: '0.92rem', fontWeight: 700, color: 'var(--gold-light)' }}>
+                <div style={{ fontFamily: 'var(--font-heading)', fontSize: '0.95rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--text-dark)' }}>
                   Option 1: Checkout on RTOM App
                 </div>
               </div>
-              <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', lineHeight: 1.4 }}>
-                For real-time kitchen tracking & direct online payment, launch our app platform.
+              <p style={{ fontSize: '0.82rem', fontFamily: 'var(--font-body)', color: 'var(--text-muted)', lineHeight: 1.4 }}>
+                For real-time kitchen tracking & direct online payment, order at <strong>app.rtombbq.ca</strong>.
               </p>
               <a
                 href="https://app.rtombbq.ca"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn btn-flame"
-                style={{ width: '100%', padding: '10px', fontSize: '0.9rem', textDecoration: 'none', justifyContent: 'center' }}
+                className="btn btn-rust"
+                style={{ width: '100%', padding: '10px', fontSize: '0.88rem', textDecoration: 'none', justifyContent: 'center' }}
               >
                 📱 Order on app.rtombbq.ca ➔
               </a>
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 18, color: 'var(--text-dim)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 18, color: 'var(--text-dim)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.08em', fontFamily: 'var(--font-heading)' }}>
               <div style={{ flex: 1, height: 1, background: 'var(--border-subtle)' }} />
               <span>Option 2: WhatsApp Fast Order</span>
               <div style={{ flex: 1, height: 1, background: 'var(--border-subtle)' }} />
@@ -230,13 +237,13 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
 
             {/* Delivery Form */}
             <form onSubmit={handleCheckout} style={{ borderTop: '1px solid var(--border-subtle)', paddingTop: 16 }}>
-              <div style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--gold-light)', marginBottom: 12 }}>
+              <div style={{ fontFamily: 'var(--font-heading)', fontSize: '0.95rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--text-dark)', marginBottom: 12 }}>
                 WhatsApp Delivery Information
               </div>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 20 }}>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-dim)', marginBottom: 4 }}>Full Name</label>
+                  <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: 4, fontFamily: 'var(--font-sans)' }}>Full Name</label>
                   <input
                     type="text"
                     required
@@ -247,7 +254,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                   />
                 </div>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-dim)', marginBottom: 4 }}>Phone Number</label>
+                  <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: 4, fontFamily: 'var(--font-sans)' }}>Phone Number</label>
                   <input
                     type="tel"
                     required
@@ -258,7 +265,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                   />
                 </div>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-dim)', marginBottom: 4 }}>Delivery Address</label>
+                  <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: 4, fontFamily: 'var(--font-sans)' }}>Delivery Address</label>
                   <input
                     type="text"
                     required
@@ -271,7 +278,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
 
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
                   <div>
-                    <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-dim)', marginBottom: 4 }}>Delivery Date</label>
+                    <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: 4, fontFamily: 'var(--font-sans)' }}>Delivery Date</label>
                     <input
                       type="date"
                       value={deliveryDate}
@@ -280,7 +287,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                     />
                   </div>
                   <div>
-                    <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-dim)', marginBottom: 4 }}>Time Window</label>
+                    <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: 4, fontFamily: 'var(--font-sans)' }}>Time Window</label>
                     <select
                       value={timeSlot}
                       onChange={(e) => setTimeSlot(e.target.value)}
@@ -295,22 +302,22 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
               </div>
 
               {/* Price Breakdown */}
-              <div style={{ background: 'var(--bg-surface)', padding: '16px', borderRadius: 'var(--radius-md)', marginBottom: 20 }}>
+              <div style={{ background: 'var(--bg-paper)', padding: '16px', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-subtle)', marginBottom: 20 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.88rem', color: 'var(--text-muted)', marginBottom: 6 }}>
                   <span>Subtotal</span>
-                  <span>${subtotal.toFixed(2)}</span>
+                  <span style={{ fontWeight: 600, color: 'var(--text-dark)' }}>${subtotal.toFixed(2)}</span>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.88rem', color: 'var(--text-muted)', marginBottom: 10 }}>
-                  <span>Delivery Fee {subtotal >= 40 && <span style={{ color: 'var(--gold-light)' }}>(Free Over $40!)</span>}</span>
-                  <span>${deliveryFee.toFixed(2)}</span>
+                  <span>Delivery Fee {subtotal >= 40 && <span style={{ color: 'var(--color-rust)', fontWeight: 600 }}>(Free Over $40!)</span>}</span>
+                  <span style={{ fontWeight: 600, color: 'var(--text-dark)' }}>${deliveryFee.toFixed(2)}</span>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1.2rem', fontWeight: 800, color: 'var(--gold-primary)', borderTop: '1px solid var(--border-subtle)', paddingTop: 10 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1.4rem', fontFamily: 'var(--font-woodcut)', color: 'var(--text-dark)', borderTop: '1px solid var(--border-subtle)', paddingTop: 10 }}>
                   <span>Total Amount</span>
-                  <span>${grandTotal.toFixed(2)}</span>
+                  <span style={{ color: 'var(--color-rust)' }}>${grandTotal.toFixed(2)}</span>
                 </div>
               </div>
 
-              <button type="submit" className="btn btn-flame" style={{ width: '100%', padding: '14px', fontSize: '1.05rem', justifyContent: 'center' }}>
+              <button type="submit" className="btn btn-dark" style={{ width: '100%', padding: '14px', fontSize: '1rem', justifyContent: 'center' }}>
                 🔥 Place Order via WhatsApp
               </button>
             </form>
@@ -331,10 +338,11 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
 const inputStyle: React.CSSProperties = {
   width: '100%',
   padding: '10px 12px',
-  background: 'var(--bg-surface)',
+  background: '#FFFFFF',
   border: '1px solid var(--border-subtle)',
   borderRadius: 'var(--radius-sm)',
-  color: 'var(--text-main)',
+  color: 'var(--text-dark)',
+  fontFamily: 'var(--font-sans)',
   fontSize: '0.88rem',
   outline: 'none',
 };

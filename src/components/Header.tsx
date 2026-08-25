@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 type HeaderProps = {
   cartItemCount: number;
@@ -11,16 +11,7 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenCart,
   onNavigateSection,
 }) => {
-  const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   const handleNavClick = (sectionId: string) => {
     onNavigateSection(sectionId);
@@ -33,78 +24,99 @@ export const Header: React.FC<HeaderProps> = ({
         position: 'sticky',
         top: 0,
         zIndex: 100,
-        background: isScrolled ? 'rgba(14, 13, 12, 0.94)' : 'transparent',
-        backdropFilter: isScrolled ? 'blur(16px)' : 'none',
-        borderBottom: isScrolled ? '1px solid rgba(212, 163, 56, 0.2)' : '1px solid transparent',
-        transition: 'all 0.3s ease',
-        padding: '16px 0',
+        background: 'var(--bg-cream)',
+        borderBottom: '1px solid var(--border-subtle)',
+        boxShadow: '0 2px 10px rgba(0, 0, 0, 0.05)',
       }}
     >
-      <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        {/* Brand Logo */}
+      <div
+        className="container"
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          paddingTop: 14,
+          paddingBottom: 14,
+        }}
+      >
+        {/* Brand Identity / Logo */}
         <div
           onClick={() => handleNavClick('hero')}
-          style={{ display: 'flex', alignItems: 'center', gap: 12, cursor: 'pointer' }}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 14,
+            cursor: 'pointer',
+            userSelect: 'none',
+          }}
         >
           <img
             src="/rtom-icon-512.png"
-            alt="RTOM BBQ Logo"
+            alt="RTOM Barbecue Logo"
             style={{
-              width: 44,
-              height: 44,
+              width: 52,
+              height: 52,
               borderRadius: '50%',
-              boxShadow: '0 0 16px rgba(212, 163, 56, 0.35)',
-              border: '2px solid rgba(212, 163, 56, 0.5)',
+              objectFit: 'cover',
+              border: '2px solid var(--text-dark)',
+              boxShadow: 'var(--shadow-sm)',
             }}
           />
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <span
+          <div>
+            <div
               style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: '1.4rem',
-                fontWeight: 800,
-                letterSpacing: '0.04em',
-                lineHeight: 1.1,
-                color: 'var(--text-main)',
+                fontFamily: 'var(--font-woodcut)',
+                fontSize: '1.75rem',
+                lineHeight: 1,
+                letterSpacing: '0.06em',
+                color: 'var(--text-dark)',
               }}
             >
-              RTOM <span style={{ color: 'var(--gold-primary)' }}>BBQ</span>
-            </span>
-            <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-              Smokehouse BBQ, Delivered
-            </span>
+              RTOM BARBECUE
+            </div>
+            <div
+              style={{
+                fontFamily: 'var(--font-heading)',
+                fontSize: '0.7rem',
+                fontWeight: 600,
+                letterSpacing: '0.14em',
+                textTransform: 'uppercase',
+                color: 'var(--color-rust)',
+                marginTop: 2,
+              }}
+            >
+              100% HALAL SMOKEHOUSE • EST. CALGARY
+            </div>
           </div>
         </div>
 
-        {/* Desktop Nav Links */}
-        <nav className="desktop-nav" style={{ display: 'flex', alignItems: 'center', gap: 28 }}>
-          <button
-            onClick={() => handleNavClick('menu')}
-            style={{ background: 'none', border: 'none', color: 'var(--text-main)', fontSize: '0.95rem', fontWeight: 600, cursor: 'pointer' }}
-          >
-            Menu Catalog
+        {/* Desktop Navigation */}
+        <nav
+          className="desktop-nav"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 26,
+          }}
+        >
+          <button onClick={() => handleNavClick('hero')} style={navLinkStyle}>
+            VISIT US
           </button>
-          <button
-            onClick={() => handleNavClick('catering')}
-            style={{ background: 'none', border: 'none', color: 'var(--text-main)', fontSize: '0.95rem', fontWeight: 600, cursor: 'pointer' }}
-          >
-            Catering Calculator
+          <button onClick={() => handleNavClick('menu')} style={navLinkStyle}>
+            MENU
           </button>
-          <button
-            onClick={() => handleNavClick('story')}
-            style={{ background: 'none', border: 'none', color: 'var(--text-main)', fontSize: '0.95rem', fontWeight: 600, cursor: 'pointer' }}
-          >
-            Pitmaster Story
+          <button onClick={() => handleNavClick('catering')} style={navLinkStyle}>
+            CATERING
           </button>
-          <button
-            onClick={() => handleNavClick('reviews')}
-            style={{ background: 'none', border: 'none', color: 'var(--text-main)', fontSize: '0.95rem', fontWeight: 600, cursor: 'pointer' }}
-          >
-            Reviews
+          <button onClick={() => handleNavClick('story')} style={navLinkStyle}>
+            PITMASTER STORY
+          </button>
+          <button onClick={() => handleNavClick('reviews')} style={navLinkStyle}>
+            REVIEWS
           </button>
         </nav>
 
-        {/* Right Actions: Phone + App Button + Cart Button */}
+        {/* Right Actions: Phone + Franklin Chevron Order Button + Cart */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
           <a
             href="tel:18258238733"
@@ -113,38 +125,38 @@ export const Header: React.FC<HeaderProps> = ({
               display: 'flex',
               alignItems: 'center',
               gap: 6,
-              color: 'var(--gold-light)',
+              color: 'var(--text-dark)',
               textDecoration: 'none',
-              fontSize: '0.9rem',
+              fontSize: '0.92rem',
+              fontFamily: 'var(--font-heading)',
               fontWeight: 600,
+              letterSpacing: '0.04em',
             }}
           >
             <span>📞</span>
             <span className="phone-number">(825) 823-8733</span>
           </a>
 
-          {/* App Direct Order Link */}
+          {/* Franklin-Style Chevron Arrow Button for App Order */}
           <a
             href="https://app.rtombbq.ca"
             target="_blank"
             rel="noopener noreferrer"
-            className="app-order-btn btn btn-flame"
-            style={{
-              padding: '9px 15px',
-              fontSize: '0.85rem',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 6,
-              textDecoration: 'none',
-            }}
+            className="btn-chevron desktop-order-btn"
+            title="Order online at app.rtombbq.ca"
           >
-            <span>📱 Order on App</span>
+            Order on App
           </a>
 
+          {/* Cart Button */}
           <button
             onClick={onOpenCart}
-            className="btn btn-primary"
-            style={{ position: 'relative', padding: '9px 16px', fontSize: '0.88rem' }}
+            className="btn btn-dark"
+            style={{
+              position: 'relative',
+              padding: '10px 18px',
+              fontSize: '0.85rem',
+            }}
           >
             <span>🛒 Cart</span>
             {cartItemCount > 0 && (
@@ -153,9 +165,9 @@ export const Header: React.FC<HeaderProps> = ({
                   position: 'absolute',
                   top: -6,
                   right: -6,
-                  background: 'var(--flame-red)',
+                  background: 'var(--color-rust)',
                   color: '#FFFFFF',
-                  fontSize: '0.75rem',
+                  fontSize: '0.72rem',
                   fontWeight: 800,
                   width: 22,
                   height: 22,
@@ -163,7 +175,7 @@ export const Header: React.FC<HeaderProps> = ({
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  boxShadow: '0 2px 8px rgba(211, 72, 38, 0.6)',
+                  boxShadow: '0 2px 6px rgba(217, 101, 43, 0.5)',
                 }}
               >
                 {cartItemCount}
@@ -179,7 +191,7 @@ export const Header: React.FC<HeaderProps> = ({
               display: 'none',
               background: 'none',
               border: 'none',
-              color: 'var(--text-main)',
+              color: 'var(--text-dark)',
               fontSize: '1.6rem',
               cursor: 'pointer',
             }}
@@ -193,35 +205,53 @@ export const Header: React.FC<HeaderProps> = ({
       {mobileMenuOpen && (
         <div
           style={{
-            background: 'var(--bg-card)',
-            borderBottom: '1px solid var(--border-gold)',
+            background: 'var(--bg-paper)',
+            borderBottom: '2px solid var(--border-dark)',
             padding: '20px',
             display: 'flex',
             flexDirection: 'column',
-            gap: 16,
-            marginTop: 10,
+            gap: 14,
           }}
         >
           <a
             href="https://app.rtombbq.ca"
             target="_blank"
             rel="noopener noreferrer"
-            className="btn btn-flame"
-            style={{ textAlign: 'center', padding: '12px', textDecoration: 'none', justifyContent: 'center' }}
+            className="btn btn-rust"
+            style={{
+              textAlign: 'center',
+              padding: '12px',
+              textDecoration: 'none',
+              justifyContent: 'center',
+              fontFamily: 'var(--font-script)',
+              fontSize: '1.25rem',
+            }}
           >
-            📱 Order on RTOM App (app.rtombbq.ca)
+            Order in Advance on App ➔
           </a>
-          <button onClick={() => handleNavClick('menu')} style={mobileBtnStyle}>🔥 Menu Catalog</button>
-          <button onClick={() => handleNavClick('catering')} style={mobileBtnStyle}>🍖 BBQ Catering Calculator</button>
-          <button onClick={() => handleNavClick('story')} style={mobileBtnStyle}>🪵 Pitmaster Story</button>
-          <button onClick={() => handleNavClick('reviews')} style={mobileBtnStyle}>⭐ Customer Reviews</button>
+          <button onClick={() => handleNavClick('hero')} style={mobileBtnStyle}>
+            VISIT US
+          </button>
+          <button onClick={() => handleNavClick('menu')} style={mobileBtnStyle}>
+            SMOKEHOUSE MENU
+          </button>
+          <button onClick={() => handleNavClick('catering')} style={mobileBtnStyle}>
+            BBQ CATERING CALCULATOR
+          </button>
+          <button onClick={() => handleNavClick('story')} style={mobileBtnStyle}>
+            PITMASTER STORY
+          </button>
+          <button onClick={() => handleNavClick('reviews')} style={mobileBtnStyle}>
+            CUSTOMER REVIEWS
+          </button>
         </div>
       )}
 
       <style>{`
-        @media (max-width: 868px) {
+        @media (max-width: 960px) {
           .desktop-nav { display: none !important; }
           .phone-number { display: none; }
+          .desktop-order-btn { display: none !important; }
           .mobile-hamburger { display: block !important; }
         }
       `}</style>
@@ -229,13 +259,31 @@ export const Header: React.FC<HeaderProps> = ({
   );
 };
 
+const navLinkStyle: React.CSSProperties = {
+  background: 'none',
+  border: 'none',
+  color: 'var(--text-dark)',
+  fontFamily: 'var(--font-heading)',
+  fontSize: '0.98rem',
+  fontWeight: 600,
+  letterSpacing: '0.06em',
+  cursor: 'pointer',
+  padding: '6px 2px',
+  transition: 'all 0.18s ease',
+  textTransform: 'uppercase',
+};
+
 const mobileBtnStyle: React.CSSProperties = {
   background: 'none',
   border: 'none',
-  color: 'var(--text-main)',
-  fontSize: '1.05rem',
-  fontWeight: 600,
+  color: 'var(--text-dark)',
+  fontFamily: 'var(--font-heading)',
+  fontSize: '1.1rem',
+  fontWeight: 700,
+  letterSpacing: '0.04em',
   textAlign: 'left',
   padding: '8px 0',
   cursor: 'pointer',
+  textTransform: 'uppercase',
+  borderBottom: '1px dashed var(--border-subtle)',
 };

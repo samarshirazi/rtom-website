@@ -60,28 +60,92 @@ export const CateringCalculator: React.FC<CateringCalculatorProps> = ({ onOpenIn
   };
 
   return (
-    <section id="catering" style={{ padding: '80px 0', background: 'var(--bg-surface)', borderTop: '1px solid var(--border-subtle)', borderBottom: '1px solid var(--border-subtle)' }}>
+    <section
+      id="catering"
+      style={{
+        padding: '90px 0',
+        background: 'var(--bg-paper)',
+        borderBottom: '1px solid var(--border-subtle)',
+      }}
+    >
       <div className="container">
-        <div style={{ textAlign: 'center', maxWidth: '640px', margin: '0 auto 48px' }}>
-          <div className="badge badge-flame" style={{ marginBottom: 12 }}>
-            <span>🍖 CUSTOM EVENT CATERING</span>
+        {/* Section Header */}
+        <div style={{ textAlign: 'center', maxWidth: '680px', margin: '0 auto 48px' }}>
+          <div
+            style={{
+              display: 'inline-block',
+              background: 'var(--color-rust)',
+              color: '#FFFFFF',
+              padding: '6px 14px',
+              borderRadius: 'var(--radius-sm)',
+              fontFamily: 'var(--font-heading)',
+              fontSize: '0.8rem',
+              fontWeight: 700,
+              letterSpacing: '0.1em',
+              textTransform: 'uppercase',
+              marginBottom: 14,
+            }}
+          >
+            🍖 PRIVATE EVENTS & CATERING
           </div>
-          <h2 style={{ fontSize: 'clamp(2rem, 3.5vw, 2.8rem)', fontFamily: 'var(--font-display)', marginBottom: 12 }}>
-            Pitmaster BBQ Catering <span className="gradient-text-flame">Estimator</span>
+          <h2
+            style={{
+              fontSize: 'clamp(2.4rem, 4.5vw, 3.6rem)',
+              fontFamily: 'var(--font-woodcut)',
+              color: 'var(--text-dark)',
+              marginBottom: 8,
+              letterSpacing: '0.04em',
+            }}
+          >
+            PITMASTER BBQ <span style={{ color: 'var(--color-rust)' }}>CATERING ESTIMATOR</span>
           </h2>
-          <p style={{ color: 'var(--text-muted)', fontSize: '1.05rem' }}>
-            Planning a wedding, corporate party, or family event? Calculate your instant price estimate and get live pitmasters or catered trays delivered hot.
+          <p className="script-accent" style={{ fontSize: '1.35rem', color: 'var(--text-muted)' }}>
+            Hot tray delivery or live charcoal pitmasters for 10 to 300+ guests
           </p>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 36, alignItems: 'start' }}>
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: 36,
+            alignItems: 'start',
+          }}
+        >
           {/* Controls Box */}
-          <div className="glass-panel" style={{ padding: '32px', background: 'var(--bg-card)' }}>
+          <div className="paper-card" style={{ padding: '36px', background: '#FFFFFF' }}>
             {/* Guest Count Slider */}
-            <div style={{ marginBottom: 28 }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-                <label style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--gold-light)' }}>Number of Guests</label>
-                <span className="badge badge-gold" style={{ fontSize: '0.9rem', padding: '6px 14px' }}>
+            <div style={{ marginBottom: 32 }}>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  marginBottom: 12,
+                }}
+              >
+                <label
+                  style={{
+                    fontFamily: 'var(--font-heading)',
+                    fontSize: '1.05rem',
+                    fontWeight: 700,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.04em',
+                  }}
+                >
+                  Number of Guests
+                </label>
+                <span
+                  style={{
+                    background: 'var(--color-rust)',
+                    color: '#FFFFFF',
+                    padding: '6px 14px',
+                    borderRadius: 'var(--radius-sm)',
+                    fontFamily: 'var(--font-heading)',
+                    fontSize: '0.95rem',
+                    fontWeight: 700,
+                  }}
+                >
                   👥 {guestCount} Guests
                 </span>
               </div>
@@ -92,9 +156,18 @@ export const CateringCalculator: React.FC<CateringCalculatorProps> = ({ onOpenIn
                 step="5"
                 value={guestCount}
                 onChange={(e) => setGuestCount(Number(e.target.value))}
-                style={{ width: '100%', accentColor: 'var(--gold-primary)', cursor: 'pointer' }}
+                style={{ width: '100%', accentColor: 'var(--color-rust)', cursor: 'pointer' }}
               />
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', color: 'var(--text-dim)', marginTop: 4 }}>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  fontSize: '0.75rem',
+                  color: 'var(--text-dim)',
+                  marginTop: 6,
+                  fontFamily: 'var(--font-sans)',
+                }}
+              >
                 <span>10 Guests</span>
                 <span>150 Guests</span>
                 <span>300+ Guests</span>
@@ -102,9 +175,19 @@ export const CateringCalculator: React.FC<CateringCalculatorProps> = ({ onOpenIn
             </div>
 
             {/* Meat Selections */}
-            <div style={{ marginBottom: 24 }}>
-              <label style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--gold-light)', display: 'block', marginBottom: 12 }}>
-                Select BBQ & Meats
+            <div style={{ marginBottom: 28 }}>
+              <label
+                style={{
+                  fontFamily: 'var(--font-heading)',
+                  fontSize: '1rem',
+                  fontWeight: 700,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.04em',
+                  display: 'block',
+                  marginBottom: 12,
+                }}
+              >
+                Select BBQ Meats
               </label>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
                 {Object.entries(meatPrices).map(([meat, price]) => {
@@ -115,22 +198,24 @@ export const CateringCalculator: React.FC<CateringCalculatorProps> = ({ onOpenIn
                       type="button"
                       onClick={() => toggleMeat(meat)}
                       style={{
-                        padding: '10px 12px',
+                        padding: '12px 14px',
                         borderRadius: 'var(--radius-sm)',
-                        background: checked ? 'rgba(211, 72, 38, 0.18)' : 'var(--bg-surface)',
-                        border: checked ? '1px solid var(--flame-red)' : '1px solid var(--border-subtle)',
-                        color: checked ? '#FFBBAE' : 'var(--text-main)',
-                        fontSize: '0.85rem',
+                        background: checked ? 'var(--color-rust)' : 'var(--bg-paper)',
+                        border: checked ? '1px solid var(--color-rust-dark)' : '1px solid var(--border-subtle)',
+                        color: checked ? '#FFFFFF' : 'var(--text-dark)',
+                        fontSize: '0.88rem',
+                        fontFamily: 'var(--font-heading)',
                         fontWeight: checked ? 700 : 500,
                         cursor: 'pointer',
                         textAlign: 'left',
                         display: 'flex',
                         justifyContent: 'space-between',
                         alignItems: 'center',
+                        transition: 'var(--transition)',
                       }}
                     >
                       <span>{meat}</span>
-                      <span style={{ fontSize: '0.75rem', opacity: 0.8 }}>+${price.toFixed(2)}</span>
+                      <span style={{ fontSize: '0.78rem', opacity: 0.85 }}>+${price.toFixed(2)}</span>
                     </button>
                   );
                 })}
@@ -138,8 +223,18 @@ export const CateringCalculator: React.FC<CateringCalculatorProps> = ({ onOpenIn
             </div>
 
             {/* Sides Selections */}
-            <div style={{ marginBottom: 24 }}>
-              <label style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--gold-light)', display: 'block', marginBottom: 12 }}>
+            <div style={{ marginBottom: 28 }}>
+              <label
+                style={{
+                  fontFamily: 'var(--font-heading)',
+                  fontSize: '1rem',
+                  fontWeight: 700,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.04em',
+                  display: 'block',
+                  marginBottom: 12,
+                }}
+              >
                 Select Naan & Sides
               </label>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
@@ -151,22 +246,24 @@ export const CateringCalculator: React.FC<CateringCalculatorProps> = ({ onOpenIn
                       type="button"
                       onClick={() => toggleSide(side)}
                       style={{
-                        padding: '10px 12px',
+                        padding: '12px 14px',
                         borderRadius: 'var(--radius-sm)',
-                        background: checked ? 'rgba(212, 163, 56, 0.18)' : 'var(--bg-surface)',
-                        border: checked ? '1px solid var(--gold-primary)' : '1px solid var(--border-subtle)',
-                        color: checked ? 'var(--gold-light)' : 'var(--text-main)',
-                        fontSize: '0.85rem',
+                        background: checked ? 'var(--text-dark)' : 'var(--bg-paper)',
+                        border: checked ? '1px solid var(--text-dark)' : '1px solid var(--border-subtle)',
+                        color: checked ? '#FFFFFF' : 'var(--text-dark)',
+                        fontSize: '0.88rem',
+                        fontFamily: 'var(--font-heading)',
                         fontWeight: checked ? 700 : 500,
                         cursor: 'pointer',
                         textAlign: 'left',
                         display: 'flex',
                         justifyContent: 'space-between',
                         alignItems: 'center',
+                        transition: 'var(--transition)',
                       }}
                     >
                       <span>{side}</span>
-                      <span style={{ fontSize: '0.75rem', opacity: 0.8 }}>+${price.toFixed(2)}</span>
+                      <span style={{ fontSize: '0.78rem', opacity: 0.85 }}>+${price.toFixed(2)}</span>
                     </button>
                   );
                 })}
@@ -175,7 +272,17 @@ export const CateringCalculator: React.FC<CateringCalculatorProps> = ({ onOpenIn
 
             {/* Service Style */}
             <div>
-              <label style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--gold-light)', display: 'block', marginBottom: 12 }}>
+              <label
+                style={{
+                  fontFamily: 'var(--font-heading)',
+                  fontSize: '1rem',
+                  fontWeight: 700,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.04em',
+                  display: 'block',
+                  marginBottom: 12,
+                }}
+              >
                 Service & Setup Style
               </label>
               <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
@@ -185,8 +292,9 @@ export const CateringCalculator: React.FC<CateringCalculatorProps> = ({ onOpenIn
                   className="btn btn-sm"
                   style={{
                     flex: 1,
-                    background: serviceStyle === 'buffet' ? 'var(--gold-primary)' : 'var(--bg-surface)',
-                    color: serviceStyle === 'buffet' ? '#0E0D0C' : 'var(--text-main)',
+                    background: serviceStyle === 'buffet' ? 'var(--color-rust)' : 'var(--bg-paper)',
+                    color: serviceStyle === 'buffet' ? '#FFFFFF' : 'var(--text-dark)',
+                    border: '1px solid var(--border-subtle)',
                   }}
                 >
                   Warm Buffet Trays
@@ -197,8 +305,9 @@ export const CateringCalculator: React.FC<CateringCalculatorProps> = ({ onOpenIn
                   className="btn btn-sm"
                   style={{
                     flex: 1,
-                    background: serviceStyle === 'individual' ? 'var(--gold-primary)' : 'var(--bg-surface)',
-                    color: serviceStyle === 'individual' ? '#0E0D0C' : 'var(--text-main)',
+                    background: serviceStyle === 'individual' ? 'var(--color-rust)' : 'var(--bg-paper)',
+                    color: serviceStyle === 'individual' ? '#FFFFFF' : 'var(--text-dark)',
+                    border: '1px solid var(--border-subtle)',
                   }}
                 >
                   Individual Meal Boxes
@@ -209,8 +318,9 @@ export const CateringCalculator: React.FC<CateringCalculatorProps> = ({ onOpenIn
                   className="btn btn-sm"
                   style={{
                     flex: 1,
-                    background: serviceStyle === 'live-pit' ? 'var(--gold-primary)' : 'var(--bg-surface)',
-                    color: serviceStyle === 'live-pit' ? '#0E0D0C' : 'var(--text-main)',
+                    background: serviceStyle === 'live-pit' ? 'var(--color-rust)' : 'var(--bg-paper)',
+                    color: serviceStyle === 'live-pit' ? '#FFFFFF' : 'var(--text-dark)',
+                    border: '1px solid var(--border-subtle)',
                   }}
                 >
                   Live Charcoal Pitmasters (+ $5/p)
@@ -221,52 +331,88 @@ export const CateringCalculator: React.FC<CateringCalculatorProps> = ({ onOpenIn
 
           {/* Estimate Display Box */}
           <div
-            className="glass-panel"
+            className="paper-card"
             style={{
-              padding: '32px',
-              background: 'linear-gradient(135deg, rgba(31, 29, 27, 0.95) 0%, rgba(23, 22, 20, 0.98) 100%)',
-              border: '1px solid var(--border-gold)',
-              boxShadow: 'var(--shadow-gold)',
+              padding: '36px',
+              background: '#FFFFFF',
+              border: '2px solid var(--color-rust)',
               position: 'sticky',
               top: '100px',
+              boxShadow: 'var(--shadow-md)',
             }}
           >
             <div style={{ borderBottom: '1px solid var(--border-subtle)', paddingBottom: 20, marginBottom: 20 }}>
-              <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              <div
+                style={{
+                  fontFamily: 'var(--font-heading)',
+                  fontSize: '0.88rem',
+                  fontWeight: 700,
+                  color: 'var(--text-muted)',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.06em',
+                }}
+              >
                 Estimated Catering Total
               </div>
-              <div style={{ fontSize: '3rem', fontFamily: 'var(--font-display)', fontWeight: 800, color: 'var(--gold-primary)', margin: '4px 0' }}>
+              <div
+                style={{
+                  fontSize: '3.6rem',
+                  fontFamily: 'var(--font-woodcut)',
+                  color: 'var(--color-rust)',
+                  lineHeight: 1,
+                  margin: '8px 0',
+                }}
+              >
                 ${totalPrice.toFixed(2)}
               </div>
-              <div style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>
-                Roughly <span style={{ color: 'var(--gold-light)', fontWeight: 700 }}>${perPersonPrice.toFixed(2)}</span> per person for {guestCount} guests
+              <div style={{ fontSize: '0.95rem', color: 'var(--text-charcoal)', fontFamily: 'var(--font-body)' }}>
+                Approximately <strong>${perPersonPrice.toFixed(2)}</strong> per person for {guestCount} guests
               </div>
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 28, fontSize: '0.88rem' }}>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 12,
+                marginBottom: 30,
+                fontSize: '0.9rem',
+                fontFamily: 'var(--font-body)',
+              }}
+            >
               <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-muted)' }}>
                 <span>Selected Meats ({selectedMeats.length}):</span>
-                <span style={{ color: 'var(--text-main)' }}>{selectedMeats.join(', ') || 'None'}</span>
+                <span style={{ color: 'var(--text-dark)', fontWeight: 600 }}>{selectedMeats.join(', ') || 'None'}</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-muted)' }}>
                 <span>Selected Sides ({selectedSides.length}):</span>
-                <span style={{ color: 'var(--text-main)' }}>{selectedSides.join(', ') || 'None'}</span>
+                <span style={{ color: 'var(--text-dark)', fontWeight: 600 }}>{selectedSides.join(', ') || 'None'}</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-muted)' }}>
                 <span>Setup Style:</span>
-                <span style={{ color: 'var(--gold-light)', textTransform: 'capitalize' }}>{serviceStyle.replace('-', ' ')}</span>
+                <span style={{ color: 'var(--color-rust)', fontWeight: 700, textTransform: 'capitalize' }}>
+                  {serviceStyle.replace('-', ' ')}
+                </span>
               </div>
             </div>
 
             <button
               onClick={handleInquirySubmit}
-              className="btn btn-flame"
-              style={{ width: '100%', padding: '14px', fontSize: '1.05rem', justifyContent: 'center' }}
+              className="btn btn-rust"
+              style={{ width: '100%', padding: '16px', fontSize: '1.05rem', justifyContent: 'center' }}
             >
               <span>📩 Submit Catering Inquiry</span>
             </button>
-            <p style={{ fontSize: '0.78rem', color: 'var(--text-dim)', textAlign: 'center', marginTop: 12 }}>
-              No immediate payment required — our pitmaster team will contact you to finalize menu & logistics.
+            <p
+              style={{
+                fontSize: '0.8rem',
+                color: 'var(--text-muted)',
+                textAlign: 'center',
+                marginTop: 14,
+                fontFamily: 'var(--font-body)',
+              }}
+            >
+              No immediate charge — our pitmaster team will contact you to confirm timing & menu.
             </p>
           </div>
         </div>

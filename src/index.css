@@ -1,49 +1,52 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
-
 :root {
-  /* Brand Color Tokens (Matched to RTOM BBQ Logo) */
-  --bg-dark: #0E0D0C;
-  --bg-surface: #171614;
-  --bg-card: #1F1D1B;
-  --bg-card-hover: #272522;
-  --bg-glass: rgba(23, 22, 20, 0.82);
+  /* Franklin BBQ Authentic Smokehouse Palette */
+  --bg-cream: #EAE6D9;
+  --bg-paper: #F4F1E8;
+  --bg-card: #FFFFFF;
+  --bg-card-hover: #FCFBF8;
+  
+  --bg-seafoam: #48A9A6;
+  --bg-seafoam-dark: #368582;
+  --bg-seafoam-light: #63BCB9;
+  
+  --color-rust: #D9652B;
+  --color-rust-hover: #E8743B;
+  --color-rust-dark: #BA4E18;
+  --color-gold: #C98A2C;
 
-  --gold-primary: #D4A338;
-  --gold-light: #F2C968;
-  --gold-dark: #A87E23;
-  --gold-glow: rgba(212, 163, 56, 0.25);
+  --text-dark: #1A1918;
+  --text-charcoal: #33302C;
+  --text-muted: #66625C;
+  --text-dim: #8E8A83;
+  --text-light: #F4F1E8;
 
-  --flame-red: #D34826;
-  --flame-hover: #E05A38;
-  --flame-dark: #9E2B12;
+  --border-subtle: #D8D4C7;
+  --border-card: #E0DDD2;
+  --border-dark: #1A1918;
+  --border-rust: rgba(217, 101, 43, 0.5);
 
-  --text-main: #F7F5F0;
-  --text-muted: #B0AAA0;
-  --text-dim: #757067;
+  /* Typography */
+  --font-woodcut: 'Bebas Neue', Impact, sans-serif;
+  --font-heading: 'Oswald', sans-serif;
+  --font-script: 'Satisfy', cursive;
+  --font-serif: 'Lora', Georgia, serif;
+  --font-body: 'Lora', Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
-  --border-subtle: rgba(247, 245, 240, 0.08);
-  --border-gold: rgba(212, 163, 56, 0.35);
-
-  /* Fonts */
-  --font-display: 'Playfair Display', Georgia, serif;
-  --font-heading: 'Outfit', sans-serif;
-  --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-
-  /* Elevation */
-  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.6);
-  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.8);
-  --shadow-gold: 0 8px 30px rgba(212, 163, 56, 0.2);
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 6px 18px rgba(0, 0, 0, 0.09);
+  --shadow-lg: 0 14px 34px rgba(0, 0, 0, 0.12);
+  --shadow-rust: 0 6px 20px rgba(217, 101, 43, 0.28);
 
   /* Radii */
-  --radius-sm: 8px;
-  --radius-md: 14px;
-  --radius-lg: 20px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
   --radius-full: 9999px;
 
-  /* Transitions */
-  --transition-fast: 0.18s cubic-bezier(0.16, 1, 0.3, 1);
-  --transition-normal: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 * {
@@ -53,171 +56,234 @@
 }
 
 body {
-  background-color: var(--bg-dark);
-  color: var(--text-main);
+  background-color: var(--bg-cream);
+  color: var(--text-dark);
   font-family: var(--font-body);
-  line-height: 1.6;
+  line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 9px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--bg-dark);
+  background: var(--bg-cream);
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--bg-card);
+  background: #C4BFB2;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--gold-dark);
+  background: var(--color-rust);
 }
 
-/* Typography Utilities */
-h1, h2, h3, h4 {
-  font-family: var(--font-display);
-  font-weight: 700;
-  line-height: 1.25;
-  color: var(--text-main);
+/* Typography Classes */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-woodcut);
+  letter-spacing: 0.04em;
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--text-dark);
+  text-transform: uppercase;
 }
 
-.text-gold {
-  color: var(--gold-primary);
+.woodcut-title {
+  font-family: var(--font-woodcut);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-.gradient-text-gold {
-  background: linear-gradient(135deg, #FFF0CA 0%, var(--gold-primary) 50%, var(--gold-dark) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.heading-condensed {
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-.gradient-text-flame {
-  background: linear-gradient(135deg, #FF9E85 0%, var(--flame-red) 50%, var(--flame-dark) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.script-accent {
+  font-family: var(--font-script);
+  font-style: normal;
+  color: var(--text-muted);
 }
 
-/* Buttons */
+.serif-text {
+  font-family: var(--font-serif);
+}
+
+/* Container */
+.container {
+  max-width: 1220px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Franklin BBQ Chevron Arrow Button */
+.btn-chevron {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-rust);
+  color: #FFFFFF !important;
+  font-family: var(--font-script);
+  font-size: 1.25rem;
+  padding: 10px 36px 10px 22px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  clip-path: polygon(0% 0%, calc(100% - 18px) 0%, 100% 50%, calc(100% - 18px) 100%, 0% 100%);
+  transition: var(--transition);
+  box-shadow: 0 4px 12px rgba(217, 101, 43, 0.3);
+}
+.btn-chevron:hover {
+  background-color: var(--color-rust-hover);
+  transform: translateX(3px);
+  box-shadow: 0 6px 16px rgba(217, 101, 43, 0.4);
+}
+
+/* Standard Buttons */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 12px 24px;
+  padding: 12px 26px;
   font-family: var(--font-heading);
   font-size: 0.95rem;
   font-weight: 600;
-  border-radius: var(--radius-md);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border-radius: var(--radius-sm);
   border: none;
   cursor: pointer;
-  transition: all var(--transition-normal);
+  transition: var(--transition);
   text-decoration: none;
   white-space: nowrap;
 }
 
-.btn-primary {
-  background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold-primary) 60%, var(--gold-dark) 100%);
-  color: #0E0D0C;
-  box-shadow: 0 4px 20px rgba(212, 163, 56, 0.3);
+.btn-primary, .btn-rust {
+  background-color: var(--color-rust);
+  color: #FFFFFF;
+  box-shadow: var(--shadow-rust);
 }
-.btn-primary:hover {
+.btn-primary:hover, .btn-rust:hover {
+  background-color: var(--color-rust-hover);
   transform: translateY(-2px);
-  box-shadow: 0 8px 28px rgba(212, 163, 56, 0.45);
+  box-shadow: 0 8px 24px rgba(217, 101, 43, 0.35);
 }
 
-.btn-flame {
-  background: linear-gradient(135deg, var(--flame-hover) 0%, var(--flame-red) 60%, var(--flame-dark) 100%);
+.btn-seafoam {
+  background-color: var(--bg-seafoam);
   color: #FFFFFF;
-  box-shadow: 0 4px 20px rgba(211, 72, 38, 0.35);
 }
-.btn-flame:hover {
+.btn-seafoam:hover {
+  background-color: var(--bg-seafoam-dark);
   transform: translateY(-2px);
-  box-shadow: 0 8px 28px rgba(211, 72, 38, 0.5);
+}
+
+.btn-dark {
+  background-color: var(--text-dark);
+  color: #FFFFFF;
+}
+.btn-dark:hover {
+  background-color: #33302C;
+  transform: translateY(-2px);
 }
 
 .btn-outline {
   background: transparent;
-  color: var(--text-main);
-  border: 1px solid var(--border-gold);
+  color: var(--text-dark);
+  border: 2px solid var(--text-dark);
 }
 .btn-outline:hover {
-  background: rgba(212, 163, 56, 0.1);
-  border-color: var(--gold-primary);
-  color: var(--gold-light);
+  background: var(--text-dark);
+  color: var(--bg-cream);
 }
 
 .btn-sm {
   padding: 8px 16px;
   font-size: 0.85rem;
-  border-radius: var(--radius-sm);
-}
-
-/* Container */
-.container {
-  max-width: 1240px;
-  margin: 0 auto;
-  padding: 0 24px;
 }
 
 /* Badges */
 .badge {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 4px 10px;
-  border-radius: var(--radius-full);
-  font-size: 0.75rem;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: var(--radius-sm);
   font-family: var(--font-heading);
-  font-weight: 700;
+  font-size: 0.78rem;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
 }
 
-.badge-gold {
-  background: rgba(212, 163, 56, 0.18);
-  color: var(--gold-light);
-  border: 1px solid rgba(212, 163, 56, 0.35);
+.badge-rust {
+  background: rgba(217, 101, 43, 0.12);
+  color: var(--color-rust-dark);
+  border: 1px solid var(--border-rust);
 }
 
-.badge-flame {
-  background: rgba(211, 72, 38, 0.2);
-  color: #FFA590;
-  border: 1px solid rgba(211, 72, 38, 0.4);
+.badge-seafoam {
+  background: rgba(72, 169, 166, 0.15);
+  color: var(--bg-seafoam-dark);
+  border: 1px solid rgba(72, 169, 166, 0.35);
 }
 
-/* Glass Panels */
-.glass-panel {
-  background: var(--bg-glass);
-  backdrop-filter: blur(16px);
+.badge-dark {
+  background: var(--text-dark);
+  color: var(--bg-cream);
+}
+
+/* Paper Cards */
+.paper-card {
+  background: var(--bg-card);
   border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+}
+.paper-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: #C4BFB2;
 }
 
-/* Card Effects */
-.card-hover {
-  transition: all var(--transition-normal);
+/* Quote Banner */
+.franklin-quote-banner {
+  background: var(--bg-cream);
+  padding: 60px 24px;
+  text-align: center;
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
 }
-.card-hover:hover {
-  transform: translateY(-4px);
-  border-color: var(--border-gold);
-  box-shadow: var(--shadow-gold);
+.franklin-quote-banner h2 {
+  font-family: var(--font-woodcut);
+  font-size: clamp(2rem, 4.5vw, 3.8rem);
+  letter-spacing: 0.04em;
+  color: var(--text-dark);
+  margin-bottom: 12px;
+}
+.franklin-quote-banner .attribution {
+  font-family: var(--font-script);
+  font-size: 1.4rem;
+  color: var(--text-muted);
 }
 
 /* Modal Overlay */
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.75);
-  backdrop-filter: blur(8px);
+  background: rgba(26, 25, 24, 0.65);
+  backdrop-filter: blur(6px);
   z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
-  animation: fadeIn 0.25s ease;
+  animation: fadeIn 0.2s ease;
 }
 
 @keyframes fadeIn {
@@ -226,6 +292,6 @@ h1, h2, h3, h4 {
 }
 
 @keyframes slideUp {
-  from { opacity: 0; transform: translateY(20px); }
+  from { opacity: 0; transform: translateY(16px); }
   to { opacity: 1; transform: translateY(0); }
 }
