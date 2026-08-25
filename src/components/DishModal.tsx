@@ -185,9 +185,28 @@ export const DishModal: React.FC<DishModalProps> = ({ dish, onClose, onAddToCart
           </div>
 
           <button onClick={handleConfirm} className="btn btn-primary" style={{ flex: 1, padding: '14px', fontSize: '1rem' }}>
-            <span>Add to Order</span>
+            <span>Add to Cart</span>
             <span style={{ fontWeight: 800 }}>• ${totalPrice.toFixed(2)}</span>
           </button>
+        </div>
+
+        <div style={{ textAlign: 'center', marginTop: 14 }}>
+          <a
+            href="https://app.rtombbq.ca"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              fontSize: '0.8rem',
+              color: 'var(--gold-light)',
+              textDecoration: 'none',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 4,
+              opacity: 0.9,
+            }}
+          >
+            <span>📱 Or order directly on RTOM App (app.rtombbq.ca) ➔</span>
+          </a>
         </div>
       </div>
     </div>

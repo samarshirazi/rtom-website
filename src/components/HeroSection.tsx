@@ -83,12 +83,21 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           </p>
 
           {/* Call to Actions */}
-          <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', marginBottom: 48 }}>
-            <button onClick={onExploreMenu} className="btn btn-primary" style={{ fontSize: '1.05rem', padding: '14px 30px' }}>
-              🔥 Explore Menu Catalog
+          <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', marginBottom: 48 }}>
+            <a
+              href="https://app.rtombbq.ca"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-flame"
+              style={{ fontSize: '1.02rem', padding: '13px 26px', textDecoration: 'none' }}
+            >
+              📱 Order on App (app.rtombbq.ca)
+            </a>
+            <button onClick={onExploreMenu} className="btn btn-primary" style={{ fontSize: '1.02rem', padding: '13px 24px' }}>
+              🔥 Menu Catalog
             </button>
-            <button onClick={onOpenCatering} className="btn btn-outline" style={{ fontSize: '1.05rem', padding: '14px 30px' }}>
-              🍖 Calculate Catering Order
+            <button onClick={onOpenCatering} className="btn btn-outline" style={{ fontSize: '1.02rem', padding: '13px 24px' }}>
+              🍖 Catering Calculator
             </button>
           </div>
 

@@ -104,8 +104,8 @@ export const Header: React.FC<HeaderProps> = ({
           </button>
         </nav>
 
-        {/* Right Actions: Phone + Cart Button */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+        {/* Right Actions: Phone + App Button + Cart Button */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
           <a
             href="tel:18258238733"
             className="phone-link"
@@ -123,12 +123,30 @@ export const Header: React.FC<HeaderProps> = ({
             <span className="phone-number">(825) 823-8733</span>
           </a>
 
+          {/* App Direct Order Link */}
+          <a
+            href="https://app.rtombbq.ca"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="app-order-btn btn btn-flame"
+            style={{
+              padding: '9px 15px',
+              fontSize: '0.85rem',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 6,
+              textDecoration: 'none',
+            }}
+          >
+            <span>📱 Order on App</span>
+          </a>
+
           <button
             onClick={onOpenCart}
             className="btn btn-primary"
-            style={{ position: 'relative', padding: '10px 18px', fontSize: '0.9rem' }}
+            style={{ position: 'relative', padding: '9px 16px', fontSize: '0.88rem' }}
           >
-            <span>🛒 Order Cart</span>
+            <span>🛒 Cart</span>
             {cartItemCount > 0 && (
               <span
                 style={{
@@ -184,6 +202,15 @@ export const Header: React.FC<HeaderProps> = ({
             marginTop: 10,
           }}
         >
+          <a
+            href="https://app.rtombbq.ca"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-flame"
+            style={{ textAlign: 'center', padding: '12px', textDecoration: 'none', justifyContent: 'center' }}
+          >
+            📱 Order on RTOM App (app.rtombbq.ca)
+          </a>
           <button onClick={() => handleNavClick('menu')} style={mobileBtnStyle}>🔥 Menu Catalog</button>
           <button onClick={() => handleNavClick('catering')} style={mobileBtnStyle}>🍖 BBQ Catering Calculator</button>
           <button onClick={() => handleNavClick('story')} style={mobileBtnStyle}>🪵 Pitmaster Story</button>

@@ -189,10 +189,49 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
               ))}
             </div>
 
+            {/* Dual Option: App Express Checkout */}
+            <div
+              style={{
+                background: 'linear-gradient(135deg, rgba(212, 163, 56, 0.12) 0%, rgba(211, 72, 38, 0.15) 100%)',
+                border: '1px solid var(--border-gold)',
+                borderRadius: 'var(--radius-md)',
+                padding: '16px',
+                marginBottom: 20,
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 10,
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <span style={{ fontSize: '1.2rem' }}>⚡</span>
+                <div style={{ fontSize: '0.92rem', fontWeight: 700, color: 'var(--gold-light)' }}>
+                  Option 1: Checkout on RTOM App
+                </div>
+              </div>
+              <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', lineHeight: 1.4 }}>
+                For real-time kitchen tracking & direct online payment, launch our app platform.
+              </p>
+              <a
+                href="https://app.rtombbq.ca"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-flame"
+                style={{ width: '100%', padding: '10px', fontSize: '0.9rem', textDecoration: 'none', justifyContent: 'center' }}
+              >
+                📱 Order on app.rtombbq.ca ➔
+              </a>
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 18, color: 'var(--text-dim)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+              <div style={{ flex: 1, height: 1, background: 'var(--border-subtle)' }} />
+              <span>Option 2: WhatsApp Fast Order</span>
+              <div style={{ flex: 1, height: 1, background: 'var(--border-subtle)' }} />
+            </div>
+
             {/* Delivery Form */}
-            <form onSubmit={handleCheckout} style={{ borderTop: '1px solid var(--border-subtle)', paddingTop: 20 }}>
+            <form onSubmit={handleCheckout} style={{ borderTop: '1px solid var(--border-subtle)', paddingTop: 16 }}>
               <div style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--gold-light)', marginBottom: 12 }}>
-                Delivery Information
+                WhatsApp Delivery Information
               </div>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 20 }}>

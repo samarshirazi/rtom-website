@@ -112,6 +112,45 @@ export const MenuSection: React.FC<MenuSectionProps> = ({ onSelectDish }) => {
           </div>
         </div>
 
+        {/* Dual Option App Callout Banner */}
+        <div
+          style={{
+            maxWidth: '840px',
+            margin: '0 auto 36px',
+            background: 'linear-gradient(135deg, rgba(212, 163, 56, 0.1) 0%, rgba(211, 72, 38, 0.12) 100%)',
+            border: '1px solid var(--border-gold)',
+            borderRadius: 'var(--radius-lg)',
+            padding: '16px 24px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: 16,
+            boxShadow: 'var(--shadow-sm)',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+            <span style={{ fontSize: '1.6rem' }}>📱</span>
+            <div>
+              <div style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--gold-light)' }}>
+                Prefer ordering on our web app?
+              </div>
+              <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>
+                Track smokehouse orders in real-time & checkout with card at <strong>app.rtombbq.ca</strong>
+              </div>
+            </div>
+          </div>
+          <a
+            href="https://app.rtombbq.ca"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-flame btn-sm"
+            style={{ textDecoration: 'none', padding: '10px 18px', fontSize: '0.88rem' }}
+          >
+            Launch RTOM App ➔
+          </a>
+        </div>
+
         {/* Dishes Grid */}
         {filteredDishes.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '60px 20px', background: 'var(--bg-card)', borderRadius: 'var(--radius-lg)', border: '1px dashed var(--border-gold)' }}>
