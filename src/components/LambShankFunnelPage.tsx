@@ -53,7 +53,7 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
         groupId: 'feast-addon',
         groupName: 'Feast Upgrade',
         optionId: 'extra-shank',
-        optionName: 'Extra 8-Hour Smoked Shank',
+        optionName: 'Extra 5-Hour Smoked Shank',
         priceDelta: 19.99,
       });
       unitPrice += 19.99;
@@ -127,7 +127,7 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', justifyContent: 'center' }}>
           <span style={{ animation: 'pulse 1.5s infinite', fontSize: '1rem' }}>🔥</span>
           <span style={{ fontSize: '0.84rem', fontWeight: 800, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
-            DAILY PITMASTER SMOKE: 8-HOUR SLOW-CRAFTED BATCH
+            DAILY PITMASTER SMOKE: 5-HOUR SLOW-CRAFTED BATCH
           </span>
           <span style={{ background: 'rgba(0,0,0,0.25)', padding: '3px 9px', borderRadius: '4px', fontSize: '0.76rem', fontWeight: 700 }}>
             LIMITED QUANTITIES DAILY
@@ -233,7 +233,7 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
             marginBottom: '20px',
           }}
         >
-          The 8-Hour Slow-Smoked Lamb Shank That Pulls Off The Bone{' '}
+          The 5-Hour Slow-Smoked Lamb Shank That Pulls Off The Bone{' '}
           <span style={{ color: '#D9652B', textDecoration: 'underline' }}>With Just A Spoon...</span>
         </h1>
 
@@ -483,7 +483,7 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
               textTransform: 'uppercase',
             }}
           >
-            How We Perfected The 8-Hour Clean-Bone Pull
+            How We Perfected The 5-Hour Clean-Bone Pull
           </h2>
         </div>
 
@@ -498,7 +498,7 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
             We made a commitment: <strong>no shortcuts, no speed dials, no boiling pots</strong>. We dialed in our custom smoker at 225°F using seasoned local hardwoods. We tested dozens of dry rub blends before creating our 24-hour yogurt and toasted spice marinade that tenderizes deep into the bone marrow.
           </p>
           <p style={{ marginBottom: '18px' }}>
-            By hour eight, the connective tissue completely liquefies into rich, savory gelatin. When you hold the bone, the tender meat gently slides right off with zero knife required.
+            By hour five, the connective tissue completely liquefies into rich, savory gelatin. When you hold the bone, the tender meat gently slides right off with zero knife required.
           </p>
           <p>
             And because great meat deserves an equally legendary base, our basmati rice is toasted in clarified ghee, bloomed with saffron threads, cardamom pods, and infused with the rich smoked pan drippings. Every grain tells a story.
@@ -533,7 +533,7 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
 
             <div style={{ background: '#FFFFFF', padding: '28px', borderRadius: '12px', border: '1px solid #E2DED5' }}>
               <div style={{ color: '#D9652B', fontWeight: 900, fontSize: '1.8rem', marginBottom: '8px' }}>02</div>
-              <h3 style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: '8px' }}>8-Hour Hardwood Smoke</h3>
+              <h3 style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: '8px' }}>5-Hour Hardwood Smoke & Braise</h3>
               <p style={{ fontSize: '0.92rem', color: '#66625C', lineHeight: 1.6 }}>
                 Bathed in rolling hickory smoke inside our pitmaster smoker until a dark mahogany bark forms and the meat softens into pure melt-in-your-mouth bliss.
               </p>
@@ -617,7 +617,7 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
               <span style={{ fontSize: '1.8rem', lineHeight: 1 }}>🍖</span>
               <div style={{ flex: 1 }}>
                 <div style={{ fontWeight: 800, fontSize: '1.1rem', color: '#1A1918', marginBottom: '4px' }}>
-                  8-Hour Hardwood Slow-Smoked Lamb Shank (18–20 oz)
+                  5-Hour Hardwood Slow-Smoked Lamb Shank (18–20 oz)
                 </div>
                 <div style={{ fontSize: '0.92rem', color: '#66625C', lineHeight: 1.5 }}>
                   Full bone-in shank, slow-smoked at 225°F over hickory wood until the connective tissue liquefies into savory gelatin and the meat glides off the bone.
@@ -772,7 +772,7 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
                     <span style={{ fontWeight: 800, color: '#BA4E18' }}>+$19.99</span>
                   </div>
                   <div style={{ fontSize: '0.82rem', color: '#66625C' }}>
-                    Two 8-hr shanks (Best for 2 people)
+                    Two 5-hr shanks (Best for 2 people)
                   </div>
                 </div>
 
@@ -868,7 +868,7 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
             The 100% "Clean Bone Pull" Pitmaster Guarantee
           </h2>
           <p style={{ fontSize: '1.05rem', lineHeight: 1.7, color: '#4A4640', marginBottom: '20px' }}>
-            We back our 8-hour hardwood smoking process with zero hesitation. When your Lamb Shank arrives, take hold of the bone and gently pull. 
+            We back our 5-hour hardwood smoking process with zero hesitation. When your Lamb Shank arrives, take hold of the bone and gently pull. 
             If it does not slide clean out with zero resistance, or if it isn't the single most tender, flavorful lamb you've ever eaten in Edmonton, 
             <strong> we will replace it or refund 100% of your meal</strong>. No hassle, no interrogation.
           </p>
@@ -905,7 +905,7 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
           <div style={{ background: '#FFFFFF', padding: '24px', borderRadius: '12px', border: '1px solid #E2DED5', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
             <div style={{ color: '#C98A2C', fontSize: '1.2rem', marginBottom: '8px' }}>★★★★★</div>
             <p style={{ fontStyle: 'italic', fontSize: '0.95rem', color: '#33302C', marginBottom: '14px', lineHeight: 1.6 }}>
-              "Arrived sizzling hot. The smoke flavor is real hardwood, not artificial liquid smoke like other places. You can tell they put in 8 honest hours."
+              "Arrived sizzling hot. The smoke flavor is real hardwood, not artificial liquid smoke like other places. You can tell they put in 5 honest hours over real wood."
             </p>
             <div style={{ fontWeight: 700, fontSize: '0.88rem' }}>— Sarah M. (Downtown Edmonton)</div>
           </div>
@@ -956,7 +956,7 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
               },
               {
                 q: 'Can I order for tonight or pre-order for tomorrow?',
-                a: 'Because our pit batches take 8 full hours of low-and-slow hardwood smoking, daily quantities are limited. We recommend ordering early in the evening before the daily pit batch runs out.',
+                a: 'Because our pit batches take 5 full hours of low-and-slow hardwood smoking, daily quantities are limited. We recommend ordering early in the evening before the daily pit batch runs out.',
               },
             ].map((item, idx) => (
               <div
@@ -1014,7 +1014,7 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
           Taste Edmonton's Most Tender Lamb Feast Tonight
         </h2>
         <p style={{ fontSize: '1.15rem', color: '#66625C', marginBottom: '32px' }}>
-          Slow-smoked for 8 hours over authentic hardwood embers. Handcrafted and delivered fresh to your door.
+          Slow-smoked for 5 hours over authentic hardwood embers. Handcrafted and delivered fresh to your door.
         </p>
 
         <button
@@ -1034,7 +1034,7 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
             boxShadow: '0 12px 35px rgba(217, 101, 43, 0.45)',
           }}
         >
-          ORDER YOUR 8-HR LAMB SHANK FEAST ({currentPriceFormatted}) →
+          ORDER YOUR 5-HR LAMB SHANK FEAST ({currentPriceFormatted}) →
         </button>
       </section>
 
@@ -1064,7 +1064,7 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
             style={{ width: '48px', height: '48px', borderRadius: '8px', objectFit: 'cover' }}
           />
           <div>
-            <div style={{ fontWeight: 800, fontSize: '0.95rem' }}>8-Hour Lamb Shank Feast Platter</div>
+            <div style={{ fontWeight: 800, fontSize: '0.95rem' }}>5-Hour Lamb Shank Feast Platter</div>
             <div style={{ color: '#E8743B', fontWeight: 700, fontSize: '0.9rem' }}>
               {currentPriceFormatted} <span style={{ fontSize: '0.8rem', color: '#B8B3A8', fontWeight: 500 }}>• Complete Meal Platter</span>
             </div>

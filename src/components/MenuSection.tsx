@@ -255,7 +255,7 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
                     overflow: 'hidden',
                     cursor: dish.id === 'rtom-lamb-shank' && onNavigateToLambShank ? 'pointer' : 'default',
                   }}
-                  title={dish.id === 'rtom-lamb-shank' ? 'Click to view 8-Hour Lamb Shank Feast Story' : undefined}
+                  title={dish.id === 'rtom-lamb-shank' ? 'Click to view 5-Hour Lamb Shank Feast Story' : undefined}
                 >
                   <img
                     src={dish.image}
