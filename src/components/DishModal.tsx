@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import type { Dish } from '../types';
 
 type DishModalProps = {
@@ -31,6 +31,23 @@ export const DishModal: React.FC<DishModalProps> = ({ dish, onClose, onAddToCart
     }
     return initial;
   });
+
+  useEffect(() => {
+    setQuantity(1);
+    const initial: Record<string, { optionId: string; optionName: string; priceDelta: number }> = {};
+    if (dish.variationGroups) {
+      for (const group of dish.variationGroups) {
+        if (group.options.length > 0) {
+          initial[group.id] = {
+            optionId: group.options[0].id,
+            optionName: group.options[0].name,
+            priceDelta: group.options[0].priceDelta,
+          };
+        }
+      }
+    }
+    setSelectedSelections(initial);
+  }, [dish.id]);
 
   const calculateUnitPrice = () => {
     let price = dish.price;

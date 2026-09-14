@@ -479,9 +479,9 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
                         <button
                           onClick={() => onSelectDish(dish)}
                           className="btn btn-dark btn-sm"
-                          style={{ fontSize: '0.8rem', padding: '8px 10px' }}
+                          style={{ fontSize: '0.8rem', padding: '8px 12px' }}
                         >
-                          <span>+ Add</span>
+                          <span>+ Customize</span>
                         </button>
                       </div>
                     ) : (

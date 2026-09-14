@@ -189,11 +189,14 @@ export function App() {
       <Footer onNavigateSection={handleNavigateSection} />
 
       {/* Dish Customization Modal */}
-      <DishModal
-        dish={selectedDishModal}
-        onClose={() => setSelectedDishModal(null)}
-        onAddToCart={handleAddToCart}
-      />
+      {selectedDishModal && (
+        <DishModal
+          key={selectedDishModal.id}
+          dish={selectedDishModal}
+          onClose={() => setSelectedDishModal(null)}
+          onAddToCart={handleAddToCart}
+        />
+      )}
 
       {/* Cart Slide-Over Drawer */}
       <CartDrawer
