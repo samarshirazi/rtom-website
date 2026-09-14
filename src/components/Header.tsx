@@ -30,6 +30,39 @@ export const Header: React.FC<HeaderProps> = ({
         boxShadow: '0 2px 10px rgba(0, 0, 0, 0.05)',
       }}
     >
+      {/* VIP Rewards & App Announcement Bar */}
+      <div
+        style={{
+          background: 'var(--color-rust)',
+          color: '#fff',
+          padding: '6px 12px',
+          textAlign: 'center',
+          fontSize: '0.78rem',
+          fontFamily: 'var(--font-heading)',
+          fontWeight: 600,
+          letterSpacing: '0.04em',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: 8,
+          textTransform: 'uppercase',
+          flexWrap: 'wrap',
+        }}
+      >
+        <span>🎁 RTOM VIP Rewards: Earn 5% BBQ Cashback & Track Orders Live</span>
+        <a
+          href="https://app.rtombbq.ca"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            color: '#FFE0B2',
+            textDecoration: 'underline',
+            fontWeight: 700,
+          }}
+        >
+          Order on App →
+        </a>
+      </div>
       <div
         className="container"
         style={{

@@ -41,10 +41,12 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
     return cartDishes.some((dish) => dish.deliveryType === 'pre-order' || (dish.leadTimeDays && dish.leadTimeDays > 0));
   }, [cartDishes]);
 
-  // Calculate earliest valid date respecting lead times AND day availability for all items in cart
-  const earliestAllowedDate = useMemo(() => {
+  // Generate list of allowed dates for the next 35 days based on lead times and day availability
+  const selectableDeliveryDates = useMemo(() => {
+    const dates: Array<{ iso: string; label: string }> = [];
     const now = new Date();
-    for (let offset = 0; offset <= 30; offset++) {
+
+    for (let offset = 0; offset <= 35; offset++) {
       const candidate = new Date(now);
       candidate.setDate(now.getDate() + offset);
       const iso = candidate.toISOString().split('T')[0];
@@ -59,14 +61,32 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
         return true;
       });
 
-      if (isValid) return iso;
+      if (isValid) {
+        const isToday = offset === 0;
+        const isTomorrow = offset === 1;
+        const formatted = candidate.toLocaleDateString('en-US', {
+          weekday: 'short',
+          month: 'short',
+          day: 'numeric',
+        });
+        let badge = '';
+        if (isToday) badge = ' (Today)';
+        else if (isTomorrow) badge = ' (Tomorrow)';
+        else if (dates.length === 0) badge = ' (Earliest)';
+        else if (dow === 6 || dow === 7) badge = ' (Weekend)';
+
+        dates.push({
+          iso,
+          label: `${formatted}${badge}`,
+        });
+      }
     }
-    return tomorrowStr;
-  }, [cartDishes, tomorrowStr]);
+    return dates;
+  }, [cartDishes]);
 
-  const minDeliveryDate = earliestAllowedDate;
+  const earliestAllowedDate = selectableDeliveryDates[0]?.label || tomorrowStr;
 
-  const [deliveryDate, setDeliveryDate] = useState(() => earliestAllowedDate);
+  const [deliveryDate, setDeliveryDate] = useState(() => selectableDeliveryDates[0]?.iso || tomorrowStr);
   const [timeSlot, setTimeSlot] = useState('17:00-19:00 (Dinner)');
   const [customerName, setCustomerName] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
@@ -83,30 +103,11 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
     },
   });
 
-  // Check if current deliveryDate violates any dish available days
-  const dateRestrictionError = useMemo(() => {
-    if (!deliveryDate) return null;
-    const [y, m, d] = deliveryDate.split('-').map(Number);
-    const dt = new Date(y, m - 1, d);
-    const dow = dt.getDay() === 0 ? 7 : dt.getDay();
-
-    for (const dish of cartDishes) {
-      if (Array.isArray(dish.availableDays) && dish.availableDays.length > 0) {
-        if (!dish.availableDays.includes(dow)) {
-          const dayNames = ['', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-          const allowedNames = dish.availableDays.map((num) => dayNames[num]).join(' & ');
-          return `"${dish.name}" is only available for delivery on ${allowedNames}. Earliest date is ${earliestAllowedDate}.`;
-        }
-      }
-    }
-    return null;
-  }, [deliveryDate, cartDishes, earliestAllowedDate]);
-
   useEffect(() => {
-    if (deliveryDate < earliestAllowedDate || dateRestrictionError) {
-      setDeliveryDate(earliestAllowedDate);
+    if (selectableDeliveryDates.length > 0 && !selectableDeliveryDates.some((d) => d.iso === deliveryDate)) {
+      setDeliveryDate(selectableDeliveryDates[0].iso);
     }
-  }, [earliestAllowedDate, deliveryDate, dateRestrictionError]);
+  }, [selectableDeliveryDates, deliveryDate]);
 
   // Day of week: 1=Mon, ..., 5=Fri, 6=Sat, 7=Sun
   const selectedDayOfWeek = useMemo(() => {
@@ -381,23 +382,28 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                 gap: 8,
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span style={{ fontSize: '1.2rem' }}>⚡</span>
-                <div style={{ fontFamily: 'var(--font-heading)', fontSize: '0.95rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--text-dark)' }}>
-                  Option 1: Checkout on RTOM App
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <span style={{ fontSize: '1.2rem' }}>🎁</span>
+                  <div style={{ fontFamily: 'var(--font-heading)', fontSize: '0.95rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--color-rust)' }}>
+                    VIP App: 5% BBQ Cashback
+                  </div>
                 </div>
+                <span style={{ background: 'var(--color-rust)', color: '#fff', fontSize: '0.68rem', fontWeight: 700, padding: '2px 6px', borderRadius: 4, textTransform: 'uppercase' }}>
+                  Rewards
+                </span>
               </div>
               <p style={{ fontSize: '0.82rem', fontFamily: 'var(--font-body)', color: 'var(--text-muted)', lineHeight: 1.4 }}>
-                For real-time kitchen tracking & direct online payment, order at <strong>app.rtombbq.ca</strong>.
+                Earn <strong>5% BBQ Cashback</strong>, enjoy wallet reload bonuses & track your pitmaster delivery live on <strong>app.rtombbq.ca</strong>.
               </p>
               <a
                 href="https://app.rtombbq.ca"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn-rust"
-                style={{ width: '100%', padding: '10px', fontSize: '0.88rem', textDecoration: 'none', justifyContent: 'center' }}
+                style={{ width: '100%', padding: '10px', fontSize: '0.88rem', textDecoration: 'none', justifyContent: 'center', fontWeight: 700 }}
               >
-                📱 Order on app.rtombbq.ca ➔
+                📱 Order on App & Earn Rewards ➔
               </a>
             </div>
 
@@ -539,14 +545,18 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
 
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
                   <div>
-                    <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: 4, fontFamily: 'var(--font-sans)' }}>Delivery Date</label>
-                    <input
-                      type="date"
-                      min={minDeliveryDate}
+                    <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: 4, fontFamily: 'var(--font-sans)' }}>
+                      Delivery Date
+                    </label>
+                    <select
                       value={deliveryDate}
                       onChange={(e) => setDeliveryDate(e.target.value)}
                       style={inputStyle}
-                    />
+                    >
+                      {selectableDeliveryDates.map((d) => (
+                        <option key={d.iso} value={d.iso}>{d.label}</option>
+                      ))}
+                    </select>
                   </div>
                   <div>
                     <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: 4, fontFamily: 'var(--font-sans)' }}>
