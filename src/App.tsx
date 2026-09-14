@@ -161,7 +161,10 @@ export function App() {
             onOpenCatering={() => handleNavigateSection('catering')}
           />
 
-          <MenuSection onSelectDish={(dish) => setSelectedDishModal(dish)} />
+          <MenuSection
+            onSelectDish={(dish) => setSelectedDishModal(dish)}
+            onNavigateToLambShank={handleNavigateToLambShank}
+          />
 
           <CateringCalculator onOpenInquiry={handleOpenCateringInquiry} />
 

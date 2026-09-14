@@ -4,9 +4,13 @@ import { DISHES } from '../data/dishes';
 
 type MenuSectionProps = {
   onSelectDish: (dish: Dish) => void;
+  onNavigateToLambShank?: () => void;
 };
 
-export const MenuSection: React.FC<MenuSectionProps> = ({ onSelectDish }) => {
+export const MenuSection: React.FC<MenuSectionProps> = ({
+  onSelectDish,
+  onNavigateToLambShank,
+}) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
@@ -242,7 +246,17 @@ export const MenuSection: React.FC<MenuSectionProps> = ({ onSelectDish }) => {
                 }}
               >
                 {/* Dish Photo & Portion Overlay */}
-                <div style={{ position: 'relative', height: 210, width: '100%', overflow: 'hidden' }}>
+                <div
+                  onClick={dish.id === 'rtom-lamb-shank' && onNavigateToLambShank ? onNavigateToLambShank : undefined}
+                  style={{
+                    position: 'relative',
+                    height: 210,
+                    width: '100%',
+                    overflow: 'hidden',
+                    cursor: dish.id === 'rtom-lamb-shank' && onNavigateToLambShank ? 'pointer' : 'default',
+                  }}
+                  title={dish.id === 'rtom-lamb-shank' ? 'Click to view 8-Hour Lamb Shank Feast Story' : undefined}
+                >
                   <img
                     src={dish.image}
                     alt={dish.name}
@@ -306,6 +320,33 @@ export const MenuSection: React.FC<MenuSectionProps> = ({ onSelectDish }) => {
                     )}
                   </div>
 
+                  {/* Special Funnel Banner on Lamb Shank Image */}
+                  {dish.id === 'rtom-lamb-shank' && (
+                    <div
+                      style={{
+                        position: 'absolute',
+                        top: 48,
+                        left: 12,
+                        background: 'linear-gradient(135deg, #D9652B 0%, #BA4E18 100%)',
+                        color: '#FFFFFF',
+                        padding: '4px 10px',
+                        borderRadius: 'var(--radius-sm)',
+                        fontFamily: 'var(--font-heading)',
+                        fontSize: '0.72rem',
+                        fontWeight: 800,
+                        letterSpacing: '0.04em',
+                        textTransform: 'uppercase',
+                        boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px',
+                      }}
+                    >
+                      <span>🔥</span>
+                      <span>CLICK IMAGE FOR FEAST STORY</span>
+                    </div>
+                  )}
+
                   {/* Portion Tag */}
                   <div
                     className="script-accent"
@@ -333,12 +374,14 @@ export const MenuSection: React.FC<MenuSectionProps> = ({ onSelectDish }) => {
                 >
                   <div>
                     <h3
+                      onClick={dish.id === 'rtom-lamb-shank' && onNavigateToLambShank ? onNavigateToLambShank : undefined}
                       style={{
                         fontSize: '1.45rem',
                         fontFamily: 'var(--font-woodcut)',
                         letterSpacing: '0.04em',
                         color: 'var(--text-dark)',
                         marginBottom: 8,
+                        cursor: dish.id === 'rtom-lamb-shank' && onNavigateToLambShank ? 'pointer' : 'default',
                       }}
                     >
                       {dish.name}
@@ -364,6 +407,7 @@ export const MenuSection: React.FC<MenuSectionProps> = ({ onSelectDish }) => {
                       justifyContent: 'space-between',
                       borderTop: '1px solid var(--border-subtle)',
                       paddingTop: 16,
+                      gap: 8,
                     }}
                   >
                     <span
@@ -376,12 +420,37 @@ export const MenuSection: React.FC<MenuSectionProps> = ({ onSelectDish }) => {
                     >
                       ${dish.price.toFixed(2)}
                     </span>
-                    <button
-                      onClick={() => onSelectDish(dish)}
-                      className="btn btn-dark btn-sm"
-                    >
-                      <span>+ Customize & Add</span>
-                    </button>
+                    {dish.id === 'rtom-lamb-shank' && onNavigateToLambShank ? (
+                      <div style={{ display: 'flex', gap: 6 }}>
+                        <button
+                          onClick={onNavigateToLambShank}
+                          className="btn btn-primary btn-sm"
+                          style={{
+                            background: 'var(--color-rust)',
+                            color: '#FFFFFF',
+                            fontSize: '0.8rem',
+                            padding: '8px 12px',
+                            fontWeight: 700,
+                          }}
+                        >
+                          <span>🔥 View Feast</span>
+                        </button>
+                        <button
+                          onClick={() => onSelectDish(dish)}
+                          className="btn btn-dark btn-sm"
+                          style={{ fontSize: '0.8rem', padding: '8px 10px' }}
+                        >
+                          <span>+ Add</span>
+                        </button>
+                      </div>
+                    ) : (
+                      <button
+                        onClick={() => onSelectDish(dish)}
+                        className="btn btn-dark btn-sm"
+                      >
+                        <span>+ Customize & Add</span>
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>
