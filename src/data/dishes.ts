@@ -142,7 +142,7 @@ export const DISHES: Dish[] = [
   },
   {
     id: 'rtom-brisket-mac',
-    name: 'Brisket',
+    name: 'Beef Brisket',
     description: '14-hour hickory-smoked beef brisket with a peppery caramelized bark and rich smoke ring. Served with your choice of Baked 3-Cheese Mac & Cheese or Fragrant Spiced Basmati Rice.',
     price: 29.99,
     image: '/images/dishes/brisket-mac.jpg',
