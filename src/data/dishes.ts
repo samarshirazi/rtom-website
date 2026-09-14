@@ -81,8 +81,9 @@ export const DISHES: Dish[] = [
     dietary: 'mutton',
     isBestSeller: false,
     portionSize: 'Whole Leg (Serves a Group)',
-    prepTimeMinutes: 30,
     deliveryType: 'pre-order',
+    leadTimeDays: 1,
+    availableDays: [6, 7], // Weekends only (Saturday, Sunday)
     variationGroups: [
       {
         id: 'base-pairing',

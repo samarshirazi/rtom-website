@@ -25,6 +25,8 @@ export type Dish = {
   portionSize: string;
   prepTimeMinutes?: number;
   variationGroups?: VariationGroup[];
+  availableDays?: number[];
+  leadTimeDays?: number;
   deliveryType?: 'same-day' | 'pre-order';
 };
 

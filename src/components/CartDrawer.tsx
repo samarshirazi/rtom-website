@@ -33,14 +33,40 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
   tomorrow.setDate(tomorrow.getDate() + 1);
   const tomorrowStr = tomorrow.toISOString().split('T')[0];
 
-  const hasPreOrderItems = cartItems.some((item) => {
-    const dish = findDish(item.dishId);
-    return dish?.deliveryType === 'pre-order';
-  });
+  const cartDishes = useMemo(() => {
+    return cartItems.map((item) => findDish(item.dishId)).filter(Boolean) as Dish[];
+  }, [cartItems]);
 
-  const minDeliveryDate = hasPreOrderItems ? tomorrowStr : todayStr;
+  const hasPreOrderItems = useMemo(() => {
+    return cartDishes.some((dish) => dish.deliveryType === 'pre-order' || (dish.leadTimeDays && dish.leadTimeDays > 0));
+  }, [cartDishes]);
 
-  const [deliveryDate, setDeliveryDate] = useState(() => (hasPreOrderItems ? tomorrowStr : todayStr));
+  // Calculate earliest valid date respecting lead times AND day availability for all items in cart
+  const earliestAllowedDate = useMemo(() => {
+    const now = new Date();
+    for (let offset = 0; offset <= 30; offset++) {
+      const candidate = new Date(now);
+      candidate.setDate(now.getDate() + offset);
+      const iso = candidate.toISOString().split('T')[0];
+      const dow = candidate.getDay() === 0 ? 7 : candidate.getDay(); // 1=Mon..7=Sun
+
+      const isValid = cartDishes.every((dish) => {
+        const minLead = dish.leadTimeDays ?? (dish.deliveryType === 'pre-order' ? 1 : 0);
+        if (offset < minLead) return false;
+        if (Array.isArray(dish.availableDays) && dish.availableDays.length > 0) {
+          if (!dish.availableDays.includes(dow)) return false;
+        }
+        return true;
+      });
+
+      if (isValid) return iso;
+    }
+    return tomorrowStr;
+  }, [cartDishes, tomorrowStr]);
+
+  const minDeliveryDate = earliestAllowedDate;
+
+  const [deliveryDate, setDeliveryDate] = useState(() => earliestAllowedDate);
   const [timeSlot, setTimeSlot] = useState('17:00-19:00 (Dinner)');
   const [customerName, setCustomerName] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
@@ -57,11 +83,30 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
     },
   });
 
-  useEffect(() => {
-    if (hasPreOrderItems && deliveryDate < tomorrowStr) {
-      setDeliveryDate(tomorrowStr);
+  // Check if current deliveryDate violates any dish available days
+  const dateRestrictionError = useMemo(() => {
+    if (!deliveryDate) return null;
+    const [y, m, d] = deliveryDate.split('-').map(Number);
+    const dt = new Date(y, m - 1, d);
+    const dow = dt.getDay() === 0 ? 7 : dt.getDay();
+
+    for (const dish of cartDishes) {
+      if (Array.isArray(dish.availableDays) && dish.availableDays.length > 0) {
+        if (!dish.availableDays.includes(dow)) {
+          const dayNames = ['', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+          const allowedNames = dish.availableDays.map((num) => dayNames[num]).join(' & ');
+          return `"${dish.name}" is only available for delivery on ${allowedNames}. Earliest date is ${earliestAllowedDate}.`;
+        }
+      }
     }
-  }, [hasPreOrderItems, deliveryDate, tomorrowStr]);
+    return null;
+  }, [deliveryDate, cartDishes, earliestAllowedDate]);
+
+  useEffect(() => {
+    if (deliveryDate < earliestAllowedDate || dateRestrictionError) {
+      setDeliveryDate(earliestAllowedDate);
+    }
+  }, [earliestAllowedDate, deliveryDate, dateRestrictionError]);
 
   // Day of week: 1=Mon, ..., 5=Fri, 6=Sat, 7=Sun
   const selectedDayOfWeek = useMemo(() => {
@@ -415,8 +460,14 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                 >
                   <span style={{ fontSize: '1.2rem', lineHeight: 1 }}>📅</span>
                   <div style={{ fontSize: '0.82rem', color: '#5D4037', lineHeight: 1.45 }}>
-                    <strong style={{ display: 'block', marginBottom: 2 }}>Pre-Order Items in Cart:</strong>
-                    Dishes like our 8+ hr Leg of Lamb and Mac & Cheese specials are smoked fresh to order with 24h advance preparation. Earliest delivery date is <strong>tomorrow ({tomorrowStr})</strong>. Please pick your preferred date below!
+                    <strong style={{ display: 'block', marginBottom: 2 }}>
+                      {cartDishes.some((d) => d.id === 'rtom-leg-of-lamb')
+                        ? 'Weekend Smoked Feast in Cart (Saturday & Sunday Only):'
+                        : 'Pre-Order Items in Cart:'}
+                    </strong>
+                    {cartDishes.some((d) => d.id === 'rtom-leg-of-lamb')
+                      ? `Our 8+ hr whole Leg of Lamb is slow-roasted exclusively on weekends. Earliest delivery date is ${earliestAllowedDate}. Please pick your preferred weekend below!`
+                      : `Slow-smoked fresh to order with advance preparation. Earliest delivery date is ${earliestAllowedDate}. Please pick your preferred date below!`}
                   </div>
                 </div>
               ) : (
