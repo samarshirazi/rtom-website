@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { CartItem, Dish } from './types';
 import { Header } from './components/Header';
 import { HeroSection } from './components/HeroSection';
@@ -9,13 +9,64 @@ import { StorySection } from './components/StorySection';
 import { CartDrawer } from './components/CartDrawer';
 import { InstallBanner } from './components/InstallBanner';
 import { Footer } from './components/Footer';
+import { LambShankFunnelPage } from './components/LambShankFunnelPage';
 
 export function App() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [selectedDishModal, setSelectedDishModal] = useState<Dish | null>(null);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
+  // Routing state: 'home' or 'lamb-shank'
+  const [currentView, setCurrentView] = useState<'home' | 'lamb-shank'>(() => {
+    if (typeof window === 'undefined') return 'home';
+    const p = window.location.pathname.toLowerCase();
+    const h = window.location.hash.toLowerCase();
+    return p === '/lamb-shank' || p === '/lamb-shank-on-rice' || h === '#lamb-shank'
+      ? 'lamb-shank'
+      : 'home';
+  });
+
+  // Sync browser back/forward buttons and hash navigation
+  useEffect(() => {
+    const handlePopState = () => {
+      const p = window.location.pathname.toLowerCase();
+      const h = window.location.hash.toLowerCase();
+      if (p === '/lamb-shank' || p === '/lamb-shank-on-rice' || h === '#lamb-shank') {
+        setCurrentView('lamb-shank');
+      } else {
+        setCurrentView('home');
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    window.addEventListener('hashchange', handlePopState);
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+      window.removeEventListener('hashchange', handlePopState);
+    };
+  }, []);
+
+  const handleNavigateToLambShank = () => {
+    window.history.pushState(null, '', '/lamb-shank');
+    setCurrentView('lamb-shank');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleBackToHome = () => {
+    window.history.pushState(null, '', '/');
+    setCurrentView('home');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const handleNavigateSection = (sectionId: string) => {
+    if (currentView !== 'home') {
+      handleBackToHome();
+      setTimeout(() => {
+        const el = document.getElementById(sectionId);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+      return;
+    }
     const el = document.getElementById(sectionId);
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
@@ -92,21 +143,31 @@ export function App() {
         cartItemCount={cartItemCount}
         onOpenCart={() => setIsCartOpen(true)}
         onNavigateSection={handleNavigateSection}
+        onNavigateToLambShank={handleNavigateToLambShank}
       />
 
-      {/* Main Content */}
-      <main style={{ flex: 1 }}>
-        <HeroSection
-          onExploreMenu={() => handleNavigateSection('menu')}
-          onOpenCatering={() => handleNavigateSection('catering')}
-        />
+      {/* Main Content: Either Funnel Page OR Storefront */}
+      {currentView === 'lamb-shank' ? (
+        <main style={{ flex: 1 }}>
+          <LambShankFunnelPage
+            onBackToMenu={handleBackToHome}
+            onAddToCart={handleAddToCart}
+          />
+        </main>
+      ) : (
+        <main style={{ flex: 1 }}>
+          <HeroSection
+            onExploreMenu={() => handleNavigateSection('menu')}
+            onOpenCatering={() => handleNavigateSection('catering')}
+          />
 
-        <MenuSection onSelectDish={(dish) => setSelectedDishModal(dish)} />
+          <MenuSection onSelectDish={(dish) => setSelectedDishModal(dish)} />
 
-        <CateringCalculator onOpenInquiry={handleOpenCateringInquiry} />
+          <CateringCalculator onOpenInquiry={handleOpenCateringInquiry} />
 
-        <StorySection />
-      </main>
+          <StorySection />
+        </main>
+      )}
 
       {/* Footer */}
       <Footer onNavigateSection={handleNavigateSection} />

@@ -4,12 +4,14 @@ type HeaderProps = {
   cartItemCount: number;
   onOpenCart: () => void;
   onNavigateSection: (sectionId: string) => void;
+  onNavigateToLambShank?: () => void;
 };
 
 export const Header: React.FC<HeaderProps> = ({
   cartItemCount,
   onOpenCart,
   onNavigateSection,
+  onNavigateToLambShank,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -105,6 +107,25 @@ export const Header: React.FC<HeaderProps> = ({
           <button onClick={() => handleNavClick('menu')} style={navLinkStyle}>
             MENU
           </button>
+          {onNavigateToLambShank && (
+            <button
+              onClick={onNavigateToLambShank}
+              style={{
+                ...navLinkStyle,
+                background: 'var(--color-rust)',
+                color: '#FFFFFF',
+                padding: '5px 12px',
+                borderRadius: '4px',
+                fontSize: '0.85rem',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '5px',
+              }}
+            >
+              <span>🔥</span>
+              <span>LAMB SHANK SPECIAL</span>
+            </button>
+          )}
           <button onClick={() => handleNavClick('catering')} style={navLinkStyle}>
             CATERING
           </button>
@@ -235,6 +256,21 @@ export const Header: React.FC<HeaderProps> = ({
           <button onClick={() => handleNavClick('menu')} style={mobileBtnStyle}>
             SMOKEHOUSE MENU
           </button>
+          {onNavigateToLambShank && (
+            <button
+              onClick={() => {
+                onNavigateToLambShank();
+                setMobileMenuOpen(false);
+              }}
+              style={{
+                ...mobileBtnStyle,
+                color: 'var(--color-rust)',
+                fontWeight: 800,
+              }}
+            >
+              🔥 8-HR LAMB SHANK SPECIAL (FUNNEL)
+            </button>
+          )}
           <button onClick={() => handleNavClick('catering')} style={mobileBtnStyle}>
             BBQ CATERING CALCULATOR
           </button>
