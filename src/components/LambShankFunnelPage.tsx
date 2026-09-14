@@ -249,7 +249,7 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
             fontStyle: 'italic',
           }}
         >
-          Resting on a mountain of 24-hour spiced basmati rice bloomed in saffron, ghee, and whole roasted spices. 
+          Resting on a mountain of fragrant aged basmati rice bloomed in saffron, pure ghee, and whole roasted spices. 
           Zero dry takeout. Zero rubbery meat. Just gelatinous, fall-apart smokehouse royalty delivered piping hot to your door.
         </p>
 
@@ -291,7 +291,7 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
               border: '1px solid rgba(255,255,255,0.15)',
             }}
           >
-            🔥 8-HR HARDWOOD SMOKE • 100% HALAL
+            🔥 5-HR HARDWOOD SMOKE • 100% HALAL
           </div>
           <div
             style={{
