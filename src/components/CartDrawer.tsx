@@ -269,7 +269,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                   <input
                     type="text"
                     required
-                    placeholder="123 Smokehouse Lane, Calgary / Edmonton"
+                    placeholder="123 Smokehouse Lane, Edmonton"
                     value={customerAddress}
                     onChange={(e) => setCustomerAddress(e.target.value)}
                     style={inputStyle}

@@ -85,7 +85,7 @@ export const Header: React.FC<HeaderProps> = ({
                 marginTop: 2,
               }}
             >
-              100% HALAL SMOKEHOUSE • EST. CALGARY
+              100% HALAL SMOKEHOUSE • EST. EDMONTON
             </div>
           </div>
         </div>

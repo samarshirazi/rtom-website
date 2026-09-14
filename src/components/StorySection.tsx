@@ -18,7 +18,7 @@ export const StorySection: React.FC = () => {
     },
     {
       name: 'Amina K.',
-      role: 'Calgary Foodie',
+      role: 'Edmonton Foodie',
       quote: 'Finally authentic halal smokehouse BBQ with real wood smoke. The Garlic Butter Naan with slow-simmered Dal Makhani is pure comfort food.',
       rating: 5,
       date: '3 weeks ago',

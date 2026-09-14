@@ -137,7 +137,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateSection }) => {
               </div>
               <div>
                 <strong style={{ color: '#FFFFFF', fontFamily: 'var(--font-heading)', textTransform: 'uppercase' }}>Delivery Areas:</strong>
-                <div>Calgary, Chestermere, Airdrie & Edmonton</div>
+                <div>Edmonton, Sherwood Park, St. Albert & Leduc</div>
               </div>
               <div>
                 <strong style={{ color: '#FFFFFF', fontFamily: 'var(--font-heading)', textTransform: 'uppercase' }}>Catering Advance Notice:</strong>

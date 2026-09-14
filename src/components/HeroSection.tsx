@@ -55,7 +55,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             textTransform: 'uppercase',
           }}
         >
-          🔥 100% Halal Certified Pitmaster BBQ • Calgary & Edmonton Delivery
+          🔥 100% Halal Certified Pitmaster BBQ • Edmonton Delivery
         </div>
       </div>
 
@@ -193,7 +193,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     Fresh & Hot Delivery
                   </div>
                   <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>
-                    Calgary & Edmonton regions
+                    Edmonton region
                   </div>
                 </div>
               </div>
