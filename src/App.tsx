@@ -138,13 +138,15 @@ export function App() {
       {/* Install Banner */}
       <InstallBanner />
 
-      {/* Header */}
-      <Header
-        cartItemCount={cartItemCount}
-        onOpenCart={() => setIsCartOpen(true)}
-        onNavigateSection={handleNavigateSection}
-        onNavigateToLambShank={handleNavigateToLambShank}
-      />
+      {/* Header: Rendered on home view; Funnel Page uses its own unified sticky funnel header to prevent double-header collisions */}
+      {currentView === 'home' && (
+        <Header
+          cartItemCount={cartItemCount}
+          onOpenCart={() => setIsCartOpen(true)}
+          onNavigateSection={handleNavigateSection}
+          onNavigateToLambShank={handleNavigateToLambShank}
+        />
+      )}
 
       {/* Main Content: Either Funnel Page OR Storefront */}
       {currentView === 'lamb-shank' ? (
@@ -152,6 +154,8 @@ export function App() {
           <LambShankFunnelPage
             onBackToMenu={handleBackToHome}
             onAddToCart={handleAddToCart}
+            cartItemCount={cartItemCount}
+            onOpenCart={() => setIsCartOpen(true)}
           />
         </main>
       ) : (

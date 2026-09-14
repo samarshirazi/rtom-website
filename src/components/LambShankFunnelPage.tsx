@@ -26,11 +26,15 @@ type LambShankFunnelPageProps = {
     selectedOptions: { groupId: string; groupName: string; optionId: string; optionName: string; priceDelta: number }[],
     unitPrice: number
   ) => void;
+  cartItemCount?: number;
+  onOpenCart?: () => void;
 };
 
 export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
   onBackToMenu,
   onAddToCart,
+  cartItemCount = 0,
+  onOpenCart,
 }) => {
   // Find lamb shank dish from dataset
   const lambShankDish = DISHES.find((d) => d.id === 'rtom-lamb-shank') || DISHES[0];
@@ -65,58 +69,134 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
   return (
     <div style={{ background: '#FAF8F4', color: '#1A1918', minHeight: '100vh', paddingBottom: '90px' }}>
       
-      {/* 1. SCARCITY STICKY HEADER (Russell Brunson Top Bar) */}
+      {/* 1. SCARCITY STICKY HEADER (Unified Funnel Bar) */}
       <div
         style={{
           background: '#BA4E18',
           color: '#FFFFFF',
-          padding: '10px 16px',
-          textAlign: 'center',
-          fontSize: '0.88rem',
-          fontWeight: 700,
-          letterSpacing: '0.04em',
+          padding: '10px 20px',
           position: 'sticky',
           top: 0,
           zIndex: 110,
-          boxShadow: '0 2px 10px rgba(0,0,0,0.18)',
+          boxShadow: '0 3px 12px rgba(0,0,0,0.22)',
           display: 'flex',
-          justifyContent: 'center',
+          justifyContent: 'space-between',
           alignItems: 'center',
           flexWrap: 'wrap',
           gap: '12px',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span style={{ animation: 'pulse 1.5s infinite', display: 'inline-block' }}>🔥</span>
-          <span>TODAY'S PIT BATCH: <strong>ONLY 14 OF 45 SHANKS REMAINING</strong></span>
-        </div>
+        {/* Left: Brand Identity / Back button */}
         <div
-          style={{
-            background: 'rgba(0,0,0,0.25)',
-            padding: '4px 12px',
-            borderRadius: '4px',
-            fontFamily: 'monospace',
-            letterSpacing: '0.1em',
-            fontSize: '0.9rem',
-          }}
-        >
-          PIT CUTOFF IN: {String(timeLeft.hours).padStart(2, '0')}:{String(timeLeft.minutes).padStart(2, '0')}:{String(timeLeft.seconds).padStart(2, '0')}
-        </div>
-        <button
           onClick={onBackToMenu}
           style={{
-            background: 'transparent',
-            border: '1px solid rgba(255,255,255,0.4)',
-            color: '#FFFFFF',
-            padding: '3px 10px',
-            borderRadius: '4px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
             cursor: 'pointer',
-            fontSize: '0.78rem',
-            marginLeft: '8px',
+            userSelect: 'none',
           }}
+          title="Back to RTOM BBQ Full Menu"
         >
-          ← Back to Main Menu
-        </button>
+          <img
+            src="/rtom-icon-512.png"
+            alt="RTOM Barbecue"
+            style={{ width: '36px', height: '36px', borderRadius: '50%', border: '2px solid rgba(255,255,255,0.8)' }}
+          />
+          <div style={{ lineHeight: 1.1 }}>
+            <div style={{ fontFamily: 'var(--font-woodcut), Impact, sans-serif', fontSize: '1.05rem', letterSpacing: '0.05em' }}>
+              RTOM BARBECUE
+            </div>
+            <div style={{ fontSize: '0.68rem', opacity: 0.9, letterSpacing: '0.04em', textTransform: 'uppercase' }}>
+              ← Return to Full Menu
+            </div>
+          </div>
+        </div>
+
+        {/* Center: Scarcity Counter & Countdown */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap', justifyContent: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem', fontWeight: 700 }}>
+            <span style={{ animation: 'pulse 1.5s infinite' }}>🔥</span>
+            <span>BATCH: <strong>14/45 SHANKS REMAINING</strong></span>
+          </div>
+          <div
+            style={{
+              background: 'rgba(0,0,0,0.3)',
+              padding: '4px 10px',
+              borderRadius: '4px',
+              fontFamily: 'monospace',
+              letterSpacing: '0.08em',
+              fontSize: '0.88rem',
+              fontWeight: 700,
+            }}
+          >
+            CUTOFF: {String(timeLeft.hours).padStart(2, '0')}:{String(timeLeft.minutes).padStart(2, '0')}:{String(timeLeft.seconds).padStart(2, '0')}
+          </div>
+        </div>
+
+        {/* Right: Quick Navigation & Cart */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <button
+            onClick={onBackToMenu}
+            style={{
+              background: 'rgba(255,255,255,0.15)',
+              border: '1px solid rgba(255,255,255,0.5)',
+              color: '#FFFFFF',
+              padding: '6px 12px',
+              borderRadius: '6px',
+              cursor: 'pointer',
+              fontSize: '0.8rem',
+              fontWeight: 600,
+              display: 'flex',
+              alignItems: 'center',
+              gap: '5px',
+              transition: 'all 0.2s ease',
+            }}
+          >
+            <span>←</span> Full Menu
+          </button>
+
+          {onOpenCart && (
+            <button
+              onClick={onOpenCart}
+              style={{
+                background: '#1A1918',
+                border: '1px solid rgba(255,255,255,0.2)',
+                color: '#FFFFFF',
+                padding: '6px 14px',
+                borderRadius: '6px',
+                cursor: 'pointer',
+                fontSize: '0.82rem',
+                fontWeight: 700,
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.25)',
+              }}
+            >
+              <span>🛒</span>
+              <span>Cart</span>
+              {cartItemCount > 0 ? (
+                <span
+                  style={{
+                    background: '#D9652B',
+                    color: '#FFF',
+                    borderRadius: '50%',
+                    width: '18px',
+                    height: '18px',
+                    fontSize: '0.72rem',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontWeight: 800,
+                  }}
+                >
+                  {cartItemCount}
+                </span>
+              ) : null}
+            </button>
+          )}
+        </div>
       </div>
 
       {/* 2. THE HOOK / ABOVE THE FOLD */}
