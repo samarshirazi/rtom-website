@@ -70,7 +70,7 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
         groupId: 'feast-addon',
         groupName: 'Feast Upgrade',
         optionId: 'mac-side',
-        optionName: 'Skillet Smoked Mac & Cheese',
+        optionName: 'Mac & Cheese',
         priceDelta: 9.99,
       });
       unitPrice += 9.99;
@@ -952,11 +952,11 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
                   }}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '4px' }}>
-                    <strong style={{ fontSize: '0.95rem' }}>Add Smoked Mac</strong>
+                    <strong style={{ fontSize: '0.95rem' }}>Add Mac & Cheese</strong>
                     <span style={{ fontWeight: 800, color: '#BA4E18' }}>+$9.99</span>
                   </div>
                   <div style={{ fontSize: '0.82rem', color: '#66625C' }}>
-                    3-Cheese Skillet Mac & Cheese
+                    Mac & Cheese
                   </div>
                 </div>
               </div>

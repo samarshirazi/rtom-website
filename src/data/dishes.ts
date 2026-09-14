@@ -4,7 +4,7 @@ export const DISHES: Dish[] = [
   {
     id: 'rtom-lamb-shank',
     name: 'Lamb Shank',
-    description: 'Slow-braised over hickory embers until fall-off-the-bone tender. Served with your choice of Fragrant Spiced Basmati Rice or Baked 3-Cheese Mac & Cheese.',
+    description: 'Slow-braised over hickory embers until fall-off-the-bone tender. Served with your choice of Fragrant Spiced Basmati Rice or Mac & Cheese.',
     price: 29.99,
     image: '/images/dishes/lamb-shank.jpg',
     category: 'mutton',
@@ -20,7 +20,7 @@ export const DISHES: Dish[] = [
         required: true,
         options: [
           { id: 'basmati-rice', name: 'Fragrant Spiced Basmati Rice', priceDelta: 0 },
-          { id: 'mac-cheese', name: 'Baked 3-Cheese Mac & Cheese', priceDelta: 0 },
+          { id: 'mac-cheese', name: 'Mac & Cheese', priceDelta: 0 },
         ],
       },
       {
@@ -30,7 +30,7 @@ export const DISHES: Dish[] = [
         options: [
           { id: 'none', name: 'No Extra Add-on', priceDelta: 0 },
           { id: 'extra-rice', name: 'Extra Spiced Basmati Rice Bowl', priceDelta: 4.99 },
-          { id: 'extra-mac', name: 'Extra Skillet 3-Cheese Mac', priceDelta: 5.99 },
+          { id: 'extra-mac', name: 'Extra Mac & Cheese', priceDelta: 5.99 },
           { id: 'garlic-toum', name: 'House-Whipped Garlic Toum', priceDelta: 2.99 },
         ],
       },
@@ -39,7 +39,7 @@ export const DISHES: Dish[] = [
   {
     id: 'rtom-whole-leg-chicken',
     name: 'Whole Leg Chicken',
-    description: 'Full chicken leg quarter (thigh & drumstick) marinated 24 hours in yogurt and toasted spices, charred over glowing charcoal. Served with your choice of Fragrant Spiced Basmati Rice or Baked 3-Cheese Mac & Cheese.',
+    description: 'Full chicken leg quarter (thigh & drumstick) marinated 24 hours in yogurt and toasted spices, charred over glowing charcoal. Served with your choice of Fragrant Spiced Basmati Rice or Mac & Cheese.',
     price: 19.99,
     image: '/images/dishes/whole-leg-chicken.jpg',
     category: 'chicken',
@@ -55,7 +55,7 @@ export const DISHES: Dish[] = [
         required: true,
         options: [
           { id: 'basmati-rice', name: 'Fragrant Spiced Basmati Rice', priceDelta: 0 },
-          { id: 'mac-cheese', name: 'Baked 3-Cheese Mac & Cheese', priceDelta: 0 },
+          { id: 'mac-cheese', name: 'Mac & Cheese', priceDelta: 0 },
         ],
       },
       {
@@ -65,7 +65,7 @@ export const DISHES: Dish[] = [
         options: [
           { id: 'none', name: 'No Extra Add-on', priceDelta: 0 },
           { id: 'extra-rice', name: 'Extra Spiced Basmati Rice Bowl', priceDelta: 4.99 },
-          { id: 'extra-mac', name: 'Extra Skillet 3-Cheese Mac', priceDelta: 5.99 },
+          { id: 'extra-mac', name: 'Extra Mac & Cheese', priceDelta: 5.99 },
           { id: 'garlic-toum', name: 'House-Whipped Garlic Toum', priceDelta: 2.99 },
         ],
       },
@@ -74,7 +74,7 @@ export const DISHES: Dish[] = [
   {
     id: 'rtom-leg-of-lamb',
     name: 'Leg of Lamb',
-    description: "The pitmaster's grand feast. A whole bone-in leg of lamb slow-roasted for 8+ hours (serves 6–8). Served with your choice of Fragrant Spiced Basmati Rice or Baked 3-Cheese Mac & Cheese.",
+    description: "The pitmaster's grand feast. A whole bone-in leg of lamb slow-roasted for 8+ hours (serves 6–8). Served with your choice of Fragrant Spiced Basmati Rice or Mac & Cheese.",
     price: 199.99,
     image: '/images/dishes/leg-of-lamb.jpg',
     category: 'mutton',
@@ -90,7 +90,7 @@ export const DISHES: Dish[] = [
         required: true,
         options: [
           { id: 'basmati-rice', name: 'Fragrant Spiced Basmati Rice Platter', priceDelta: 0 },
-          { id: 'mac-cheese', name: 'Baked 3-Cheese Mac & Cheese Platter', priceDelta: 0 },
+          { id: 'mac-cheese', name: 'Mac & Cheese Platter', priceDelta: 0 },
         ],
       },
       {
@@ -99,7 +99,7 @@ export const DISHES: Dish[] = [
         required: false,
         options: [
           { id: 'none', name: 'Standard Communal Platter', priceDelta: 0 },
-          { id: 'double-sides', name: 'Both Rice & Skillet Mac Platters', priceDelta: 19.99 },
+          { id: 'double-sides', name: 'Both Rice & Mac & Cheese Platters', priceDelta: 19.99 },
           { id: 'garlic-toum-large', name: 'Large House Garlic Toum Jar', priceDelta: 6.99 },
         ],
       },
@@ -108,7 +108,7 @@ export const DISHES: Dish[] = [
   {
     id: 'rtom-beef-short-ribs-mac',
     name: 'Beef Short Ribs',
-    description: 'Tender, fall-off-the-bone beef short ribs slow-smoked over seasoned hardwood. Served with your choice of Baked 3-Cheese Mac & Cheese or Fragrant Spiced Basmati Rice.',
+    description: 'Tender, fall-off-the-bone beef short ribs slow-smoked over seasoned hardwood. Served with your choice of Fragrant Spiced Basmati Rice or Mac & Cheese.',
     price: 29.99,
     image: '/images/dishes/beef-short-ribs-mac.jpg',
     category: 'beef',
@@ -123,7 +123,7 @@ export const DISHES: Dish[] = [
         name: 'Choose Your Base Pairing',
         required: true,
         options: [
-          { id: 'mac-cheese', name: 'Baked 3-Cheese Mac & Cheese', priceDelta: 0 },
+          { id: 'mac-cheese', name: 'Mac & Cheese', priceDelta: 0 },
           { id: 'basmati-rice', name: 'Fragrant Spiced Basmati Rice', priceDelta: 0 },
         ],
       },
@@ -133,7 +133,7 @@ export const DISHES: Dish[] = [
         required: false,
         options: [
           { id: 'none', name: 'No Extra Add-on', priceDelta: 0 },
-          { id: 'extra-mac', name: 'Extra Skillet 3-Cheese Mac', priceDelta: 5.99 },
+          { id: 'extra-mac', name: 'Extra Mac & Cheese', priceDelta: 5.99 },
           { id: 'extra-rice', name: 'Extra Spiced Basmati Rice Bowl', priceDelta: 4.99 },
           { id: 'garlic-toum', name: 'House-Whipped Garlic Toum', priceDelta: 2.99 },
         ],
@@ -143,7 +143,7 @@ export const DISHES: Dish[] = [
   {
     id: 'rtom-brisket-mac',
     name: 'Beef Brisket',
-    description: '14-hour hickory-smoked beef brisket with a peppery caramelized bark and rich smoke ring. Served with your choice of Baked 3-Cheese Mac & Cheese or Fragrant Spiced Basmati Rice.',
+    description: '14-hour hickory-smoked beef brisket with a peppery caramelized bark and rich smoke ring. Served with your choice of Fragrant Spiced Basmati Rice or Mac & Cheese.',
     price: 29.99,
     image: '/images/dishes/brisket-mac.jpg',
     category: 'beef',
@@ -158,7 +158,7 @@ export const DISHES: Dish[] = [
         name: 'Choose Your Base Pairing',
         required: true,
         options: [
-          { id: 'mac-cheese', name: 'Baked 3-Cheese Mac & Cheese', priceDelta: 0 },
+          { id: 'mac-cheese', name: 'Mac & Cheese', priceDelta: 0 },
           { id: 'basmati-rice', name: 'Fragrant Spiced Basmati Rice', priceDelta: 0 },
         ],
       },
@@ -168,7 +168,7 @@ export const DISHES: Dish[] = [
         required: false,
         options: [
           { id: 'none', name: 'No Extra Add-on', priceDelta: 0 },
-          { id: 'extra-mac', name: 'Extra Skillet 3-Cheese Mac', priceDelta: 5.99 },
+          { id: 'extra-mac', name: 'Extra Mac & Cheese', priceDelta: 5.99 },
           { id: 'extra-rice', name: 'Extra Spiced Basmati Rice Bowl', priceDelta: 4.99 },
           { id: 'garlic-toum', name: 'House-Whipped Garlic Toum', priceDelta: 2.99 },
         ],
@@ -178,7 +178,7 @@ export const DISHES: Dish[] = [
   {
     id: 'rtom-beef-shank-mac',
     name: 'Beef Shank',
-    description: 'Slow-smoked whole bone-in beef shank glazed with savory smokehouse pan reduction. Served with your choice of Baked 3-Cheese Mac & Cheese or Fragrant Spiced Basmati Rice.',
+    description: 'Slow-smoked whole bone-in beef shank glazed with savory smokehouse pan reduction. Served with your choice of Fragrant Spiced Basmati Rice or Mac & Cheese.',
     price: 29.99,
     image: '/images/dishes/beef-shank-mac.jpg',
     category: 'beef',
@@ -193,7 +193,7 @@ export const DISHES: Dish[] = [
         name: 'Choose Your Base Pairing',
         required: true,
         options: [
-          { id: 'mac-cheese', name: 'Baked 3-Cheese Mac & Cheese', priceDelta: 0 },
+          { id: 'mac-cheese', name: 'Mac & Cheese', priceDelta: 0 },
           { id: 'basmati-rice', name: 'Fragrant Spiced Basmati Rice', priceDelta: 0 },
         ],
       },
@@ -203,7 +203,7 @@ export const DISHES: Dish[] = [
         required: false,
         options: [
           { id: 'none', name: 'No Extra Add-on', priceDelta: 0 },
-          { id: 'extra-mac', name: 'Extra Skillet 3-Cheese Mac', priceDelta: 5.99 },
+          { id: 'extra-mac', name: 'Extra Mac & Cheese', priceDelta: 5.99 },
           { id: 'extra-rice', name: 'Extra Spiced Basmati Rice Bowl', priceDelta: 4.99 },
           { id: 'garlic-toum', name: 'House-Whipped Garlic Toum', priceDelta: 2.99 },
         ],

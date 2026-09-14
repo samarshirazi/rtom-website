@@ -28,7 +28,7 @@ export const CateringCalculator: React.FC<CateringCalculatorProps> = ({ onOpenIn
 
   const sidePrices: Record<string, number> = {
     'Fragrant Saffron Basmati Rice': 3.50,
-    'Skillet 3-Cheese Mac & Cheese': 4.50,
+    'Mac & Cheese': 4.50,
     'House-Whipped Garlic Toum': 2.00,
     'Smoked Rosemary Pan Jus': 1.50,
     'Sumac Pickled Onions & Chilis': 1.50,

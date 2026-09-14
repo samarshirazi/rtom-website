@@ -72,7 +72,7 @@ function mapSupabaseDish(row: any): Dish {
         required: false,
         options: [
           { id: 'none', name: 'Standard Communal Platter', priceDelta: 0 },
-          { id: 'double-sides', name: 'Both Rice & Skillet Mac Platters', priceDelta: 19.99 },
+          { id: 'double-sides', name: 'Both Rice & Mac & Cheese Platters', priceDelta: 19.99 },
           { id: 'garlic-toum-large', name: 'Large House Garlic Toum Jar', priceDelta: 6.99 },
         ],
       });
@@ -84,7 +84,7 @@ function mapSupabaseDish(row: any): Dish {
         options: [
           { id: 'none', name: 'No Extra Add-on', priceDelta: 0 },
           { id: 'extra-rice', name: 'Extra Spiced Basmati Rice Bowl', priceDelta: 4.99 },
-          { id: 'extra-mac', name: 'Extra Skillet 3-Cheese Mac', priceDelta: 5.99 },
+          { id: 'extra-mac', name: 'Extra Mac & Cheese', priceDelta: 5.99 },
           { id: 'garlic-toum', name: 'House-Whipped Garlic Toum', priceDelta: 2.99 },
         ],
       });
