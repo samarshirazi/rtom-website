@@ -370,15 +370,16 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                     />
                   </div>
                   <div>
-                    <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: 4, fontFamily: 'var(--font-sans)' }}>Time Window</label>
+                    <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: 4, fontFamily: 'var(--font-sans)' }}>
+                      Time Window <span style={{ color: 'var(--color-rust)', fontWeight: 600 }}>(Dinner Only)</span>
+                    </label>
                     <select
                       value={timeSlot}
                       onChange={(e) => setTimeSlot(e.target.value)}
                       style={inputStyle}
                     >
-                      <option value="12:00-14:00 (Lunch)">12:00 - 14:00 (Lunch)</option>
                       <option value="17:00-19:00 (Dinner)">17:00 - 19:00 (Dinner)</option>
-                      <option value="19:00-21:00 (Late Dinner)">19:00 - 21:00 (Late)</option>
+                      <option value="19:00-21:00 (Late Dinner)">19:00 - 21:00 (Late Dinner)</option>
                     </select>
                   </div>
                 </div>
