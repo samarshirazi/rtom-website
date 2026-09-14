@@ -1,21 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import type { Dish } from '../types';
 import { DISHES } from '../data/dishes';
 
-/* -------------------------------------------------------------------------- */
-/* OPEN DECISION PLACEHOLDERS                                                 */
-/* Flagged as requested for business lock-in before going live:               */
-/* 1. PRICE_PLACEHOLDER: Featured sale price vs total value stack             */
-/* 2. GARLIC_SAUCE_PLACEHOLDER: Condiment pairing (Toum / Mint Chutney)       */
-/* 3. NIGHT_DELIVERY_PLACEHOLDER: Late night cutoff & Edmonton delivery radius*/
-/* 4. IMPULSE_ORDER_PLACEHOLDER: 1-click upsell / add-on configuration        */
-/* -------------------------------------------------------------------------- */
-export const FUNNEL_PLACEHOLDERS = {
-  PRICE: '$29.99', // [PRICE_PLACEHOLDER]
-  PRICE_LABEL: '[PRICE_PLACEHOLDER: $29.99]',
-  GARLIC_SAUCE: '[GARLIC_SAUCE_PLACEHOLDER: House Garlic Toum & Herb Infusion]',
-  NIGHT_DELIVERY: '[NIGHT_DELIVERY_PLACEHOLDER: Edmonton Metro Night Delivery (7 PM - 1 AM)]',
-  IMPULSE_ORDER: '[IMPULSE_ORDER_PLACEHOLDER: 1-Click Add-on: Extra Shank or Skillet Mac & Cheese]',
+// Authentic Feast Constants
+export const FEAST_DETAILS = {
+  PRICE: '$29.99',
+  PRICE_NUM: 29.99,
+  PORTION: 'Generous 18–20 oz Bone-In Shank with Rice & Sides (Serves 1–2)',
+  GARLIC_SAUCE: 'House-Whipped Garlic Toum & Smoked Rosemary Pan Jus',
+  DELIVERY_NOTICE: 'Delivered Fresh & Steaming Hot Across Edmonton Metro',
 };
 
 type LambShankFunnelPageProps = {
@@ -39,37 +32,54 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
   // Find lamb shank dish from dataset
   const lambShankDish = DISHES.find((d) => d.id === 'rtom-lamb-shank') || DISHES[0];
 
-  // Scarcity countdown timer state
-  const [timeLeft, setTimeLeft] = useState({ hours: 4, minutes: 28, seconds: 45 });
   const [activeFaq, setActiveFaq] = useState<number | null>(0);
-  const [includeUpsell, setIncludeUpsell] = useState(false);
+  const [selectedAddon, setSelectedAddon] = useState<'none' | 'extra-shank' | 'mac-cheese'>('none');
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev.seconds > 0) return { ...prev, seconds: prev.seconds - 1 };
-        if (prev.minutes > 0) return { ...prev, minutes: prev.minutes - 1, seconds: 59 };
-        if (prev.hours > 0) return { hours: prev.hours - 1, minutes: 59, seconds: 59 };
-        return { hours: 5, minutes: 0, seconds: 0 };
-      });
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
+  // Calculate dynamic price based on feast upgrade
+  const calculateTotal = () => {
+    if (selectedAddon === 'extra-shank') return 29.99 + 19.99;
+    if (selectedAddon === 'mac-cheese') return 29.99 + 9.99;
+    return 29.99;
+  };
+
+  const currentPriceFormatted = `$${calculateTotal().toFixed(2)}`;
 
   const handleOrderNow = () => {
-    // Add Lamb Shank to cart and open checkout drawer
-    onAddToCart(lambShankDish, 1, [], lambShankDish.price);
+    const options: { groupId: string; groupName: string; optionId: string; optionName: string; priceDelta: number }[] = [];
+    let unitPrice = lambShankDish.price;
+
+    if (selectedAddon === 'extra-shank') {
+      options.push({
+        groupId: 'feast-addon',
+        groupName: 'Feast Upgrade',
+        optionId: 'extra-shank',
+        optionName: 'Extra 8-Hour Smoked Shank',
+        priceDelta: 19.99,
+      });
+      unitPrice += 19.99;
+    } else if (selectedAddon === 'mac-cheese') {
+      options.push({
+        groupId: 'feast-addon',
+        groupName: 'Feast Upgrade',
+        optionId: 'mac-side',
+        optionName: 'Skillet Smoked Mac & Cheese',
+        priceDelta: 9.99,
+      });
+      unitPrice += 9.99;
+    }
+
+    onAddToCart(lambShankDish, 1, options, unitPrice);
   };
 
   const scrollToStack = () => {
-    const el = document.getElementById('value-stack-section');
+    const el = document.getElementById('feast-offer-section');
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
     <div style={{ background: '#FAF8F4', color: '#1A1918', minHeight: '100vh', paddingBottom: '90px' }}>
       
-      {/* 1. SCARCITY STICKY HEADER (Unified Funnel Bar) */}
+      {/* 1. SMOKEHOUSE STICKY HEADER */}
       <div
         style={{
           background: '#BA4E18',
@@ -113,25 +123,15 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
           </div>
         </div>
 
-        {/* Center: Scarcity Counter & Countdown */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap', justifyContent: 'center' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem', fontWeight: 700 }}>
-            <span style={{ animation: 'pulse 1.5s infinite' }}>🔥</span>
-            <span>BATCH: <strong>14/45 SHANKS REMAINING</strong></span>
-          </div>
-          <div
-            style={{
-              background: 'rgba(0,0,0,0.3)',
-              padding: '4px 10px',
-              borderRadius: '4px',
-              fontFamily: 'monospace',
-              letterSpacing: '0.08em',
-              fontSize: '0.88rem',
-              fontWeight: 700,
-            }}
-          >
-            CUTOFF: {String(timeLeft.hours).padStart(2, '0')}:{String(timeLeft.minutes).padStart(2, '0')}:{String(timeLeft.seconds).padStart(2, '0')}
-          </div>
+        {/* Center: Genuine Smokehouse Batch Badge */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', justifyContent: 'center' }}>
+          <span style={{ animation: 'pulse 1.5s infinite', fontSize: '1rem' }}>🔥</span>
+          <span style={{ fontSize: '0.84rem', fontWeight: 800, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+            DAILY PITMASTER SMOKE: 8-HOUR SLOW-CRAFTED BATCH
+          </span>
+          <span style={{ background: 'rgba(0,0,0,0.25)', padding: '3px 9px', borderRadius: '4px', fontSize: '0.76rem', fontWeight: 700 }}>
+            LIMITED QUANTITIES DAILY
+          </span>
         </div>
 
         {/* Right: Quick Navigation & Cart */}
@@ -307,7 +307,7 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
               boxShadow: '0 6px 18px rgba(0,0,0,0.35)',
             }}
           >
-            {FUNNEL_PLACEHOLDERS.PRICE} <span style={{ fontSize: '0.8rem', fontWeight: 500 }}>(Complete Feast)</span>
+            {FEAST_DETAILS.PRICE} <span style={{ fontSize: '0.8rem', fontWeight: 500 }}>(Complete Feast)</span>
           </div>
         </div>
 
@@ -550,19 +550,19 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
         </div>
       </section>
 
-      {/* 6. RUSSELL BRUNSON VALUE STACK ("THE STACK SLIDE") */}
-      <section id="value-stack-section" style={{ padding: '80px 20px', maxWidth: '860px', margin: '0 auto' }}>
+      {/* 6. THE GENUINE SMOKEHOUSE FEAST PLATTER */}
+      <section id="feast-offer-section" style={{ padding: '80px 20px', maxWidth: '880px', margin: '0 auto' }}>
         <div
           style={{
             background: '#FFFFFF',
-            border: '3px solid #D9652B',
+            border: '2px solid #D9652B',
             borderRadius: '16px',
             padding: 'clamp(24px, 5vw, 48px)',
-            boxShadow: '0 20px 50px rgba(217, 101, 43, 0.15)',
+            boxShadow: '0 16px 45px rgba(217, 101, 43, 0.12)',
             position: 'relative',
           }}
         >
-          {/* Badge at top of stack */}
+          {/* Badge at top of card */}
           <div
             style={{
               position: 'absolute',
@@ -575,226 +575,227 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
               fontSize: '0.82rem',
               letterSpacing: '0.12em',
               textTransform: 'uppercase',
-              padding: '6px 20px',
+              padding: '6px 22px',
               borderRadius: '20px',
               whiteSpace: 'nowrap',
               boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
             }}
           >
-            🔥 THE COMPLETE SMOKEHOUSE EXPERIENCE STACK
+            🔥 THE COMPLETE SMOKEHOUSE FEAST
           </div>
 
           <h2
             style={{
               textAlign: 'center',
               fontFamily: 'var(--font-woodcut), Impact, sans-serif',
-              fontSize: 'clamp(2.2rem, 5vw, 3.4rem)',
+              fontSize: 'clamp(2.2rem, 5vw, 3.2rem)',
               letterSpacing: '0.02em',
               textTransform: 'uppercase',
               marginBottom: '10px',
               marginTop: '10px',
             }}
           >
-            Here's Everything You Get In Tonight's Feast:
+            What Comes In Tonight's Feast Platter:
           </h2>
-          <p style={{ textAlign: 'center', color: '#66625C', fontSize: '1rem', marginBottom: '32px' }}>
-            Handcrafted fresh by our pitmaster. No cheap fillers.
+          <p style={{ textAlign: 'center', color: '#66625C', fontSize: '1.05rem', maxWidth: '640px', margin: '0 auto 32px' }}>
+            A generous, multi-course smoked banquet prepared fresh daily by our pitmaster. No shortcuts, no reheated leftovers.
           </p>
 
-          {/* The Stacked Items */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '36px' }}>
+          {/* Genuine Inclusions List */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '32px' }}>
             <div
               style={{
                 display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                padding: '14px 18px',
+                alignItems: 'flex-start',
+                gap: '16px',
+                padding: '16px 20px',
                 background: '#FAF8F4',
-                borderRadius: '8px',
+                borderRadius: '10px',
                 border: '1px solid #EAE6D9',
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <span style={{ fontSize: '1.4rem' }}>🍖</span>
-                <div>
-                  <strong>8-Hour Hardwood Slow-Smoked Lamb Shank</strong>
-                  <div style={{ fontSize: '0.85rem', color: '#777169' }}>Full bone-in shank, fall-apart tender with rich gelatinous bark</div>
+              <span style={{ fontSize: '1.8rem', lineHeight: 1 }}>🍖</span>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontWeight: 800, fontSize: '1.1rem', color: '#1A1918', marginBottom: '4px' }}>
+                  8-Hour Hardwood Slow-Smoked Lamb Shank (18–20 oz)
+                </div>
+                <div style={{ fontSize: '0.92rem', color: '#66625C', lineHeight: 1.5 }}>
+                  Full bone-in shank, slow-smoked at 225°F over hickory wood until the connective tissue liquefies into savory gelatin and the meat glides off the bone.
                 </div>
               </div>
-              <div style={{ fontWeight: 700, color: '#BA4E18', fontSize: '1.1rem' }}>$38.00 Value</div>
             </div>
 
             <div
               style={{
                 display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                padding: '14px 18px',
+                alignItems: 'flex-start',
+                gap: '16px',
+                padding: '16px 20px',
                 background: '#FAF8F4',
-                borderRadius: '8px',
+                borderRadius: '10px',
                 border: '1px solid #EAE6D9',
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <span style={{ fontSize: '1.4rem' }}>🍚</span>
-                <div>
-                  <strong>Heaping Bed of 24-Hr Spiced Saffron Basmati Rice</strong>
-                  <div style={{ fontSize: '0.85rem', color: '#777169' }}>Steeped in clarified ghee, cardamom, cinnamon, and pan drippings</div>
+              <span style={{ fontSize: '1.8rem', lineHeight: 1 }}>🍚</span>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontWeight: 800, fontSize: '1.1rem', color: '#1A1918', marginBottom: '4px' }}>
+                  Mountain of Saffron & Clarified Ghee Spiced Basmati Rice
+                </div>
+                <div style={{ fontSize: '0.92rem', color: '#66625C', lineHeight: 1.5 }}>
+                  Long-grain basmati toasted in pure ghee, bloomed with saffron, cardamom, and cinnamon, infused with the rich pan juices from the smoking pit.
                 </div>
               </div>
-              <div style={{ fontWeight: 700, color: '#BA4E18', fontSize: '1.1rem' }}>$14.00 Value</div>
             </div>
 
-            {/* GARLIC SAUCE PLACEHOLDER ITEM */}
             <div
               style={{
                 display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                padding: '14px 18px',
-                background: '#FFF8F2',
-                borderRadius: '8px',
-                border: '1px dashed #D9652B',
+                alignItems: 'flex-start',
+                gap: '16px',
+                padding: '16px 20px',
+                background: '#FAF8F4',
+                borderRadius: '10px',
+                border: '1px solid #EAE6D9',
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <span style={{ fontSize: '1.4rem' }}>🧄</span>
-                <div>
-                  <strong>{FUNNEL_PLACEHOLDERS.GARLIC_SAUCE}</strong>
-                  <div style={{ fontSize: '0.85rem', color: '#D9652B' }}>
-                    Fresh whipped garlic condiment & aromatic lamb reduction jus
+              <span style={{ fontSize: '1.8rem', lineHeight: 1 }}>🧄</span>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontWeight: 800, fontSize: '1.1rem', color: '#1A1918', marginBottom: '4px' }}>
+                  House-Whipped Garlic Toum & Smoked Lamb Pan Jus
+                </div>
+                <div style={{ fontSize: '0.92rem', color: '#66625C', lineHeight: 1.5 }}>
+                  Traditional airy garlic condiment whipped fresh from scratch, paired with our savory pan-dripping reduction jus to spoon over the meat and rice.
+                </div>
+              </div>
+            </div>
+
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'flex-start',
+                gap: '16px',
+                padding: '16px 20px',
+                background: '#FAF8F4',
+                borderRadius: '10px',
+                border: '1px solid #EAE6D9',
+              }}
+            >
+              <span style={{ fontSize: '1.8rem', lineHeight: 1 }}>🧅</span>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontWeight: 800, fontSize: '1.1rem', color: '#1A1918', marginBottom: '4px' }}>
+                  Sumac Pickled Red Onions & Blistered Green Chili
+                </div>
+                <div style={{ fontSize: '0.92rem', color: '#66625C', lineHeight: 1.5 }}>
+                  A crisp, tangy citrus bite with a hint of warm smoke to refresh the palate between savory mouthfuls.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Honest Value Comparison */}
+          <div
+            style={{
+              background: '#F7F5F0',
+              border: '1px solid #E2DED5',
+              borderRadius: '10px',
+              padding: '18px 22px',
+              marginBottom: '28px',
+              textAlign: 'center',
+            }}
+          >
+            <div style={{ fontSize: '0.95rem', color: '#4A4640', lineHeight: 1.6 }}>
+              💡 <strong>Edmonton Dining Comparison:</strong> A slow-braised lamb shank entrée at a downtown steakhouse typically runs <strong>$45–$55+</strong>. We deliver pitmaster-grade hardwood smoked craftsmanship directly to your home for just <strong>$29.99</strong>.
+            </div>
+          </div>
+
+          {/* Pricing & Add-on Selection */}
+          <div style={{ borderTop: '2px solid #EAE6D9', paddingTop: '28px', marginBottom: '32px' }}>
+            <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+              <div style={{ fontSize: '0.85rem', fontWeight: 800, color: '#777169', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                COMPLETE SMOKEHOUSE BANQUET
+              </div>
+              <div
+                style={{
+                  fontFamily: 'var(--font-woodcut), Impact, sans-serif',
+                  fontSize: 'clamp(2.8rem, 6vw, 3.8rem)',
+                  color: '#BA4E18',
+                  lineHeight: 1.1,
+                  letterSpacing: '0.02em',
+                }}
+              >
+                {currentPriceFormatted}
+              </div>
+              <div style={{ fontSize: '0.92rem', color: '#66625C', marginTop: '6px' }}>
+                Full Meal (Serves 1–2 generously) • 100% Halal Certified
+              </div>
+            </div>
+
+            {/* Optional Feast Upgrade Cards */}
+            <div style={{ marginBottom: '24px' }}>
+              <div style={{ fontWeight: 800, fontSize: '0.95rem', color: '#1A1918', marginBottom: '10px' }}>
+                Customize Your Feast (Optional Upgrades):
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '12px' }}>
+                <div
+                  onClick={() => setSelectedAddon('none')}
+                  style={{
+                    border: selectedAddon === 'none' ? '2px solid #D9652B' : '1px solid #DCD8CF',
+                    background: selectedAddon === 'none' ? '#FFF9F5' : '#FFFFFF',
+                    borderRadius: '8px',
+                    padding: '14px 16px',
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease',
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '4px' }}>
+                    <strong style={{ fontSize: '0.95rem' }}>Standard Feast</strong>
+                    <span style={{ fontWeight: 800, color: '#BA4E18' }}>$29.99</span>
+                  </div>
+                  <div style={{ fontSize: '0.82rem', color: '#66625C' }}>
+                    1 Shank + Full Rice & Sides
+                  </div>
+                </div>
+
+                <div
+                  onClick={() => setSelectedAddon('extra-shank')}
+                  style={{
+                    border: selectedAddon === 'extra-shank' ? '2px solid #D9652B' : '1px solid #DCD8CF',
+                    background: selectedAddon === 'extra-shank' ? '#FFF9F5' : '#FFFFFF',
+                    borderRadius: '8px',
+                    padding: '14px 16px',
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease',
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '4px' }}>
+                    <strong style={{ fontSize: '0.95rem' }}>Add 2nd Shank</strong>
+                    <span style={{ fontWeight: 800, color: '#BA4E18' }}>+$19.99</span>
+                  </div>
+                  <div style={{ fontSize: '0.82rem', color: '#66625C' }}>
+                    Two 8-hr shanks (Best for 2 people)
+                  </div>
+                </div>
+
+                <div
+                  onClick={() => setSelectedAddon('mac-cheese')}
+                  style={{
+                    border: selectedAddon === 'mac-cheese' ? '2px solid #D9652B' : '1px solid #DCD8CF',
+                    background: selectedAddon === 'mac-cheese' ? '#FFF9F5' : '#FFFFFF',
+                    borderRadius: '8px',
+                    padding: '14px 16px',
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease',
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '4px' }}>
+                    <strong style={{ fontSize: '0.95rem' }}>Add Smoked Mac</strong>
+                    <span style={{ fontWeight: 800, color: '#BA4E18' }}>+$9.99</span>
+                  </div>
+                  <div style={{ fontSize: '0.82rem', color: '#66625C' }}>
+                    3-Cheese Skillet Mac & Cheese
                   </div>
                 </div>
               </div>
-              <div style={{ fontWeight: 700, color: '#BA4E18', fontSize: '1.1rem' }}>$8.00 Value</div>
-            </div>
-
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                padding: '14px 18px',
-                background: '#FAF8F4',
-                borderRadius: '8px',
-                border: '1px solid #EAE6D9',
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <span style={{ fontSize: '1.4rem' }}>🧅</span>
-                <div>
-                  <strong>Sumac Red Onions, Blistered Chili & Fresh Herbs</strong>
-                  <div style={{ fontSize: '0.85rem', color: '#777169' }}>Bright citrus crunch that cuts through the rich, buttery smoke</div>
-                </div>
-              </div>
-              <div style={{ fontWeight: 700, color: '#BA4E18', fontSize: '1.1rem' }}>$5.00 Value</div>
-            </div>
-
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                padding: '14px 18px',
-                background: '#FAF8F4',
-                borderRadius: '8px',
-                border: '1px solid #EAE6D9',
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <span style={{ fontSize: '1.4rem' }}>📦</span>
-                <div>
-                  <strong>Heavy-Duty Insulated Thermal Heat-Lock Packaging</strong>
-                  <div style={{ fontSize: '0.85rem', color: '#777169' }}>Keeps your shank and rice sizzling hot on delivery</div>
-                </div>
-              </div>
-              <div style={{ fontWeight: 700, color: '#BA4E18', fontSize: '1.1rem' }}>$5.00 Value</div>
-            </div>
-
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                padding: '14px 18px',
-                background: '#FAF8F4',
-                borderRadius: '8px',
-                border: '1px solid #EAE6D9',
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <span style={{ fontSize: '1.4rem' }}>📜</span>
-                <div>
-                  <strong>Pitmaster Plating & Reheating Secret Card</strong>
-                  <div style={{ fontSize: '0.85rem', color: '#777169' }}>Simple 2-minute trick to restore fresh-out-of-the-smoker bark</div>
-                </div>
-              </div>
-              <div style={{ fontWeight: 700, color: '#BA4E18', fontSize: '1.1rem' }}>$3.00 Value</div>
-            </div>
-          </div>
-
-          {/* Total Value vs Price Breakdown */}
-          <div
-            style={{
-              borderTop: '2px solid #E2DED5',
-              paddingTop: '24px',
-              textAlign: 'center',
-              marginBottom: '30px',
-            }}
-          >
-            <div style={{ fontSize: '1.2rem', color: '#66625C', textDecoration: 'line-through', marginBottom: '6px' }}>
-              Total Real-World Value: $73.00
-            </div>
-            
-            {/* PRICE PLACEHOLDER BANNER */}
-            <div style={{ display: 'inline-block', background: '#FFF3E8', border: '1px dashed #D9652B', padding: '6px 16px', borderRadius: '6px', marginBottom: '14px' }}>
-              <span style={{ color: '#BA4E18', fontWeight: 800, fontSize: '0.9rem' }}>
-                🏷️ {FUNNEL_PLACEHOLDERS.PRICE_LABEL}
-              </span>
-            </div>
-
-            <div
-              style={{
-                fontFamily: 'var(--font-woodcut), Impact, sans-serif',
-                fontSize: 'clamp(2.8rem, 6vw, 4rem)',
-                color: '#BA4E18',
-                lineHeight: 1,
-                letterSpacing: '0.02em',
-              }}
-            >
-              TODAY ONLY: {FUNNEL_PLACEHOLDERS.PRICE}
-            </div>
-            <div style={{ fontSize: '0.9rem', color: '#2E7D32', fontWeight: 700, marginTop: '8px' }}>
-              🎉 YOU SAVE OVER 58% OFF SEPARATE A LA CARTE VALUE
-            </div>
-          </div>
-
-          {/* 7. IMPULSE-ORDER / UPSELL PLACEHOLDER MODULE */}
-          <div
-            style={{
-              background: '#FFF8ED',
-              border: '2px solid #C98A2C',
-              borderRadius: '12px',
-              padding: '20px',
-              marginBottom: '30px',
-            }}
-          >
-            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '14px' }}>
-              <input
-                type="checkbox"
-                id="upsell-check"
-                checked={includeUpsell}
-                onChange={(e) => setIncludeUpsell(e.target.checked)}
-                style={{ width: '22px', height: '22px', accentColor: '#D9652B', marginTop: '3px', cursor: 'pointer' }}
-              />
-              <label htmlFor="upsell-check" style={{ cursor: 'pointer', flex: 1 }}>
-                <div style={{ fontWeight: 800, fontSize: '1rem', color: '#1A1918' }}>
-                  ⚡ ONE-TIME IMPULSE OFFER: {FUNNEL_PLACEHOLDERS.IMPULSE_ORDER}
-                </div>
-                <div style={{ fontSize: '0.88rem', color: '#555', marginTop: '4px', lineHeight: 1.5 }}>
-                  Feed the whole family or save lunch for tomorrow. Check this box to add our signature Skillet Mac & Cheese or a 2nd Smoked Shank to your feast at special pit pricing!
-                </div>
-              </label>
             </div>
           </div>
 
@@ -807,27 +808,27 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
               color: '#FFFFFF',
               border: 'none',
               borderRadius: '8px',
-              padding: '22px 30px',
-              fontSize: 'clamp(1.2rem, 2.8vw, 1.5rem)',
+              padding: '20px 30px',
+              fontSize: 'clamp(1.15rem, 2.6vw, 1.4rem)',
               fontFamily: 'var(--font-heading), sans-serif',
               fontWeight: 800,
-              letterSpacing: '0.05em',
+              letterSpacing: '0.04em',
               textTransform: 'uppercase',
               cursor: 'pointer',
-              boxShadow: '0 10px 30px rgba(217, 101, 43, 0.45)',
+              boxShadow: '0 10px 30px rgba(217, 101, 43, 0.35)',
               transition: 'transform 0.15s ease',
             }}
             onMouseOver={(e) => (e.currentTarget.style.transform = 'translateY(-2px)')}
             onMouseOut={(e) => (e.currentTarget.style.transform = 'translateY(0)')}
           >
-            🔥 YES! ADD MY LAMB SHANK FEAST TO CART NOW ({FUNNEL_PLACEHOLDERS.PRICE}) →
+            ORDER YOUR LAMB SHANK FEAST ({currentPriceFormatted}) →
           </button>
 
-          {/* 8. NIGHT-DELIVERY PLACEHOLDER LOGISTICS */}
+          {/* Genuine Delivery Logistics Note */}
           <div
             style={{
-              marginTop: '24px',
-              padding: '16px',
+              marginTop: '20px',
+              padding: '14px 18px',
               background: '#FAF8F4',
               borderRadius: '8px',
               border: '1px solid #EAE6D9',
@@ -836,10 +837,7 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
               color: '#4A4640',
             }}
           >
-            🚚 <strong>DELIVERY NOTICE:</strong> {FUNNEL_PLACEHOLDERS.NIGHT_DELIVERY}
-            <div style={{ fontSize: '0.8rem', color: '#777169', marginTop: '4px' }}>
-              Dispatched directly in heat-retaining thermal packaging to ensure it reaches your doorstep steaming hot.
-            </div>
+            🚚 <strong>Hot & Fresh Delivery:</strong> Freshly sealed in insulated thermal steam-lock packaging and dispatched hot to your door anywhere in the Edmonton metro area.
           </div>
         </div>
       </section>
@@ -942,23 +940,23 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
             {[
               {
                 q: 'Is the lamb 100% Halal certified?',
-                a: 'Yes, absolutely. All our meats are 100% hand-slaughtered Halal certified, seasoned with pure spices, and smoked over dedicated hardwood embers.',
+                a: 'Yes, absolutely. All our meats are 100% hand-slaughtered Halal certified, seasoned with pure whole spices, and smoked over dedicated hardwood embers.',
               },
               {
                 q: 'How large is the portion?',
-                a: 'The portion includes a full, meaty bone-in lamb shank (over 1 lb before cooking) resting atop a generous, oversized bed of spiced basmati rice. It generously satisfies one hungry adult or can be shared between two.',
+                a: 'The portion includes a full, meaty bone-in lamb shank (18–20 oz before slow-cooking) resting atop a generous mountain of spiced saffron basmati rice. It generously satisfies one very hungry adult or can easily be shared between two.',
               },
               {
                 q: 'How does it stay hot during delivery?',
-                a: `We package every order in insulated, thermal-locking foil containers that seal in steam and heat during transport. Dispatched under ${FUNNEL_PLACEHOLDERS.NIGHT_DELIVERY}.`,
+                a: 'We package every order in heavy-duty, thermal-locking foil containers that trap steam and heat during transport. Your meal arrives piping hot and ready to enjoy immediately.',
               },
               {
-                q: 'What sauce is included with the feast?',
-                a: `Every feast includes our ${FUNNEL_PLACEHOLDERS.GARLIC_SAUCE} along with savory smokehouse pan reduction jus and pickled sumac onions.`,
+                q: 'What sauces are included with the feast?',
+                a: 'Every feast includes our fresh House-Whipped Garlic Toum alongside savory smokehouse pan reduction jus and pickled sumac onions.',
               },
               {
                 q: 'Can I order for tonight or pre-order for tomorrow?',
-                a: 'Because our pit batches take 8 full hours of smoking, daily quantities are limited to 45 shanks. We recommend ordering early before the daily batch sells out.',
+                a: 'Because our pit batches take 8 full hours of low-and-slow hardwood smoking, daily quantities are limited. We recommend ordering early in the evening before the daily pit batch runs out.',
               },
             ].map((item, idx) => (
               <div
@@ -1001,7 +999,7 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
         </div>
       </section>
 
-      {/* 12. FINAL URGENCY CALL-TO-ACTION */}
+      {/* 12. FINAL SMOKEHOUSE CALL-TO-ACTION */}
       <section style={{ padding: '80px 20px 60px', textAlign: 'center', maxWidth: '780px', margin: '0 auto' }}>
         <h2
           style={{
@@ -1013,10 +1011,10 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
             marginBottom: '16px',
           }}
         >
-          Don't Wait Until Tonight's Pit Batch Is Gone
+          Taste Edmonton's Most Tender Lamb Feast Tonight
         </h2>
         <p style={{ fontSize: '1.15rem', color: '#66625C', marginBottom: '32px' }}>
-          Once the last shank is pulled from the smoker, tonight's orders are closed until tomorrow morning.
+          Slow-smoked for 8 hours over authentic hardwood embers. Handcrafted and delivered fresh to your door.
         </p>
 
         <button
@@ -1036,11 +1034,11 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
             boxShadow: '0 12px 35px rgba(217, 101, 43, 0.45)',
           }}
         >
-          🔥 CLAIM MY 8-HR LAMB SHANK FEAST ({FUNNEL_PLACEHOLDERS.PRICE}) →
+          ORDER YOUR 8-HR LAMB SHANK FEAST ({currentPriceFormatted}) →
         </button>
       </section>
 
-      {/* 13. STICKY BOTTOM ORDER BAR (High-Converting Mobile/Desktop Anchor) */}
+      {/* 13. STICKY BOTTOM ORDER BAR (Clean, Transparent & Responsive) */}
       <div
         style={{
           position: 'fixed',
@@ -1066,9 +1064,9 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
             style={{ width: '48px', height: '48px', borderRadius: '8px', objectFit: 'cover' }}
           />
           <div>
-            <div style={{ fontWeight: 800, fontSize: '0.95rem' }}>8-Hour Lamb Shank on Spiced Rice</div>
+            <div style={{ fontWeight: 800, fontSize: '0.95rem' }}>8-Hour Lamb Shank Feast Platter</div>
             <div style={{ color: '#E8743B', fontWeight: 700, fontSize: '0.9rem' }}>
-              {FUNNEL_PLACEHOLDERS.PRICE} <span style={{ fontSize: '0.75rem', color: '#AAA', textDecoration: 'line-through' }}>$73 Value</span>
+              {currentPriceFormatted} <span style={{ fontSize: '0.8rem', color: '#B8B3A8', fontWeight: 500 }}>• Complete Meal Platter</span>
             </div>
           </div>
         </div>
@@ -1081,7 +1079,7 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
               color: '#FFFFFF',
               border: 'none',
               borderRadius: '6px',
-              padding: '12px 20px',
+              padding: '12px 22px',
               fontWeight: 800,
               fontSize: '0.95rem',
               cursor: 'pointer',
@@ -1091,7 +1089,7 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
               whiteSpace: 'nowrap',
             }}
           >
-            ORDER FEAST NOW →
+            ORDER FEAST ({currentPriceFormatted}) →
           </button>
         </div>
       </div>
