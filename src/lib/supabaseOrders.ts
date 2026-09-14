@@ -24,8 +24,9 @@ export const SUPABASE_DISH_MAP: Record<string, string> = {
   'rtom-beef-shank-mac': '0b33ac6d-c6e5-4801-879d-953f0309950f',
 };
 
-// Dinner delivery slot (17:00:00 - 20:50:00)
+// Delivery slots in Supabase
 export const DINNER_SLOT_ID = '47d72ca1-1a6a-42f9-8985-fda83a2f61b8';
+export const LUNCH_SLOT_ID = '5cf343f0-7d9a-4d55-8419-b1d73d756473';
 
 export type OrderItemPayload = {
   dishId: string;
@@ -209,7 +210,9 @@ export async function pushOrderToSupabase(
         user_id: userId,
         brand: 'rtom',
         delivery_date: deliveryDateISO,
-        slot_id: DINNER_SLOT_ID,
+        slot_id: (payload.timeSlot || '').toLowerCase().includes('lunch')
+          ? LUNCH_SLOT_ID
+          : DINNER_SLOT_ID,
         address_id: addressId,
         status: 'confirmed',
         notes: notesSummary,

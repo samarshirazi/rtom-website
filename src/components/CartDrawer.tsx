@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import type { CartItem, Dish } from '../types';
 import { DISHES } from '../data/dishes';
 import { BUSINESS_PHONE_DISPLAY, BUSINESS_TEL, BUSINESS_WHATSAPP } from '../lib/constants';
@@ -62,6 +62,38 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
       setDeliveryDate(tomorrowStr);
     }
   }, [hasPreOrderItems, deliveryDate, tomorrowStr]);
+
+  // Day of week: 1=Mon, ..., 5=Fri, 6=Sat, 7=Sun
+  const selectedDayOfWeek = useMemo(() => {
+    if (!deliveryDate) return 1;
+    const [y, m, d] = deliveryDate.split('-').map(Number);
+    const dt = new Date(y, m - 1, d);
+    const day = dt.getDay();
+    return day === 0 ? 7 : day;
+  }, [deliveryDate]);
+
+  // Weekend (Fri-Sun: 5,6,7) has Lunch + Dinner; Weekdays (Mon-Thu: 1,2,3,4) have Dinner only
+  const isWeekend = selectedDayOfWeek >= 5;
+
+  const availableSlots: { id: string; label: string }[] = useMemo(() => {
+    if (isWeekend) {
+      return [
+        { id: '11:30-14:00 (Weekend Lunch)', label: '11:30 - 14:00 (Lunch)' },
+        { id: '17:00-19:00 (Dinner)', label: '17:00 - 19:00 (Dinner)' },
+        { id: '19:00-21:00 (Late Dinner)', label: '19:00 - 21:00 (Late Dinner)' },
+      ];
+    }
+    return [
+      { id: '17:00-19:00 (Dinner)', label: '17:00 - 19:00 (Dinner)' },
+      { id: '19:00-21:00 (Late Dinner)', label: '19:00 - 21:00 (Late Dinner)' },
+    ];
+  }, [isWeekend]);
+
+  useEffect(() => {
+    if (!availableSlots.some((s) => s.id === timeSlot)) {
+      setTimeSlot(availableSlots[0]?.id || '17:00-19:00 (Dinner)');
+    }
+  }, [availableSlots, timeSlot]);
 
   const subtotal = cartItems.reduce((sum, item) => sum + item.itemTotal, 0);
   const deliveryFee = subtotal === 0 ? 0 : subtotal >= 40 ? 0 : 5.00;
@@ -467,15 +499,16 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                   </div>
                   <div>
                     <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: 4, fontFamily: 'var(--font-sans)' }}>
-                      Time Window <span style={{ color: 'var(--color-rust)', fontWeight: 600 }}>(Dinner Only)</span>
+                      Time Window <span style={{ color: 'var(--color-rust)', fontWeight: 600 }}>({isWeekend ? 'Lunch & Dinner' : 'Dinner Only'})</span>
                     </label>
                     <select
                       value={timeSlot}
                       onChange={(e) => setTimeSlot(e.target.value)}
                       style={inputStyle}
                     >
-                      <option value="17:00-19:00 (Dinner)">17:00 - 19:00 (Dinner)</option>
-                      <option value="19:00-21:00 (Late Dinner)">19:00 - 21:00 (Late Dinner)</option>
+                      {availableSlots.map((s) => (
+                        <option key={s.id} value={s.id}>{s.label}</option>
+                      ))}
                     </select>
                   </div>
                 </div>
