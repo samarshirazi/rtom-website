@@ -51,16 +51,18 @@ export const DishModal: React.FC<DishModalProps> = ({ dish, onClose, onAddToCart
   };
 
   const handleConfirm = () => {
-    const formattedSelections = Object.entries(selectedSelections).map(([groupId, val]) => {
-      const group = dish.variationGroups?.find((g) => g.id === groupId);
-      return {
-        groupId,
-        groupName: group?.name || 'Option',
-        optionId: val.optionId,
-        optionName: val.optionName,
-        priceDelta: val.priceDelta,
-      };
-    });
+    const formattedSelections = Object.entries(selectedSelections)
+      .filter(([_, val]) => val.optionId !== 'none')
+      .map(([groupId, val]) => {
+        const group = dish.variationGroups?.find((g) => g.id === groupId);
+        return {
+          groupId,
+          groupName: group?.name || 'Option',
+          optionId: val.optionId,
+          optionName: val.optionName,
+          priceDelta: val.priceDelta,
+        };
+      });
     onAddToCart(dish, quantity, formattedSelections, unitPrice);
     onClose();
   };

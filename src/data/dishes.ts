@@ -4,7 +4,7 @@ export const DISHES: Dish[] = [
   {
     id: 'rtom-lamb-shank',
     name: 'Lamb Shank',
-    description: 'Slow-braised over hickory embers until fall-off-the-bone tender, served over a bed of fragrant spiced basmati rice with toasted seasonings and fresh herbs.',
+    description: 'Slow-braised over hickory embers until fall-off-the-bone tender. Served with your choice of Fragrant Spiced Basmati Rice or Baked 3-Cheese Mac & Cheese.',
     price: 29.99,
     image: '/images/dishes/lamb-shank.jpg',
     category: 'mutton',
@@ -13,11 +13,33 @@ export const DISHES: Dish[] = [
     portionSize: 'Per Person',
     prepTimeMinutes: 25,
     deliveryType: 'same-day',
+    variationGroups: [
+      {
+        id: 'base-pairing',
+        name: 'Choose Your Base Pairing',
+        required: true,
+        options: [
+          { id: 'basmati-rice', name: 'Fragrant Spiced Basmati Rice', priceDelta: 0 },
+          { id: 'mac-cheese', name: 'Baked 3-Cheese Mac & Cheese', priceDelta: 0 },
+        ],
+      },
+      {
+        id: 'side-upgrade',
+        name: 'Optional Add-on / Extra Side',
+        required: false,
+        options: [
+          { id: 'none', name: 'No Extra Add-on', priceDelta: 0 },
+          { id: 'extra-rice', name: 'Extra Spiced Basmati Rice Bowl', priceDelta: 4.99 },
+          { id: 'extra-mac', name: 'Extra Skillet 3-Cheese Mac', priceDelta: 5.99 },
+          { id: 'garlic-toum', name: 'House-Whipped Garlic Toum', priceDelta: 2.99 },
+        ],
+      },
+    ],
   },
   {
     id: 'rtom-whole-leg-chicken',
     name: 'Whole Leg Chicken',
-    description: 'Full chicken leg quarter (thigh & drumstick) marinated 24 hours in yogurt and toasted spices, charred over glowing charcoal and served over seasoned spiced basmati rice.',
+    description: 'Full chicken leg quarter (thigh & drumstick) marinated 24 hours in yogurt and toasted spices, charred over glowing charcoal. Served with your choice of Fragrant Spiced Basmati Rice or Baked 3-Cheese Mac & Cheese.',
     price: 19.99,
     image: '/images/dishes/whole-leg-chicken.jpg',
     category: 'chicken',
@@ -26,11 +48,33 @@ export const DISHES: Dish[] = [
     portionSize: 'Per Person',
     prepTimeMinutes: 20,
     deliveryType: 'same-day',
+    variationGroups: [
+      {
+        id: 'base-pairing',
+        name: 'Choose Your Base Pairing',
+        required: true,
+        options: [
+          { id: 'basmati-rice', name: 'Fragrant Spiced Basmati Rice', priceDelta: 0 },
+          { id: 'mac-cheese', name: 'Baked 3-Cheese Mac & Cheese', priceDelta: 0 },
+        ],
+      },
+      {
+        id: 'side-upgrade',
+        name: 'Optional Add-on / Extra Side',
+        required: false,
+        options: [
+          { id: 'none', name: 'No Extra Add-on', priceDelta: 0 },
+          { id: 'extra-rice', name: 'Extra Spiced Basmati Rice Bowl', priceDelta: 4.99 },
+          { id: 'extra-mac', name: 'Extra Skillet 3-Cheese Mac', priceDelta: 5.99 },
+          { id: 'garlic-toum', name: 'House-Whipped Garlic Toum', priceDelta: 2.99 },
+        ],
+      },
+    ],
   },
   {
     id: 'rtom-leg-of-lamb',
     name: 'Leg of Lamb',
-    description: "The pitmaster's grand feast. A whole bone-in leg of lamb slow-roasted for 8+ hours, served over a lavish communal platter of fragrant spiced basmati rice with toasted almonds and golden raisins (serves 6–8).",
+    description: "The pitmaster's grand feast. A whole bone-in leg of lamb slow-roasted for 8+ hours (serves 6–8). Served with your choice of Fragrant Spiced Basmati Rice or Baked 3-Cheese Mac & Cheese.",
     price: 199.99,
     image: '/images/dishes/leg-of-lamb.jpg',
     category: 'mutton',
@@ -39,11 +83,32 @@ export const DISHES: Dish[] = [
     portionSize: 'Whole Leg (Serves a Group)',
     prepTimeMinutes: 30,
     deliveryType: 'pre-order',
+    variationGroups: [
+      {
+        id: 'base-pairing',
+        name: 'Choose Your Base Pairing',
+        required: true,
+        options: [
+          { id: 'basmati-rice', name: 'Fragrant Spiced Basmati Rice Platter', priceDelta: 0 },
+          { id: 'mac-cheese', name: 'Baked 3-Cheese Mac & Cheese Platter', priceDelta: 0 },
+        ],
+      },
+      {
+        id: 'side-upgrade',
+        name: 'Optional Feast Upgrade',
+        required: false,
+        options: [
+          { id: 'none', name: 'Standard Communal Platter', priceDelta: 0 },
+          { id: 'double-sides', name: 'Both Rice & Skillet Mac Platters', priceDelta: 19.99 },
+          { id: 'garlic-toum-large', name: 'Large House Garlic Toum Jar', priceDelta: 6.99 },
+        ],
+      },
+    ],
   },
   {
     id: 'rtom-beef-short-ribs-mac',
-    name: 'Beef Short Ribs over Mac & Cheese',
-    description: 'Tender, fall-off-the-bone beef short ribs slow-smoked over seasoned hardwood, served over a rich, golden baked three-cheese macaroni and cheese.',
+    name: 'Beef Short Ribs',
+    description: 'Tender, fall-off-the-bone beef short ribs slow-smoked over seasoned hardwood. Served with your choice of Baked 3-Cheese Mac & Cheese or Fragrant Spiced Basmati Rice.',
     price: 29.99,
     image: '/images/dishes/beef-short-ribs-mac.jpg',
     category: 'beef',
@@ -52,11 +117,33 @@ export const DISHES: Dish[] = [
     portionSize: 'Per Person',
     prepTimeMinutes: 25,
     deliveryType: 'pre-order',
+    variationGroups: [
+      {
+        id: 'base-pairing',
+        name: 'Choose Your Base Pairing',
+        required: true,
+        options: [
+          { id: 'mac-cheese', name: 'Baked 3-Cheese Mac & Cheese', priceDelta: 0 },
+          { id: 'basmati-rice', name: 'Fragrant Spiced Basmati Rice', priceDelta: 0 },
+        ],
+      },
+      {
+        id: 'side-upgrade',
+        name: 'Optional Add-on / Extra Side',
+        required: false,
+        options: [
+          { id: 'none', name: 'No Extra Add-on', priceDelta: 0 },
+          { id: 'extra-mac', name: 'Extra Skillet 3-Cheese Mac', priceDelta: 5.99 },
+          { id: 'extra-rice', name: 'Extra Spiced Basmati Rice Bowl', priceDelta: 4.99 },
+          { id: 'garlic-toum', name: 'House-Whipped Garlic Toum', priceDelta: 2.99 },
+        ],
+      },
+    ],
   },
   {
     id: 'rtom-brisket-mac',
-    name: 'Brisket over Mac & Cheese',
-    description: '14-hour hickory-smoked beef brisket with a peppery caramelized bark and rich smoke ring, chopped and heaped over creamy, bubbling macaroni and cheese with pitmaster sauce.',
+    name: 'Brisket',
+    description: '14-hour hickory-smoked beef brisket with a peppery caramelized bark and rich smoke ring. Served with your choice of Baked 3-Cheese Mac & Cheese or Fragrant Spiced Basmati Rice.',
     price: 29.99,
     image: '/images/dishes/brisket-mac.jpg',
     category: 'beef',
@@ -65,11 +152,33 @@ export const DISHES: Dish[] = [
     portionSize: 'Per Person',
     prepTimeMinutes: 20,
     deliveryType: 'pre-order',
+    variationGroups: [
+      {
+        id: 'base-pairing',
+        name: 'Choose Your Base Pairing',
+        required: true,
+        options: [
+          { id: 'mac-cheese', name: 'Baked 3-Cheese Mac & Cheese', priceDelta: 0 },
+          { id: 'basmati-rice', name: 'Fragrant Spiced Basmati Rice', priceDelta: 0 },
+        ],
+      },
+      {
+        id: 'side-upgrade',
+        name: 'Optional Add-on / Extra Side',
+        required: false,
+        options: [
+          { id: 'none', name: 'No Extra Add-on', priceDelta: 0 },
+          { id: 'extra-mac', name: 'Extra Skillet 3-Cheese Mac', priceDelta: 5.99 },
+          { id: 'extra-rice', name: 'Extra Spiced Basmati Rice Bowl', priceDelta: 4.99 },
+          { id: 'garlic-toum', name: 'House-Whipped Garlic Toum', priceDelta: 2.99 },
+        ],
+      },
+    ],
   },
   {
     id: 'rtom-beef-shank-mac',
-    name: 'Beef Shank over Mac & Cheese',
-    description: 'Slow-smoked whole bone-in beef shank glazed with savory smokehouse pan reduction, shredded over a hot skillet of rich and creamy baked macaroni and cheese.',
+    name: 'Beef Shank',
+    description: 'Slow-smoked whole bone-in beef shank glazed with savory smokehouse pan reduction. Served with your choice of Baked 3-Cheese Mac & Cheese or Fragrant Spiced Basmati Rice.',
     price: 29.99,
     image: '/images/dishes/beef-shank-mac.jpg',
     category: 'beef',
@@ -78,5 +187,27 @@ export const DISHES: Dish[] = [
     portionSize: 'Per Person',
     prepTimeMinutes: 25,
     deliveryType: 'pre-order',
+    variationGroups: [
+      {
+        id: 'base-pairing',
+        name: 'Choose Your Base Pairing',
+        required: true,
+        options: [
+          { id: 'mac-cheese', name: 'Baked 3-Cheese Mac & Cheese', priceDelta: 0 },
+          { id: 'basmati-rice', name: 'Fragrant Spiced Basmati Rice', priceDelta: 0 },
+        ],
+      },
+      {
+        id: 'side-upgrade',
+        name: 'Optional Add-on / Extra Side',
+        required: false,
+        options: [
+          { id: 'none', name: 'No Extra Add-on', priceDelta: 0 },
+          { id: 'extra-mac', name: 'Extra Skillet 3-Cheese Mac', priceDelta: 5.99 },
+          { id: 'extra-rice', name: 'Extra Spiced Basmati Rice Bowl', priceDelta: 4.99 },
+          { id: 'garlic-toum', name: 'House-Whipped Garlic Toum', priceDelta: 2.99 },
+        ],
+      },
+    ],
   },
 ];
