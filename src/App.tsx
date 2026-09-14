@@ -10,6 +10,8 @@ import { CartDrawer } from './components/CartDrawer';
 import { InstallBanner } from './components/InstallBanner';
 import { Footer } from './components/Footer';
 import { LambShankFunnelPage } from './components/LambShankFunnelPage';
+import { LambShankDailyPopup } from './components/LambShankDailyPopup';
+import { DISHES } from './data/dishes';
 
 export function App() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
@@ -144,7 +146,6 @@ export function App() {
           cartItemCount={cartItemCount}
           onOpenCart={() => setIsCartOpen(true)}
           onNavigateSection={handleNavigateSection}
-          onNavigateToLambShank={handleNavigateToLambShank}
         />
       )}
 
@@ -194,6 +195,17 @@ export function App() {
         onUpdateQuantity={handleUpdateQuantity}
         onClearCart={handleClearCart}
       />
+
+      {/* Daily Lamb Shank Special Popup Announcement */}
+      {currentView === 'home' && (
+        <LambShankDailyPopup
+          onViewFeast={handleNavigateToLambShank}
+          onQuickAdd={() => {
+            const shank = DISHES.find((d) => d.id === 'rtom-lamb-shank') || DISHES[0];
+            handleAddToCart(shank, 1, [], shank.price);
+          }}
+        />
+      )}
     </div>
   );
 }
