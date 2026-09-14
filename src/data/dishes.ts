@@ -4,7 +4,7 @@ export const DISHES: Dish[] = [
   {
     id: 'rtom-lamb-shank',
     name: 'Lamb Shank',
-    description: 'Slow-braised over hickory embers until fall-off-the-bone tender, bathed in a rich, velvety aromatic reduction infused with authentic smokehouse spices.',
+    description: 'Slow-braised over hickory embers until fall-off-the-bone tender, served over a bed of fragrant spiced basmati rice with toasted seasonings and fresh herbs.',
     price: 29.99,
     image: '/images/dishes/lamb-shank.jpg',
     category: 'mutton',
@@ -16,7 +16,7 @@ export const DISHES: Dish[] = [
   {
     id: 'rtom-whole-leg-chicken',
     name: 'Whole Leg Chicken',
-    description: 'Full chicken leg quarter (thigh & drumstick) marinated 24 hours in yogurt, toasted spices, garlic, and ginger, seared over red-hot charcoal for a crisp char and juicy interior.',
+    description: 'Full chicken leg quarter (thigh & drumstick) marinated 24 hours in yogurt and toasted spices, charred over glowing charcoal and served over seasoned spiced basmati rice.',
     price: 19.99,
     image: '/images/dishes/whole-leg-chicken.jpg',
     category: 'chicken',
@@ -28,7 +28,7 @@ export const DISHES: Dish[] = [
   {
     id: 'rtom-leg-of-lamb',
     name: 'Leg of Lamb',
-    description: "The pitmaster's centerpiece. A whole bone-in leg of lamb slow-roasted for 8+ hours with wood smoke and secret rub, yielding a dark caramelized bark and tender juicy meat. Perfect for sharing and large gatherings (serves 6–8).",
+    description: "The pitmaster's grand feast. A whole bone-in leg of lamb slow-roasted for 8+ hours, served over a lavish communal platter of fragrant spiced basmati rice with toasted almonds and golden raisins (serves 6–8).",
     price: 199.99,
     image: '/images/dishes/leg-of-lamb.jpg',
     category: 'mutton',
