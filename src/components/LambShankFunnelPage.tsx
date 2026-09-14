@@ -366,6 +366,9 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
             <span style={{ color: '#2E7D32', fontSize: '1.2rem' }}>✓</span> Authentic Hardwood Pit Smoke
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 600, fontSize: '0.9rem' }}>
+            <span style={{ color: '#2E7D32', fontSize: '1.2rem' }}>✓</span> 🥄 100% Spoon-Tender (Zero Effort)
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 600, fontSize: '0.9rem' }}>
             <span style={{ color: '#2E7D32', fontSize: '1.2rem' }}>✓</span> Aged Basmati Rice Bed Included
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 600, fontSize: '0.9rem' }}>
@@ -465,6 +468,116 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
             }}
           >
             "We believe when you order a lamb feast, you deserve a restaurant-quality centerpiece that commands respect on your dining table." — The RTOM Pitmaster
+          </div>
+        </div>
+      </section>
+
+      {/* 3.5 THE TENDERNESS STANDARD: THE SPOON TEST */}
+      <section style={{ background: '#FFFFFF', padding: '65px 20px', borderTop: '1px solid #E2DED5', borderBottom: '1px solid #E2DED5' }}>
+        <div style={{ maxWidth: '860px', margin: '0 auto', textAlign: 'center' }}>
+          <div
+            style={{
+              display: 'inline-block',
+              background: 'rgba(217, 101, 43, 0.12)',
+              color: '#BA4E18',
+              fontWeight: 800,
+              fontSize: '0.8rem',
+              letterSpacing: '0.1em',
+              textTransform: 'uppercase',
+              padding: '5px 14px',
+              borderRadius: '20px',
+              marginBottom: '14px',
+            }}
+          >
+            🥄 THE ZERO-EFFORT TENDERNESS STANDARD
+          </div>
+          <h2
+            style={{
+              fontFamily: 'var(--font-woodcut), Impact, sans-serif',
+              fontSize: 'clamp(2rem, 4.5vw, 3.2rem)',
+              letterSpacing: '0.02em',
+              textTransform: 'uppercase',
+              marginBottom: '14px',
+              lineHeight: 1.1,
+              color: '#1A1918',
+            }}
+          >
+            Tender Enough For Grandma. Soft Enough For Toddlers.{' '}
+            <span style={{ color: '#D9652B' }}>Zero Chewing Effort.</span>
+          </h2>
+          <p
+            style={{
+              fontFamily: 'var(--font-serif), Georgia, serif',
+              fontSize: '1.1rem',
+              lineHeight: 1.65,
+              color: '#555047',
+              maxWidth: '740px',
+              margin: '0 auto 38px',
+            }}
+          >
+            The #1 frustration with ordering restaurant lamb is stringy, rubbery meat that causes jaw fatigue. 
+            We designed our 5-hour hardwood smokehouse process so you can put your steak knives back in the drawer. 
+            <strong> If you can’t effortlessly eat this shank with a standard soup spoon, dinner is completely on us.</strong>
+          </p>
+
+          {/* 3 Tenderness Pillars */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '22px', textAlign: 'left' }}>
+            <div
+              style={{
+                background: '#FAF8F4',
+                border: '1px solid #E6E1D5',
+                borderRadius: '12px',
+                padding: '26px 22px',
+                boxShadow: '0 4px 14px rgba(0,0,0,0.03)',
+              }}
+            >
+              <div style={{ fontSize: '2.4rem', marginBottom: '12px' }}>👵</div>
+              <h3 style={{ fontSize: '1.2rem', fontWeight: 700, color: '#1A1918', marginBottom: '8px' }}>
+                Grandparent-Approved (No Jaw Fatigue)
+              </h3>
+              <p style={{ fontSize: '0.92rem', color: '#66625C', lineHeight: 1.6 }}>
+                Elders often avoid restaurant lamb because of tough, chewy fibers. 
+                Our 5-hour smoke completely liquefies the collagen, creating succulent meat that requires zero biting force or dental strain.
+              </p>
+            </div>
+
+            <div
+              style={{
+                background: '#FAF8F4',
+                border: '1px solid #E6E1D5',
+                borderRadius: '12px',
+                padding: '26px 22px',
+                boxShadow: '0 4px 14px rgba(0,0,0,0.03)',
+              }}
+            >
+              <div style={{ fontSize: '2.4rem', marginBottom: '12px' }}>👶</div>
+              <h3 style={{ fontSize: '1.2rem', fontWeight: 700, color: '#1A1918', marginBottom: '8px' }}>
+                Kid & Toddler Friendly (No Stringy Pieces)
+              </h3>
+              <p style={{ fontSize: '0.92rem', color: '#66625C', lineHeight: 1.6 }}>
+                Children get fussy when meat is tough or gets stuck in their teeth. 
+                This shank shreds like buttery pulled beef over fragrant saffron rice — a comforting, nutritious meal the whole family loves without tears.
+              </p>
+            </div>
+
+            <div
+              style={{
+                background: '#FAF8F4',
+                border: '1px solid #E6E1D5',
+                borderRadius: '12px',
+                padding: '26px 22px',
+                boxShadow: '0 4px 14px rgba(0,0,0,0.03)',
+              }}
+            >
+              <div style={{ fontSize: '2.4rem', marginBottom: '12px' }}>🥄</div>
+              <h3 style={{ fontSize: '1.2rem', fontWeight: 700, color: '#1A1918', marginBottom: '8px' }}>
+                The "Spoon Test" Challenge
+              </h3>
+              <p style={{ fontSize: '0.92rem', color: '#66625C', lineHeight: 1.6 }}>
+                Don’t reach for a knife. Simply press an ordinary soup spoon against the meat. 
+                It falls away in glistening, juicy ribbons that melt instantly on your tongue. That is genuine pitmaster discipline.
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -917,6 +1030,14 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
             </p>
             <div style={{ fontWeight: 700, fontSize: '0.88rem' }}>— Omar H. (South Edmonton)</div>
           </div>
+
+          <div style={{ background: '#FFFFFF', padding: '24px', borderRadius: '12px', border: '1px solid #E2DED5', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
+            <div style={{ color: '#C98A2C', fontSize: '1.2rem', marginBottom: '8px' }}>★★★★★</div>
+            <p style={{ fontStyle: 'italic', fontSize: '0.95rem', color: '#33302C', marginBottom: '14px', lineHeight: 1.6 }}>
+              "My 78-year-old mother hasn't been able to eat restaurant lamb in years because it's usually too tough for her teeth. She ate this entire shank with just a spoon and asked where it came from. Even my 4-year-old loved it over the rice!"
+            </p>
+            <div style={{ fontWeight: 700, fontSize: '0.88rem' }}>— Farzana & Family (Windermere, Edmonton)</div>
+          </div>
         </div>
       </section>
 
@@ -938,6 +1059,10 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
             {[
+              {
+                q: 'Is the lamb tough or chewy? Can elderly family members or young children eat it?',
+                a: 'Zero chewiness guaranteed. We slow-smoke our shanks for 5 full hours at 225°F until the collagen dissolves completely into silky gelatin. It is so tender you can separate every bite with an ordinary soup spoon with zero biting force — perfectly soft for grandparents, toddlers, and anyone who despises tough meat.',
+              },
               {
                 q: 'Is the lamb 100% Halal certified?',
                 a: 'Yes, absolutely. All our meats are 100% hand-slaughtered Halal certified, seasoned with pure whole spices, and smoked over dedicated hardwood embers.',

@@ -174,6 +174,28 @@ export const LambShankDailyPopup: React.FC<LambShankDailyPopupProps> = ({
             Every single day, our pitmaster crafts a limited batch of tender, fall-off-the-bone lamb shanks smoked 5 hours over seasoned hardwood. Served over a mountain of saffron spiced basmati rice with house-whipped garlic toum.
           </p>
 
+          {/* Tenderness Callout */}
+          <div
+            style={{
+              background: '#FFF8E1',
+              border: '1px solid #FFE082',
+              borderRadius: '8px',
+              padding: '9px 12px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              marginBottom: '18px',
+              fontSize: '0.82rem',
+              color: '#5D4037',
+              lineHeight: 1.35,
+            }}
+          >
+            <span style={{ fontSize: '1.1rem' }}>🥄</span>
+            <div>
+              <strong>100% Spoon-Tender:</strong> Soft enough for toddlers & grandparents with zero chewing effort!
+            </div>
+          </div>
+
           {/* Action Buttons */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
             <button
