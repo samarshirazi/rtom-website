@@ -91,7 +91,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 marginBottom: 36,
               }}
             >
-              From 12-hour hickory smoked beef ribs and tender goat biryani to melt-in-your-mouth beef shami kebabs and charcoal chicken tikka. Order online for daily delivery or book custom BBQ catering for weddings, family feasts, and corporate events.
+              From 5-hour slow-smoked lamb shanks and 14-hour hickory brisket over mac & cheese to whole charcoal chicken legs and whole leg of lamb pit feasts. Order online for daily delivery or book custom BBQ catering for weddings, family feasts, and corporate events.
             </p>
 
             {/* CTAs */}

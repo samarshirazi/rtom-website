@@ -6,23 +6,31 @@ type CateringCalculatorProps = {
 
 export const CateringCalculator: React.FC<CateringCalculatorProps> = ({ onOpenInquiry }) => {
   const [guestCount, setGuestCount] = useState(30);
-  const [selectedMeats, setSelectedMeats] = useState<string[]>(['Goat Biryani', 'Beef Shami Kebab', 'Chicken Tikka']);
-  const [selectedSides, setSelectedSides] = useState<string[]>(['Garlic Naan', 'Raita & Chutney']);
+  const [selectedMeats, setSelectedMeats] = useState<string[]>([
+    'Smoked Lamb Shank',
+    'Charcoal Whole Leg Chicken',
+  ]);
+  const [selectedSides, setSelectedSides] = useState<string[]>([
+    'Fragrant Saffron Basmati Rice',
+    'House-Whipped Garlic Toum',
+  ]);
   const [serviceStyle, setServiceStyle] = useState<'buffet' | 'individual' | 'live-pit'>('buffet');
 
   const meatPrices: Record<string, number> = {
-    'Goat Biryani': 7.50,
-    'Beef Shami Kebab': 3.50,
-    'Pitmaster Beef Ribs': 14.00,
-    'Chicken Tikka': 6.00,
-    'Smoked Malai Boti': 7.00,
+    'Smoked Lamb Shank': 14.50,
+    'Charcoal Whole Leg Chicken': 8.50,
+    '14-Hour Hickory Brisket': 13.50,
+    'Smoked Beef Short Ribs': 14.00,
+    'Slow-Smoked Beef Shank': 13.50,
+    'Pitmaster Leg of Lamb': 16.00,
   };
 
   const sidePrices: Record<string, number> = {
-    'Garlic Naan': 2.00,
-    'Dal Makhani': 3.00,
-    'Mango Lassi': 3.50,
-    'Raita & Chutney': 1.50,
+    'Fragrant Saffron Basmati Rice': 3.50,
+    'Skillet 3-Cheese Mac & Cheese': 4.50,
+    'House-Whipped Garlic Toum': 2.00,
+    'Smoked Rosemary Pan Jus': 1.50,
+    'Sumac Pickled Onions & Chilis': 1.50,
   };
 
   const serviceStyleAddon: Record<string, number> = {
@@ -235,7 +243,7 @@ export const CateringCalculator: React.FC<CateringCalculatorProps> = ({ onOpenIn
                   marginBottom: 12,
                 }}
               >
-                Select Naan & Sides
+                Select Smokehouse Sides & Accompaniments
               </label>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
                 {Object.entries(sidePrices).map(([side, price]) => {
@@ -380,13 +388,13 @@ export const CateringCalculator: React.FC<CateringCalculatorProps> = ({ onOpenIn
                 fontFamily: 'var(--font-body)',
               }}
             >
-              <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-muted)' }}>
-                <span>Selected Meats ({selectedMeats.length}):</span>
-                <span style={{ color: 'var(--text-dark)', fontWeight: 600 }}>{selectedMeats.join(', ') || 'None'}</span>
+              <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, color: 'var(--text-muted)' }}>
+                <span style={{ whiteSpace: 'nowrap' }}>Selected Meats ({selectedMeats.length}):</span>
+                <span style={{ color: 'var(--text-dark)', fontWeight: 600, textAlign: 'right' }}>{selectedMeats.join(', ') || 'None'}</span>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-muted)' }}>
-                <span>Selected Sides ({selectedSides.length}):</span>
-                <span style={{ color: 'var(--text-dark)', fontWeight: 600 }}>{selectedSides.join(', ') || 'None'}</span>
+              <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, color: 'var(--text-muted)' }}>
+                <span style={{ whiteSpace: 'nowrap' }}>Selected Sides ({selectedSides.length}):</span>
+                <span style={{ color: 'var(--text-dark)', fontWeight: 600, textAlign: 'right' }}>{selectedSides.join(', ') || 'None'}</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-muted)' }}>
                 <span>Setup Style:</span>

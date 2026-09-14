@@ -150,7 +150,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
               YOUR CART IS EMPTY
             </h4>
             <p style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-body)', fontSize: '0.9rem', marginBottom: 20 }}>
-              Add some tender goat biryani, beef shami kebabs, or charcoal chicken tikka to get started.
+              Add a 5-hour smoked lamb shank, charcoal whole leg chicken, or brisket over mac & cheese to get started.
             </p>
             <button onClick={onClose} className="btn btn-outline">
               Explore Menu
