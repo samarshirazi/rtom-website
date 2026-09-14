@@ -1,4 +1,5 @@
 import React from 'react';
+import { BUSINESS_PHONE_DISPLAY, BUSINESS_TEL } from '../lib/constants';
 
 type FooterProps = {
   onNavigateSection: (sectionId: string) => void;
@@ -74,8 +75,8 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateSection }) => {
               Authentic pitmaster smokehouse barbecue. Hand-cut 100% Halal meats slow-smoked over real hickory wood and charcoal fires. Delivered fresh and piping hot.
             </p>
 
-            <div style={{ fontFamily: 'var(--font-heading)', fontSize: '0.92rem', color: '#FFFFFF', letterSpacing: '0.04em' }}>
-              📞 CALL / WHATSAPP: <strong style={{ color: 'var(--color-rust)' }}>(825) 823-8733</strong>
+            <div style={{ fontFamily: 'var(--font-heading)', fontSize: '0.95rem', color: '#FFFFFF', letterSpacing: '0.04em' }}>
+              📞 CALL DIRECT: <a href={BUSINESS_TEL} style={{ color: 'var(--color-rust)', fontWeight: 700, textDecoration: 'none' }}>{BUSINESS_PHONE_DISPLAY}</a>
             </div>
           </div>
 

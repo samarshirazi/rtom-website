@@ -1,4 +1,5 @@
 import React from 'react';
+import { BUSINESS_PHONE_DISPLAY, BUSINESS_TEL } from '../lib/constants';
 
 type HeroSectionProps = {
   onExploreMenu: () => void;
@@ -109,21 +110,30 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn-rust"
-                style={{ fontSize: '1rem', padding: '14px 30px' }}
+                style={{ fontSize: '1rem', padding: '14px 28px' }}
               >
                 📱 Order on App (app.rtombbq.ca)
               </a>
+              <a
+                href={BUSINESS_TEL}
+                className="btn btn-dark"
+                style={{ fontSize: '1rem', padding: '14px 24px', display: 'flex', alignItems: 'center', gap: 6 }}
+                title="Call to Order directly"
+              >
+                <span>📞</span>
+                <span>Call: <strong>{BUSINESS_PHONE_DISPLAY}</strong></span>
+              </a>
               <button
                 onClick={onExploreMenu}
-                className="btn btn-dark"
-                style={{ fontSize: '1rem', padding: '14px 28px' }}
+                className="btn btn-outline"
+                style={{ fontSize: '1rem', padding: '14px 24px' }}
               >
                 🔥 Smokehouse Menu
               </button>
               <button
                 onClick={onOpenCatering}
                 className="btn btn-outline"
-                style={{ fontSize: '1rem', padding: '14px 28px' }}
+                style={{ fontSize: '1rem', padding: '14px 24px' }}
               >
                 🍖 Catering Calculator
               </button>

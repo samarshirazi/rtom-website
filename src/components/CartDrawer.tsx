@@ -1,6 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import type { CartItem } from '../types';
 import { DISHES } from '../data/dishes';
+import { BUSINESS_PHONE_DISPLAY, BUSINESS_TEL, BUSINESS_WHATSAPP } from '../lib/constants';
+import { useGoogleAddressAutocomplete } from '../lib/addressAutocomplete';
+import { pushOrderToGhl } from '../lib/ghl';
 
 type CartDrawerProps = {
   isOpen: boolean;
@@ -38,6 +41,16 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
   const [customerAddress, setCustomerAddress] = useState('');
   const [orderPlacedSuccess, setOrderPlacedSuccess] = useState(false);
 
+  // Google Address Autocomplete
+  const addressInputRef = useRef<HTMLInputElement | null>(null);
+  const addressStatus = useGoogleAddressAutocomplete({
+    inputRef: addressInputRef,
+    enabled: isOpen,
+    onAddressSelected: (selection) => {
+      setCustomerAddress(selection.formattedAddress);
+    },
+  });
+
   useEffect(() => {
     if (hasPreOrderItems && deliveryDate < tomorrowStr) {
       setDeliveryDate(tomorrowStr);
@@ -67,10 +80,25 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
       ? '📅 *Delivery Type: Pre-Order Scheduled (Fresh Pit Smoke)*'
       : '⚡ *Delivery Type: Same-Day Delivery Tonight*';
 
+    // 1. Push lead & order to GoHighLevel CRM (fire-and-forget)
+    pushOrderToGhl({
+      customerName,
+      customerPhone,
+      customerAddress,
+      deliveryDate,
+      timeSlot,
+      itemsSummary,
+      subtotal,
+      deliveryFee,
+      grandTotal,
+      deliveryType: hasPreOrderItems ? 'pre-order' : 'same-day',
+    });
+
+    // 2. Open WhatsApp order dispatch
     const whatsappMessage = `🔥 *NEW RTOM BBQ ORDER*\n\n👤 *Customer:* ${customerName}\n📞 *Phone:* ${customerPhone}\n📍 *Address:* ${customerAddress}\n📅 *Delivery Date:* ${deliveryDate}\n⏰ *Time Slot:* ${timeSlot}\n${deliveryTypeNote}\n\n*Order Items:*\n${itemsSummary}\n\n💵 *Subtotal:* $${subtotal.toFixed(2)}\n🚚 *Delivery:* $${deliveryFee.toFixed(2)}\n💰 *Grand Total:* $${grandTotal.toFixed(2)}`;
 
     const encoded = encodeURIComponent(whatsappMessage);
-    window.open(`https://wa.me/18258238733?text=${encoded}`, '_blank');
+    window.open(`${BUSINESS_WHATSAPP}?text=${encoded}`, '_blank');
     setOrderPlacedSuccess(true);
   };
 
@@ -270,6 +298,37 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
               </a>
             </div>
 
+            {/* Direct Call to Order Banner */}
+            <div
+              style={{
+                background: '#FFF8E1',
+                border: '1px solid #FFE082',
+                borderRadius: 'var(--radius-sm)',
+                padding: '12px 14px',
+                marginBottom: 18,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: 12,
+              }}
+            >
+              <div>
+                <div style={{ fontFamily: 'var(--font-heading)', fontSize: '0.9rem', fontWeight: 700, color: 'var(--text-dark)' }}>
+                  📞 Prefer to Order by Phone?
+                </div>
+                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                  Call pitmaster directly: <strong>{BUSINESS_PHONE_DISPLAY}</strong>
+                </div>
+              </div>
+              <a
+                href={BUSINESS_TEL}
+                className="btn btn-dark btn-sm"
+                style={{ fontSize: '0.82rem', padding: '8px 14px', whiteSpace: 'nowrap' }}
+              >
+                Call Now
+              </a>
+            </div>
+
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 18, color: 'var(--text-dim)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.08em', fontFamily: 'var(--font-heading)' }}>
               <div style={{ flex: 1, height: 1, background: 'var(--border-subtle)' }} />
               <span>Option 2: WhatsApp Fast Order</span>
@@ -340,18 +399,29 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                   <input
                     type="tel"
                     required
-                    placeholder="(825) 823-8733"
+                    placeholder="(825) 250-8534"
                     value={customerPhone}
                     onChange={(e) => setCustomerPhone(e.target.value)}
                     style={inputStyle}
                   />
                 </div>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: 4, fontFamily: 'var(--font-sans)' }}>Delivery Address</label>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
+                    <label style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontFamily: 'var(--font-sans)' }}>
+                      Delivery Address
+                    </label>
+                    {addressStatus === 'ready' && (
+                      <span style={{ fontSize: '0.7rem', color: '#2E7D32', fontWeight: 600 }}>
+                        📍 Google Autocomplete Active
+                      </span>
+                    )}
+                  </div>
                   <input
+                    ref={addressInputRef}
                     type="text"
                     required
-                    placeholder="123 Smokehouse Lane, Edmonton"
+                    autoComplete="street-address"
+                    placeholder="Start typing your street address (e.g. 104 St NW, Edmonton)..."
                     value={customerAddress}
                     onChange={(e) => setCustomerAddress(e.target.value)}
                     style={inputStyle}

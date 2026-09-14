@@ -12,6 +12,8 @@ import { Footer } from './components/Footer';
 import { LambShankFunnelPage } from './components/LambShankFunnelPage';
 import { LambShankDailyPopup } from './components/LambShankDailyPopup';
 import { DISHES } from './data/dishes';
+import { BUSINESS_WHATSAPP } from './lib/constants';
+import { pushCateringToGhl } from './lib/ghl';
 
 export function App() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
@@ -129,8 +131,14 @@ export function App() {
   };
 
   const handleOpenCateringInquiry = (summary: string) => {
+    pushCateringToGhl({
+      customerName: 'Catering Lead',
+      customerPhone: '',
+      guestCount: 0,
+      notes: summary,
+    });
     const encoded = encodeURIComponent(summary);
-    window.open(`https://wa.me/18258238733?text=${encoded}`, '_blank');
+    window.open(`${BUSINESS_WHATSAPP}?text=${encoded}`, '_blank');
   };
 
   const cartItemCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);

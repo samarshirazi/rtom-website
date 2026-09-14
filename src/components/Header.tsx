@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { BUSINESS_PHONE_DISPLAY, BUSINESS_TEL } from '../lib/constants';
 
 type HeaderProps = {
   cartItemCount: number;
@@ -120,7 +121,7 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Right Actions: Phone + Franklin Chevron Order Button + Cart */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
           <a
-            href="tel:18258238733"
+            href={BUSINESS_TEL}
             className="phone-link"
             style={{
               display: 'flex',
@@ -130,12 +131,17 @@ export const Header: React.FC<HeaderProps> = ({
               textDecoration: 'none',
               fontSize: '0.92rem',
               fontFamily: 'var(--font-heading)',
-              fontWeight: 600,
-              letterSpacing: '0.04em',
+              fontWeight: 700,
+              letterSpacing: '0.03em',
+              background: '#FFF8E1',
+              border: '1px solid #FFE082',
+              padding: '6px 12px',
+              borderRadius: 'var(--radius-sm)',
             }}
+            title="Call Pitmaster to Order"
           >
             <span>📞</span>
-            <span className="phone-number">(825) 823-8733</span>
+            <span className="phone-number">CALL: {BUSINESS_PHONE_DISPLAY}</span>
           </a>
 
           {/* Franklin-Style Chevron Arrow Button for App Order */}
@@ -229,6 +235,20 @@ export const Header: React.FC<HeaderProps> = ({
             }}
           >
             Order in Advance on App ➔
+          </a>
+          <a
+            href={BUSINESS_TEL}
+            className="btn btn-dark"
+            style={{
+              textAlign: 'center',
+              padding: '12px',
+              textDecoration: 'none',
+              justifyContent: 'center',
+              fontSize: '1rem',
+              fontWeight: 700,
+            }}
+          >
+            📞 Call to Order: {BUSINESS_PHONE_DISPLAY}
           </a>
           <button onClick={() => handleNavClick('hero')} style={mobileBtnStyle}>
             VISIT US

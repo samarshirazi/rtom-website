@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { BUSINESS_PHONE_DISPLAY, BUSINESS_TEL } from '../lib/constants';
 
 type LambShankDailyPopupProps = {
   onViewFeast: () => void;
@@ -261,6 +262,24 @@ export const LambShankDailyPopup: React.FC<LambShankDailyPopupProps> = ({
               >
                 Maybe Later
               </button>
+            </div>
+
+            <div style={{ marginTop: '12px', textAlign: 'center' }}>
+              <a
+                href={BUSINESS_TEL}
+                style={{
+                  fontSize: '0.82rem',
+                  color: '#BA4E18',
+                  fontWeight: 700,
+                  textDecoration: 'none',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                }}
+              >
+                <span>📞 Order by phone:</span>
+                <span style={{ textDecoration: 'underline' }}>{BUSINESS_PHONE_DISPLAY}</span>
+              </a>
             </div>
           </div>
         </div>

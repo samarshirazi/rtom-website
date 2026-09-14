@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import type { Dish } from '../types';
 import { DISHES } from '../data/dishes';
+import { BUSINESS_PHONE_DISPLAY, BUSINESS_TEL } from '../lib/constants';
 
 // Authentic Feast Constants
 export const FEAST_DETAILS = {
@@ -155,6 +156,27 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
           >
             <span>←</span> Full Menu
           </button>
+
+          <a
+            href={BUSINESS_TEL}
+            style={{
+              background: '#1A1918',
+              border: '1px solid rgba(255,255,255,0.3)',
+              color: '#F4A261',
+              padding: '6px 12px',
+              borderRadius: '6px',
+              textDecoration: 'none',
+              fontSize: '0.8rem',
+              fontWeight: 700,
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
+            }}
+          >
+            <span>📞</span>
+            <span>Call: {BUSINESS_PHONE_DISPLAY}</span>
+          </a>
 
           {onOpenCart && (
             <button
@@ -343,6 +365,28 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
           </button>
           <div style={{ marginTop: '10px', fontSize: '0.85rem', color: '#777169' }}>
             🔒 100% "Clean Bone Pull" Guarantee • Thermal-Sealed Heat Retention
+          </div>
+          <div style={{ marginTop: '14px', textAlign: 'center' }}>
+            <a
+              href={BUSINESS_TEL}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                color: '#1A1918',
+                background: '#FFFFFF',
+                border: '1.5px solid #D9652B',
+                padding: '9px 18px',
+                borderRadius: '8px',
+                textDecoration: 'none',
+                fontSize: '0.9rem',
+                fontWeight: 700,
+                boxShadow: '0 2px 6px rgba(0,0,0,0.06)',
+              }}
+            >
+              <span>📞 Prefer to Order by Phone?</span>
+              <span style={{ color: '#BA4E18', textDecoration: 'underline' }}>Call {BUSINESS_PHONE_DISPLAY}</span>
+            </a>
           </div>
         </div>
 
@@ -936,6 +980,29 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
           >
             ORDER YOUR LAMB SHANK FEAST ({currentPriceFormatted}) →
           </button>
+
+          <div style={{ marginTop: '14px', textAlign: 'center' }}>
+            <a
+              href={BUSINESS_TEL}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                color: '#1A1918',
+                background: '#FFFFFF',
+                border: '1.5px solid #D9652B',
+                padding: '10px 20px',
+                borderRadius: '8px',
+                textDecoration: 'none',
+                fontSize: '0.92rem',
+                fontWeight: 700,
+                boxShadow: '0 2px 6px rgba(0,0,0,0.06)',
+              }}
+            >
+              <span>📞 Prefer to Order by Phone?</span>
+              <span style={{ color: '#BA4E18', textDecoration: 'underline' }}>Call Pitmaster: {BUSINESS_PHONE_DISPLAY}</span>
+            </a>
+          </div>
 
           {/* Genuine Delivery Logistics Note */}
           <div

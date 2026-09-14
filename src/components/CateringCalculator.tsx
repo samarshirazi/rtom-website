@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { BUSINESS_PHONE_DISPLAY, BUSINESS_TEL } from '../lib/constants';
 
 type CateringCalculatorProps = {
   onOpenInquiry: (summary: string) => void;
@@ -417,11 +418,29 @@ export const CateringCalculator: React.FC<CateringCalculatorProps> = ({ onOpenIn
                 color: 'var(--text-muted)',
                 textAlign: 'center',
                 marginTop: 14,
+                marginBottom: 10,
                 fontFamily: 'var(--font-body)',
               }}
             >
               No immediate charge — our pitmaster team will contact you to confirm timing & menu.
             </p>
+            <div style={{ textAlign: 'center', marginTop: 10 }}>
+              <a
+                href={BUSINESS_TEL}
+                style={{
+                  fontSize: '0.85rem',
+                  color: 'var(--color-rust)',
+                  fontWeight: 700,
+                  textDecoration: 'none',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 6,
+                }}
+              >
+                <span>📞 Prefer to talk now? Call us directly:</span>
+                <span style={{ textDecoration: 'underline' }}>{BUSINESS_PHONE_DISPLAY}</span>
+              </a>
+            </div>
           </div>
         </div>
       </div>
