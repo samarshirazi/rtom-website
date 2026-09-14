@@ -33,9 +33,12 @@ function mapSupabaseDish(row: any): Dish {
   const name = String(row.name || '').trim();
   const lowerName = name.toLowerCase();
 
+  const isLeadTimeZero = typeof row.lead_time_days === 'number' ? row.lead_time_days === 0 : null;
   const isSameDay =
-    (lowerName.includes('lamb shank') && !lowerName.includes('beef shank')) ||
-    lowerName.includes('chicken');
+    isLeadTimeZero !== null
+      ? isLeadTimeZero
+      : ((lowerName.includes('lamb shank') && !lowerName.includes('beef shank')) ||
+         lowerName.includes('chicken'));
 
   const isLegOfLamb = lowerName.includes('leg of lamb');
 
@@ -121,7 +124,7 @@ function mapSupabaseDish(row: any): Dish {
  */
 export async function fetchLiveDishes(): Promise<Dish[]> {
   try {
-    const url = `${SUPABASE_URL}/rest/v1/dishes?brand=eq.rtom&is_active=eq.true&select=id,name,description,base_price,dietary_type,category,image_url,dish_variation_groups(id,name,is_required,max_select,dish_variation_options(id,name,price_delta,is_default))&order=created_at.asc`;
+    const url = `${SUPABASE_URL}/rest/v1/dishes?brand=eq.rtom&is_active=eq.true&select=id,name,description,base_price,dietary_type,category,image_url,lead_time_days,available_days,dish_variation_groups(id,name,is_required,max_select,dish_variation_options(id,name,price_delta,is_default))&order=created_at.asc`;
 
     const res = await fetch(url, {
       headers: {
