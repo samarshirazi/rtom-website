@@ -12,6 +12,7 @@ export const DISHES: Dish[] = [
     isBestSeller: true,
     portionSize: 'Per Person',
     prepTimeMinutes: 25,
+    deliveryType: 'same-day',
   },
   {
     id: 'rtom-whole-leg-chicken',
@@ -24,6 +25,7 @@ export const DISHES: Dish[] = [
     isBestSeller: true,
     portionSize: 'Per Person',
     prepTimeMinutes: 20,
+    deliveryType: 'same-day',
   },
   {
     id: 'rtom-leg-of-lamb',
@@ -36,6 +38,7 @@ export const DISHES: Dish[] = [
     isBestSeller: false,
     portionSize: 'Whole Leg (Serves a Group)',
     prepTimeMinutes: 30,
+    deliveryType: 'pre-order',
   },
   {
     id: 'rtom-beef-short-ribs-mac',
@@ -48,6 +51,7 @@ export const DISHES: Dish[] = [
     isBestSeller: true,
     portionSize: 'Per Person',
     prepTimeMinutes: 25,
+    deliveryType: 'pre-order',
   },
   {
     id: 'rtom-brisket-mac',
@@ -60,6 +64,7 @@ export const DISHES: Dish[] = [
     isBestSeller: true,
     portionSize: 'Per Person',
     prepTimeMinutes: 20,
+    deliveryType: 'pre-order',
   },
   {
     id: 'rtom-beef-shank-mac',
@@ -72,5 +77,6 @@ export const DISHES: Dish[] = [
     isBestSeller: false,
     portionSize: 'Per Person',
     prepTimeMinutes: 25,
+    deliveryType: 'pre-order',
   },
 ];

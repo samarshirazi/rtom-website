@@ -25,6 +25,7 @@ export type Dish = {
   portionSize: string;
   prepTimeMinutes?: number;
   variationGroups?: VariationGroup[];
+  deliveryType?: 'same-day' | 'pre-order';
 };
 
 export type CartItem = {

@@ -380,12 +380,53 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
                         fontFamily: 'var(--font-woodcut)',
                         letterSpacing: '0.04em',
                         color: 'var(--text-dark)',
-                        marginBottom: 8,
+                        marginBottom: 6,
                         cursor: dish.id === 'rtom-lamb-shank' && onNavigateToLambShank ? 'pointer' : 'default',
                       }}
                     >
                       {dish.name}
                     </h3>
+                    {dish.deliveryType === 'same-day' ? (
+                      <div
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: 5,
+                          background: '#E8F5E9',
+                          color: '#1B5E20',
+                          border: '1px solid #A5D6A7',
+                          padding: '3px 8px',
+                          borderRadius: 4,
+                          fontSize: '0.72rem',
+                          fontWeight: 700,
+                          letterSpacing: '0.02em',
+                          textTransform: 'uppercase',
+                          marginBottom: 10,
+                        }}
+                      >
+                        <span>⚡ SAME-DAY DELIVERY TONIGHT</span>
+                      </div>
+                    ) : (
+                      <div
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: 5,
+                          background: '#FFF8E1',
+                          color: '#8D6E00',
+                          border: '1px solid #FFE082',
+                          padding: '3px 8px',
+                          borderRadius: 4,
+                          fontSize: '0.72rem',
+                          fontWeight: 700,
+                          letterSpacing: '0.02em',
+                          textTransform: 'uppercase',
+                          marginBottom: 10,
+                        }}
+                      >
+                        <span>📅 PRE-ORDER • PICK DELIVERY DAY</span>
+                      </div>
+                    )}
                     <p
                       style={{
                         fontFamily: 'var(--font-serif)',

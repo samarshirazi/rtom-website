@@ -118,9 +118,18 @@ export const DishModal: React.FC<DishModalProps> = ({ dish, onClose, onAddToCart
           <p style={{ fontSize: '0.95rem', fontFamily: 'var(--font-serif)', color: 'var(--text-charcoal)', lineHeight: 1.6 }}>
             {dish.description}
           </p>
-          <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
+          <div style={{ display: 'flex', gap: 8, marginTop: 12, flexWrap: 'wrap' }}>
             <span className="badge badge-rust">Portion: {dish.portionSize}</span>
             {dish.prepTimeMinutes && <span className="badge badge-dark">⏱ {dish.prepTimeMinutes} mins prep</span>}
+            {dish.deliveryType === 'same-day' ? (
+              <span style={{ background: '#E8F5E9', color: '#1B5E20', border: '1px solid #A5D6A7', padding: '4px 8px', borderRadius: 4, fontSize: '0.75rem', fontWeight: 700 }}>
+                ⚡ Same-Day Delivery Tonight
+              </span>
+            ) : (
+              <span style={{ background: '#FFF8E1', color: '#8D6E00', border: '1px solid #FFE082', padding: '4px 8px', borderRadius: 4, fontSize: '0.75rem', fontWeight: 700 }}>
+                📅 Pre-Order • Pick Delivery Day
+              </span>
+            )}
           </div>
         </div>
 

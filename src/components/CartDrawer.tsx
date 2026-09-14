@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import type { CartItem } from '../types';
+import { DISHES } from '../data/dishes';
 
 type CartDrawerProps = {
   isOpen: boolean;
@@ -18,12 +19,30 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
 }) => {
   if (!isOpen) return null;
 
-  const [deliveryDate, setDeliveryDate] = useState(() => new Date().toISOString().split('T')[0]);
+  const todayStr = new Date().toISOString().split('T')[0];
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const tomorrowStr = tomorrow.toISOString().split('T')[0];
+
+  const hasPreOrderItems = cartItems.some((item) => {
+    const dish = DISHES.find((d) => d.id === item.dishId);
+    return dish?.deliveryType === 'pre-order';
+  });
+
+  const minDeliveryDate = hasPreOrderItems ? tomorrowStr : todayStr;
+
+  const [deliveryDate, setDeliveryDate] = useState(() => (hasPreOrderItems ? tomorrowStr : todayStr));
   const [timeSlot, setTimeSlot] = useState('17:00-19:00 (Dinner)');
   const [customerName, setCustomerName] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
   const [customerAddress, setCustomerAddress] = useState('');
   const [orderPlacedSuccess, setOrderPlacedSuccess] = useState(false);
+
+  useEffect(() => {
+    if (hasPreOrderItems && deliveryDate < tomorrowStr) {
+      setDeliveryDate(tomorrowStr);
+    }
+  }, [hasPreOrderItems, deliveryDate, tomorrowStr]);
 
   const subtotal = cartItems.reduce((sum, item) => sum + item.itemTotal, 0);
   const deliveryFee = subtotal === 0 ? 0 : subtotal >= 40 ? 0 : 5.00;
@@ -37,10 +56,18 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
     }
 
     const itemsSummary = cartItems
-      .map((item) => `• ${item.name} x${item.quantity} ($${item.itemTotal.toFixed(2)})`)
+      .map((item) => {
+        const dish = DISHES.find((d) => d.id === item.dishId);
+        const tag = dish?.deliveryType === 'same-day' ? '[SAME-DAY]' : '[PRE-ORDER]';
+        return `• ${tag} ${item.name} x${item.quantity} ($${item.itemTotal.toFixed(2)})`;
+      })
       .join('\n');
 
-    const whatsappMessage = `🔥 *NEW RTOM BBQ ORDER*\n\n👤 *Customer:* ${customerName}\n📞 *Phone:* ${customerPhone}\n📍 *Address:* ${customerAddress}\n📅 *Delivery Date:* ${deliveryDate}\n⏰ *Time Slot:* ${timeSlot}\n\n*Order Items:*\n${itemsSummary}\n\n💵 *Subtotal:* $${subtotal.toFixed(2)}\n🚚 *Delivery:* $${deliveryFee.toFixed(2)}\n💰 *Grand Total:* $${grandTotal.toFixed(2)}`;
+    const deliveryTypeNote = hasPreOrderItems
+      ? '📅 *Delivery Type: Pre-Order Scheduled (Fresh Pit Smoke)*'
+      : '⚡ *Delivery Type: Same-Day Delivery Tonight*';
+
+    const whatsappMessage = `🔥 *NEW RTOM BBQ ORDER*\n\n👤 *Customer:* ${customerName}\n📞 *Phone:* ${customerPhone}\n📍 *Address:* ${customerAddress}\n📅 *Delivery Date:* ${deliveryDate}\n⏰ *Time Slot:* ${timeSlot}\n${deliveryTypeNote}\n\n*Order Items:*\n${itemsSummary}\n\n💵 *Subtotal:* $${subtotal.toFixed(2)}\n🚚 *Delivery:* $${deliveryFee.toFixed(2)}\n💰 *Grand Total:* $${grandTotal.toFixed(2)}`;
 
     const encoded = encodeURIComponent(whatsappMessage);
     window.open(`https://wa.me/18258238733?text=${encoded}`, '_blank');
@@ -133,67 +160,81 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
           <div style={{ flex: 1, overflowY: 'auto', padding: '20px 24px' }}>
             {/* Cart Items List */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14, marginBottom: 24 }}>
-              {cartItems.map((item) => (
-                <div
-                  key={item.cartId}
-                  style={{
-                    display: 'flex',
-                    gap: 12,
-                    padding: '12px',
-                    borderRadius: 'var(--radius-sm)',
-                    background: 'var(--bg-paper)',
-                    border: '1px solid var(--border-subtle)',
-                  }}
-                >
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    style={{ width: 68, height: 68, borderRadius: 'var(--radius-sm)', objectFit: 'cover' }}
-                  />
-                  <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                    <div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                        <div style={{ fontSize: '1.1rem', fontFamily: 'var(--font-woodcut)', color: 'var(--text-dark)' }}>
-                          {item.name}
+              {cartItems.map((item) => {
+                const dish = DISHES.find((d) => d.id === item.dishId);
+                return (
+                  <div
+                    key={item.cartId}
+                    style={{
+                      display: 'flex',
+                      gap: 12,
+                      padding: '12px',
+                      borderRadius: 'var(--radius-sm)',
+                      background: 'var(--bg-paper)',
+                      border: '1px solid var(--border-subtle)',
+                    }}
+                  >
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      style={{ width: 68, height: 68, borderRadius: 'var(--radius-sm)', objectFit: 'cover' }}
+                    />
+                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                      <div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                          <div>
+                            <div style={{ fontSize: '1.1rem', fontFamily: 'var(--font-woodcut)', color: 'var(--text-dark)' }}>
+                              {item.name}
+                            </div>
+                            {dish?.deliveryType === 'same-day' ? (
+                              <span style={{ fontSize: '0.68rem', fontWeight: 700, color: '#1B5E20', background: '#E8F5E9', border: '1px solid #A5D6A7', padding: '1px 6px', borderRadius: 3, display: 'inline-block', marginTop: 3 }}>
+                                ⚡ Same-Day Tonight
+                              </span>
+                            ) : (
+                              <span style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8D6E00', background: '#FFF8E1', border: '1px solid #FFE082', padding: '1px 6px', borderRadius: 3, display: 'inline-block', marginTop: 3 }}>
+                                📅 Pre-Order Scheduled
+                              </span>
+                            )}
+                          </div>
+                          <div style={{ fontSize: '1.05rem', fontFamily: 'var(--font-heading)', fontWeight: 700, color: 'var(--color-rust)' }}>
+                            ${item.itemTotal.toFixed(2)}
+                          </div>
                         </div>
-                        <div style={{ fontSize: '1.05rem', fontFamily: 'var(--font-heading)', fontWeight: 700, color: 'var(--color-rust)' }}>
-                          ${item.itemTotal.toFixed(2)}
-                        </div>
-                      </div>
-                      {item.selectedOptions.length > 0 && (
-                        <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: 2 }}>
-                          {item.selectedOptions.map((opt) => opt.optionName).join(', ')}
-                        </div>
-                      )}
-                    </div>
-
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 8 }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#FFFFFF', padding: '2px 8px', borderRadius: 4, border: '1px solid var(--border-subtle)' }}>
-                        <button
-                          onClick={() => onUpdateQuantity(item.cartId, item.quantity - 1)}
-                          style={{ background: 'none', border: 'none', color: 'var(--text-dark)', cursor: 'pointer', fontSize: '1rem', fontWeight: 700 }}
-                        >
-                          −
-                        </button>
-                        <span style={{ fontSize: '0.9rem', fontWeight: 700 }}>{item.quantity}</span>
-                        <button
-                          onClick={() => onUpdateQuantity(item.cartId, item.quantity + 1)}
-                          style={{ background: 'none', border: 'none', color: 'var(--text-dark)', cursor: 'pointer', fontSize: '1rem', fontWeight: 700 }}
-                        >
-                          +
-                        </button>
+                        {item.selectedOptions.length > 0 && (
+                          <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: 2 }}>
+                            {item.selectedOptions.map((opt) => opt.optionName).join(', ')}
+                          </div>
+                        )}
                       </div>
 
-                      <button
-                        onClick={() => onUpdateQuantity(item.cartId, 0)}
-                        style={{ background: 'none', border: 'none', color: 'var(--color-rust)', fontSize: '0.8rem', fontWeight: 600, cursor: 'pointer' }}
-                      >
-                        Remove
-                      </button>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 8 }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#FFFFFF', padding: '2px 8px', borderRadius: 4, border: '1px solid var(--border-subtle)' }}>
+                          <button
+                            onClick={() => onUpdateQuantity(item.cartId, item.quantity - 1)}
+                            style={{ background: 'none', border: 'none', color: 'var(--text-dark)', cursor: 'pointer', fontSize: '1rem', fontWeight: 700 }}
+                          >
+                            −
+                          </button>
+                          <span style={{ fontSize: '0.9rem', fontWeight: 700 }}>{item.quantity}</span>
+                          <button
+                            onClick={() => onUpdateQuantity(item.cartId, item.quantity + 1)}
+                            style={{ background: 'none', border: 'none', color: 'var(--text-dark)', cursor: 'pointer', fontSize: '1rem', fontWeight: 700 }}
+                          >
+                            +
+                          </button>
+                        </div>
+
+                        <button
+                          onClick={() => onUpdateQuantity(item.cartId, 0)}
+                          style={{ background: 'none', border: 'none', color: 'var(--color-rust)', fontSize: '0.8rem', fontWeight: 600, cursor: 'pointer' }}
+                        >
+                          Remove
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             {/* Dual Option: App Express Checkout */}
@@ -241,6 +282,47 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                 WhatsApp Delivery Information
               </div>
 
+              {/* Delivery Availability Notice Banner */}
+              {hasPreOrderItems ? (
+                <div
+                  style={{
+                    background: '#FFF8E1',
+                    border: '1px solid #FFE082',
+                    borderRadius: 'var(--radius-sm)',
+                    padding: '12px 14px',
+                    marginBottom: 16,
+                    display: 'flex',
+                    gap: 10,
+                    alignItems: 'flex-start',
+                  }}
+                >
+                  <span style={{ fontSize: '1.2rem', lineHeight: 1 }}>📅</span>
+                  <div style={{ fontSize: '0.82rem', color: '#5D4037', lineHeight: 1.45 }}>
+                    <strong style={{ display: 'block', marginBottom: 2 }}>Pre-Order Items in Cart:</strong>
+                    Dishes like our 8+ hr Leg of Lamb and Mac & Cheese specials are smoked fresh to order with 24h advance preparation. Earliest delivery date is <strong>tomorrow ({tomorrowStr})</strong>. Please pick your preferred date below!
+                  </div>
+                </div>
+              ) : (
+                <div
+                  style={{
+                    background: '#E8F5E9',
+                    border: '1px solid #C8E6C9',
+                    borderRadius: 'var(--radius-sm)',
+                    padding: '12px 14px',
+                    marginBottom: 16,
+                    display: 'flex',
+                    gap: 10,
+                    alignItems: 'flex-start',
+                  }}
+                >
+                  <span style={{ fontSize: '1.2rem', lineHeight: 1 }}>⚡</span>
+                  <div style={{ fontSize: '0.82rem', color: '#1B5E20', lineHeight: 1.45 }}>
+                    <strong style={{ display: 'block', marginBottom: 2 }}>Same-Day Delivery Available:</strong>
+                    Lamb Shank & Chicken Leg are smoked fresh today! You can order for delivery <strong>tonight ({todayStr})</strong> or pick any future date.
+                  </div>
+                </div>
+              )}
+
               <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 20 }}>
                 <div>
                   <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: 4, fontFamily: 'var(--font-sans)' }}>Full Name</label>
@@ -281,6 +363,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                     <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: 4, fontFamily: 'var(--font-sans)' }}>Delivery Date</label>
                     <input
                       type="date"
+                      min={minDeliveryDate}
                       value={deliveryDate}
                       onChange={(e) => setDeliveryDate(e.target.value)}
                       style={inputStyle}
