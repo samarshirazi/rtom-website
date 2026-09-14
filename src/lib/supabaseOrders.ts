@@ -231,8 +231,9 @@ export async function pushOrderToSupabase(
     }
 
     // 4. Create Order Items
+    const isUuid = (id: string) => /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
     const itemsToInsert = payload.items.map((item) => {
-      const dishUuid = SUPABASE_DISH_MAP[item.dishId] || null;
+      const dishUuid = isUuid(item.dishId) ? item.dishId : (SUPABASE_DISH_MAP[item.dishId] || null);
       const variationLabel = item.selectedOptions
         ?.map((opt) => opt.optionName)
         .join(', ');

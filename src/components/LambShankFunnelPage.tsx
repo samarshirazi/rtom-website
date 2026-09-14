@@ -13,6 +13,7 @@ export const FEAST_DETAILS = {
 };
 
 type LambShankFunnelPageProps = {
+  dish?: Dish;
   onBackToMenu: () => void;
   onAddToCart: (
     dish: Dish,
@@ -25,22 +26,28 @@ type LambShankFunnelPageProps = {
 };
 
 export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
+  dish,
   onBackToMenu,
   onAddToCart,
   cartItemCount = 0,
   onOpenCart,
 }) => {
   // Find lamb shank dish from dataset
-  const lambShankDish = DISHES.find((d) => d.id === 'rtom-lamb-shank') || DISHES[0];
+  const lambShankDish =
+    dish ||
+    DISHES.find((d) => d.id === 'rtom-lamb-shank' || d.name.toLowerCase().includes('lamb shank')) ||
+    DISHES[0];
+
+  const basePrice = lambShankDish.price || 29.99;
 
   const [activeFaq, setActiveFaq] = useState<number | null>(0);
   const [selectedAddon, setSelectedAddon] = useState<'none' | 'extra-shank' | 'mac-cheese'>('none');
 
   // Calculate dynamic price based on feast upgrade
   const calculateTotal = () => {
-    if (selectedAddon === 'extra-shank') return 29.99 + 19.99;
-    if (selectedAddon === 'mac-cheese') return 29.99 + 9.99;
-    return 29.99;
+    if (selectedAddon === 'extra-shank') return basePrice + 19.99;
+    if (selectedAddon === 'mac-cheese') return basePrice + 9.99;
+    return basePrice;
   };
 
   const currentPriceFormatted = `$${calculateTotal().toFixed(2)}`;

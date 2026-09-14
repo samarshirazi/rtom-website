@@ -3,11 +3,13 @@ import type { Dish } from '../types';
 import { DISHES } from '../data/dishes';
 
 type MenuSectionProps = {
+  dishes?: Dish[];
   onSelectDish: (dish: Dish) => void;
   onNavigateToLambShank?: () => void;
 };
 
 export const MenuSection: React.FC<MenuSectionProps> = ({
+  dishes = DISHES,
   onSelectDish,
   onNavigateToLambShank,
 }) => {
@@ -24,7 +26,7 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
   ];
 
   const filteredDishes = useMemo(() => {
-    return DISHES.filter((dish) => {
+    return dishes.filter((dish) => {
       const matchesCategory =
         selectedCategory === 'all' || dish.category === selectedCategory;
       const matchesSearch =

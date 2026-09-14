@@ -12,13 +12,24 @@ import { Footer } from './components/Footer';
 import { LambShankFunnelPage } from './components/LambShankFunnelPage';
 import { LambShankDailyPopup } from './components/LambShankDailyPopup';
 import { DISHES } from './data/dishes';
+import { fetchLiveDishes } from './lib/supabaseDishes';
 import { BUSINESS_WHATSAPP } from './lib/constants';
 import { pushCateringToGhl } from './lib/ghl';
 
 export function App() {
+  const [dishes, setDishes] = useState<Dish[]>(DISHES);
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [selectedDishModal, setSelectedDishModal] = useState<Dish | null>(null);
   const [isCartOpen, setIsCartOpen] = useState(false);
+
+  // Load live dishes from Supabase in background (maintains instantaneous render with DISHES fallback)
+  useEffect(() => {
+    fetchLiveDishes().then((live) => {
+      if (live && live.length > 0) {
+        setDishes(live);
+      }
+    });
+  }, []);
 
   // Routing state: 'home' or 'lamb-shank'
   const [currentView, setCurrentView] = useState<'home' | 'lamb-shank'>(() => {
@@ -161,6 +172,7 @@ export function App() {
       {currentView === 'lamb-shank' ? (
         <main style={{ flex: 1 }}>
           <LambShankFunnelPage
+            dish={dishes.find((d) => d.id === 'rtom-lamb-shank' || d.name.toLowerCase().includes('lamb shank')) || dishes[0]}
             onBackToMenu={handleBackToHome}
             onAddToCart={handleAddToCart}
             cartItemCount={cartItemCount}
@@ -175,6 +187,7 @@ export function App() {
           />
 
           <MenuSection
+            dishes={dishes}
             onSelectDish={(dish) => setSelectedDishModal(dish)}
             onNavigateToLambShank={handleNavigateToLambShank}
           />
@@ -205,6 +218,7 @@ export function App() {
         cartItems={cartItems}
         onUpdateQuantity={handleUpdateQuantity}
         onClearCart={handleClearCart}
+        dishes={dishes}
       />
 
       {/* Daily Lamb Shank Special Popup Announcement */}
@@ -212,8 +226,25 @@ export function App() {
         <LambShankDailyPopup
           onViewFeast={handleNavigateToLambShank}
           onQuickAdd={() => {
-            const shank = DISHES.find((d) => d.id === 'rtom-lamb-shank') || DISHES[0];
-            handleAddToCart(shank, 1, [], shank.price);
+            const shank =
+              dishes.find(
+                (d) => d.id === 'rtom-lamb-shank' || d.name.toLowerCase().includes('lamb shank')
+              ) || dishes[0];
+            const firstGroup = shank.variationGroups?.[0];
+            const defaultBase = firstGroup?.options?.[0];
+            const selectedOpts =
+              firstGroup && defaultBase
+                ? [
+                    {
+                      groupId: firstGroup.id,
+                      groupName: firstGroup.name,
+                      optionId: defaultBase.id,
+                      optionName: defaultBase.name,
+                      priceDelta: defaultBase.priceDelta,
+                    },
+                  ]
+                : [];
+            handleAddToCart(shank, 1, selectedOpts, shank.price + (defaultBase?.priceDelta || 0));
           }}
         />
       )}

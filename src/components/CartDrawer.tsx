@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import type { CartItem } from '../types';
+import type { CartItem, Dish } from '../types';
 import { DISHES } from '../data/dishes';
 import { BUSINESS_PHONE_DISPLAY, BUSINESS_TEL, BUSINESS_WHATSAPP } from '../lib/constants';
 import { useGoogleAddressAutocomplete } from '../lib/addressAutocomplete';
@@ -12,6 +12,7 @@ type CartDrawerProps = {
   cartItems: CartItem[];
   onUpdateQuantity: (cartId: string, newQty: number) => void;
   onClearCart: () => void;
+  dishes?: Dish[];
 };
 
 export const CartDrawer: React.FC<CartDrawerProps> = ({
@@ -20,8 +21,12 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
   cartItems,
   onUpdateQuantity,
   onClearCart,
+  dishes = DISHES,
 }) => {
   if (!isOpen) return null;
+
+  const findDish = (dishId: string) =>
+    dishes.find((d) => d.id === dishId) || DISHES.find((d) => d.id === dishId);
 
   const todayStr = new Date().toISOString().split('T')[0];
   const tomorrow = new Date();
@@ -29,7 +34,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
   const tomorrowStr = tomorrow.toISOString().split('T')[0];
 
   const hasPreOrderItems = cartItems.some((item) => {
-    const dish = DISHES.find((d) => d.id === item.dishId);
+    const dish = findDish(item.dishId);
     return dish?.deliveryType === 'pre-order';
   });
 
@@ -71,7 +76,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
 
     const itemsSummary = cartItems
       .map((item) => {
-        const dish = DISHES.find((d) => d.id === item.dishId);
+        const dish = findDish(item.dishId);
         const tag = dish?.deliveryType === 'same-day' ? '[SAME-DAY]' : '[PRE-ORDER]';
         return `• ${tag} ${item.name} x${item.quantity} ($${item.itemTotal.toFixed(2)})`;
       })
@@ -210,7 +215,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
             {/* Cart Items List */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14, marginBottom: 24 }}>
               {cartItems.map((item) => {
-                const dish = DISHES.find((d) => d.id === item.dishId);
+                const dish = findDish(item.dishId);
                 return (
                   <div
                     key={item.cartId}
