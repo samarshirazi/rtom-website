@@ -4,6 +4,7 @@ import { DISHES } from '../data/dishes';
 import { BUSINESS_PHONE_DISPLAY, BUSINESS_TEL, BUSINESS_WHATSAPP } from '../lib/constants';
 import { useGoogleAddressAutocomplete } from '../lib/addressAutocomplete';
 import { pushOrderToGhl } from '../lib/ghl';
+import { pushOrderToSupabase } from '../lib/supabaseOrders';
 
 type CartDrawerProps = {
   isOpen: boolean;
@@ -80,7 +81,27 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
       ? '📅 *Delivery Type: Pre-Order Scheduled (Fresh Pit Smoke)*'
       : '⚡ *Delivery Type: Same-Day Delivery Tonight*';
 
-    // 1. Push lead & order to GoHighLevel CRM (fire-and-forget)
+    // 1. Push directly into Supabase (orders, order_items, addresses, profiles) for Chef Sam & Rider Routing
+    pushOrderToSupabase({
+      customerName,
+      customerPhone,
+      customerAddress,
+      deliveryDate,
+      timeSlot,
+      items: cartItems.map((ci) => ({
+        dishId: ci.dishId,
+        name: ci.name,
+        quantity: ci.quantity,
+        unitPrice: ci.unitPrice,
+        selectedOptions: ci.selectedOptions,
+      })),
+      subtotal,
+      deliveryFee,
+      grandTotal,
+      notes: deliveryTypeNote,
+    });
+
+    // 2. Push lead & order to GoHighLevel CRM (fire-and-forget)
     pushOrderToGhl({
       customerName,
       customerPhone,
