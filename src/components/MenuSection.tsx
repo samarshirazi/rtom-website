@@ -127,6 +127,97 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
           </a>
         </div>
 
+        {/* Smokehouse Craft Explainer Banner */}
+        <div
+          style={{
+            maxWidth: '860px',
+            margin: '0 auto 40px',
+            background: 'var(--bg-paper)',
+            border: '1px solid var(--border-subtle)',
+            borderRadius: 'var(--radius-md)',
+            padding: '24px 28px',
+            boxShadow: 'var(--shadow-sm)',
+          }}
+        >
+          <div style={{ textAlign: 'center', marginBottom: 20 }}>
+            <div
+              style={{
+                fontFamily: 'var(--font-heading)',
+                fontSize: '0.78rem',
+                fontWeight: 700,
+                color: 'var(--color-rust)',
+                letterSpacing: '0.12em',
+                textTransform: 'uppercase',
+                marginBottom: 6,
+              }}
+            >
+              🪵 The Smokehouse Difference
+            </div>
+            <h3
+              style={{
+                fontFamily: 'var(--font-woodcut)',
+                fontSize: '1.45rem',
+                color: 'var(--text-dark)',
+                margin: 0,
+                letterSpacing: '0.04em',
+              }}
+            >
+              WHY REAL CRAFT BBQ CANNOT BE DELIVERED IN 30 MINUTES
+            </h3>
+            <p
+              style={{
+                fontSize: '0.9rem',
+                fontFamily: 'var(--font-serif)',
+                color: 'var(--text-muted)',
+                margin: '8px auto 0',
+                maxWidth: '680px',
+                lineHeight: 1.55,
+              }}
+            >
+              Unlike fast-food restaurants that microwave pre-cooked food on demand, authentic Texas-style barbecue is a slow, unhurried art. Here is why we schedule orders in advance:
+            </p>
+          </div>
+
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))',
+              gap: 18,
+              textAlign: 'left',
+            }}
+          >
+            <div style={{ background: 'var(--bg-cream)', padding: '16px', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-subtle)' }}>
+              <div style={{ fontSize: '1.2rem', marginBottom: 6 }}>⏳</div>
+              <div style={{ fontFamily: 'var(--font-heading)', fontSize: '0.88rem', fontWeight: 700, color: 'var(--text-dark)', marginBottom: 4, textTransform: 'uppercase' }}>
+                10–14 Hours Low & Slow
+              </div>
+              <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', margin: 0, lineHeight: 1.45 }}>
+                No shortcuts or flash-frying. Briskets and short ribs smoke through the night over seasoned hardwood embers to develop deep smoke rings and peppery bark.
+              </p>
+            </div>
+
+            <div style={{ background: 'var(--bg-cream)', padding: '16px', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-subtle)' }}>
+              <div style={{ fontSize: '1.2rem', marginBottom: 6 }}>🚫</div>
+              <div style={{ fontFamily: 'var(--font-heading)', fontSize: '0.88rem', fontWeight: 700, color: 'var(--text-dark)', marginBottom: 4, textTransform: 'uppercase' }}>
+                Zero Warming Trays
+              </div>
+              <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', margin: 0, lineHeight: 1.45 }}>
+                We never store meats under drying buffet heat lamps. Advance scheduling allows our pitmaster to smoke exact batch quantities so your meat is pulled fresh for your slot.
+              </p>
+            </div>
+
+            <div style={{ background: 'var(--bg-cream)', padding: '16px', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-subtle)' }}>
+              <div style={{ fontSize: '1.2rem', marginBottom: 6 }}>♨️</div>
+              <div style={{ fontFamily: 'var(--font-heading)', fontSize: '0.88rem', fontWeight: 700, color: 'var(--text-dark)', marginBottom: 4, textTransform: 'uppercase' }}>
+                The Essential Rest
+              </div>
+              <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', margin: 0, lineHeight: 1.45 }}>
+                Slicing hot meat straight off the pit drains its moisture. Our roasts rest for hours in thermal cambros so collagen melts into silky, spoon-tender juices.
+              </p>
+            </div>
+          </div>
+        </div>
+
         {/* Search & Category Filter Toolbar */}
         <div style={{ marginBottom: 44, display: 'flex', flexDirection: 'column', gap: 20, alignItems: 'center' }}>
           {/* Search Box */}

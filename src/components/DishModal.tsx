@@ -149,6 +149,10 @@ export const DishModal: React.FC<DishModalProps> = ({ dish, onClose, onAddToCart
               </span>
             )}
           </div>
+
+          <div style={{ background: 'rgba(217, 101, 43, 0.07)', borderLeft: '3px solid var(--color-rust)', padding: '10px 12px', borderRadius: '0 6px 6px 0', marginTop: 14, fontSize: '0.82rem', color: 'var(--text-charcoal)', lineHeight: 1.45 }}>
+            <strong style={{ color: 'var(--color-rust)' }}>🪵 Why Advance Ordering?</strong> Real Texas barbecue cannot be rushed in 30 minutes. We smoke low & slow over hardwood embers for up to 14 hours and rest each cut so it reaches mouthwatering tenderness—never reheated under fast-food heat lamps.
+          </div>
         </div>
 
         {/* Variation Groups */}

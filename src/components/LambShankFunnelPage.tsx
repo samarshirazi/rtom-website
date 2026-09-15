@@ -1157,6 +1157,10 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
                 q: 'Can I order for tonight or pre-order for tomorrow?',
                 a: 'Because our pit batches take 5 full hours of low-and-slow hardwood smoking, daily quantities are limited. We recommend ordering early in the evening before the daily pit batch runs out.',
               },
+              {
+                q: "Why isn't this available on DoorDash or UberEats for instant 30-minute delivery?",
+                a: "Because authentic craft barbecue cannot be flash-fried or microwaved. Fast-food restaurants hold precooked cuts under drying electric heat lamps. We smoke in dedicated daily pit batches over real hardwood for 5 to 14 hours, followed by hours of thermal cambro resting so every cut is spoon-tender and dripping with natural juices. Advance scheduling guarantees your feast is pulled fresh from the smoker for your delivery window.",
+              },
             ].map((item, idx) => (
               <div
                 key={idx}

@@ -497,6 +497,25 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                 </div>
               )}
 
+              {/* Smokehouse Difference Explainer */}
+              <div
+                style={{
+                  background: 'rgba(217, 101, 43, 0.05)',
+                  border: '1px dashed rgba(217, 101, 43, 0.35)',
+                  borderRadius: 'var(--radius-sm)',
+                  padding: '10px 12px',
+                  marginBottom: 16,
+                  display: 'flex',
+                  gap: 8,
+                  alignItems: 'center',
+                }}
+              >
+                <span style={{ fontSize: '1.1rem' }}>🪵</span>
+                <span style={{ fontSize: '0.78rem', color: 'var(--text-charcoal)', lineHeight: 1.4 }}>
+                  <strong>Why No 30-Min Rush Delivery?</strong> Real craft barbecue takes 10–14 hours of slow hardwood smoke and cambro resting. Zero heat lamps or microwaves—batches are smoked fresh for your scheduled delivery slot.
+                </span>
+              </div>
+
               <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 20 }}>
                 <div>
                   <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: 4, fontFamily: 'var(--font-sans)' }}>Full Name</label>
