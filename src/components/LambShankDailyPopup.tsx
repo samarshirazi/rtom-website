@@ -172,7 +172,7 @@ export const LambShankDailyPopup: React.FC<LambShankDailyPopupProps> = ({
               margin: '0 0 20px',
             }}
           >
-            Every single day, our pitmaster crafts a limited batch of tender, fall-off-the-bone lamb shanks smoked 5 hours over seasoned hardwood. Served over a mountain of saffron spiced basmati rice with house-whipped garlic toum.
+            Every single day, our pitmaster crafts a limited batch of tender, fall-off-the-bone lamb shanks smoked 5 hours over seasoned hardwood. Served over a mountain of saffron spiced basmati rice with signature sauce and jus.
           </p>
 
           {/* Tenderness Callout */}
