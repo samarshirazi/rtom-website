@@ -192,15 +192,17 @@ export async function pushOrderToSupabase(
       return { error: 'Address creation failed' };
     }
 
-    // 3. Create Order
+    // 3. Create Order in 'draft' status awaiting admin approval
     const notesSummary = [
-      `Website Quick-Order`,
+      '[whatsapp-order]',
+      '[pending-approval]',
+      'Website WhatsApp Order (Pending Admin Approval)',
       payload.notes || '',
       `Phone: ${payload.customerPhone}`,
       `Time Window: ${payload.timeSlot}`,
     ]
       .filter(Boolean)
-      .join(' | ');
+      .join('\n');
 
     const orderRes = await fetch(`${SUPABASE_URL}/rest/v1/orders`, {
       method: 'POST',
@@ -218,7 +220,8 @@ export async function pushOrderToSupabase(
           ? LUNCH_SLOT_ID
           : DINNER_SLOT_ID,
         address_id: addressId,
-        status: 'confirmed',
+        status: 'draft',
+        payment_status: 'unpaid',
         notes: notesSummary,
         total_amount: payload.grandTotal,
       }),

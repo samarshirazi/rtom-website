@@ -51,7 +51,10 @@ export async function pushOrderToGhl(payload: GhlOrderPayload): Promise<void> {
 
   const tags = [
     'rtom-order',
-    'source:website',
+    'rtom-whatsapp-order',
+    'waiting-admin-approval',
+    'status:pending-approval',
+    'source:website-whatsapp',
     'edmonton',
     payload.deliveryType === 'same-day' ? 'delivery:same-day' : 'delivery:pre-order',
   ];
@@ -68,13 +71,14 @@ export async function pushOrderToGhl(payload: GhlOrderPayload): Promise<void> {
     tags,
   };
 
-  // 1. Optional Inbound Webhook (GHL Automation Workflow trigger)
+  // 1. Optional Inbound Webhook (GHL Automation Workflow trigger for instant SMS/alert)
   if (WEBHOOK_URL) {
     fetch(WEBHOOK_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        event: 'order_submitted',
+        event: 'whatsapp_order_pending_approval',
+        needs_admin_approval: true,
         ...payload,
         tags,
       }),
@@ -99,7 +103,7 @@ export async function pushOrderToGhl(payload: GhlOrderPayload): Promise<void> {
         const json = await res.json().catch(() => ({}));
         const contactId = json?.contact?.id || json?.id;
 
-        // If pipeline configured, create an Opportunity
+        // If pipeline configured, create an Opportunity marked PENDING APPROVAL
         if (contactId && PIPELINE_ID && STAGE_NEW_LEAD) {
           await fetch(`${GHL_API_BASE}/opportunities`, {
             method: 'POST',
@@ -113,7 +117,7 @@ export async function pushOrderToGhl(payload: GhlOrderPayload): Promise<void> {
               pipelineStageId: STAGE_NEW_LEAD,
               locationId: LOCATION_ID,
               contactId,
-              name: `${payload.customerName} - RTOM Feast ($${payload.grandTotal.toFixed(2)})`,
+              name: `🔥 PENDING APPROVAL (WhatsApp): ${payload.customerName} ($${payload.grandTotal.toFixed(2)})`,
               status: 'open',
               monetaryValue: payload.grandTotal,
             }),
