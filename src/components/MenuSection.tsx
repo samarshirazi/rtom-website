@@ -57,8 +57,8 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
 
   const categories = [
     { key: 'all', label: 'ALL DISHES', icon: '🔥' },
-    { key: 'daily', label: '⚡ DAILY AVAILABLE (ORDER NOW)', icon: '⚡' },
-    { key: 'preorder', label: '📅 ADVANCE PRE-ORDER', icon: '📅' },
+    { key: 'daily', label: 'DAILY AVAILABLE (ORDER NOW)', icon: '⚡' },
+    { key: 'preorder', label: 'ADVANCE PRE-ORDER', icon: '📅' },
     { key: 'sides', label: 'SMOKEHOUSE SIDES', icon: '🫓' },
     { key: 'mutton', label: 'MUTTON & LAMB', icon: '🍖' },
     { key: 'beef', label: 'BEEF SPECIALS', icon: '🥩' },
