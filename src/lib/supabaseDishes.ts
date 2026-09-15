@@ -90,7 +90,11 @@ function mapSupabaseDish(row: any): Dish {
     name,
     description: String(row.description || ''),
     price: Number(row.base_price || 0),
-    image: row.image_url || resolveFallbackImage(name),
+    image: lowerName.includes('rice')
+      ? '/images/dishes/extra-spiced-rice.jpg'
+      : lowerName.includes('mac')
+      ? '/images/dishes/extra-mac-bowl.jpg'
+      : (row.image_url || resolveFallbackImage(name)),
     category,
     dietary: (category === 'sides' ? 'veg' : category) as 'mutton' | 'chicken' | 'beef' | 'veg' | 'halal',
     isBestSeller: !isLegOfLamb && !lowerName.includes('beef shank'),
