@@ -114,6 +114,10 @@ function mapSupabaseDish(row: any): Dish {
     portionSize: isLegOfLamb ? 'Whole Leg (Serves a Group)' : 'Per Person',
     prepTimeMinutes: isLegOfLamb ? 30 : lowerName.includes('chicken') ? 20 : 25,
     deliveryType: isSameDay ? 'same-day' : 'pre-order',
+    leadTimeDays: row.lead_time_days ?? (isSameDay ? 0 : 1),
+    availableDays: Array.isArray(row.available_days) && row.available_days.length > 0
+      ? row.available_days
+      : (isLegOfLamb ? [6, 7] : [1, 2, 3, 4, 5, 6, 7]),
     variationGroups,
   };
 }
@@ -121,6 +125,7 @@ function mapSupabaseDish(row: any): Dish {
 /**
  * Fetch live active dishes for RTOM from Supabase.
  * Returns FALLBACK_DISHES if network or request fails.
+ * Automatically sorts dishes by maximum availability of days (daily/same-day first, weekend-only last).
  */
 export async function fetchLiveDishes(): Promise<Dish[]> {
   try {
@@ -144,7 +149,22 @@ export async function fetchLiveDishes(): Promise<Dish[]> {
     }
 
     const liveDishes = rows.map(mapSupabaseDish);
-    console.log(`[Supabase Dishes] Successfully loaded ${liveDishes.length} live dishes from database`);
+
+    // Sort by maximum availability of number of days (7 days before 2 days)
+    // with Same-Day dishes prioritized at the very top.
+    liveDishes.sort((a, b) => {
+      const aDays = a.availableDays?.length ?? 7;
+      const bDays = b.availableDays?.length ?? 7;
+      if (bDays !== aDays) return bDays - aDays;
+
+      const aSameDay = a.deliveryType === 'same-day' ? 1 : 0;
+      const bSameDay = b.deliveryType === 'same-day' ? 1 : 0;
+      if (bSameDay !== aSameDay) return bSameDay - aSameDay;
+
+      return a.name.localeCompare(b.name);
+    });
+
+    console.log(`[Supabase Dishes] Successfully loaded and sorted ${liveDishes.length} live dishes by availability`);
     return liveDishes;
   } catch (err) {
     console.warn('[Supabase Dishes] Could not fetch live dishes, using fallback:', err);

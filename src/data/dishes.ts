@@ -72,41 +72,6 @@ export const DISHES: Dish[] = [
     ],
   },
   {
-    id: 'rtom-leg-of-lamb',
-    name: 'Leg of Lamb',
-    description: "The pitmaster's grand feast. A whole bone-in leg of lamb slow-roasted for 8+ hours (serves 6–8). Served with your choice of Fragrant Spiced Basmati Rice or Mac & Cheese.",
-    price: 199.99,
-    image: '/images/dishes/leg-of-lamb.jpg',
-    category: 'mutton',
-    dietary: 'mutton',
-    isBestSeller: false,
-    portionSize: 'Whole Leg (Serves a Group)',
-    deliveryType: 'pre-order',
-    leadTimeDays: 1,
-    availableDays: [6, 7], // Weekends only (Saturday, Sunday)
-    variationGroups: [
-      {
-        id: 'base-pairing',
-        name: 'Choose Your Base Pairing',
-        required: true,
-        options: [
-          { id: 'basmati-rice', name: 'Fragrant Spiced Basmati Rice Platter', priceDelta: 0 },
-          { id: 'mac-cheese', name: 'Mac & Cheese Platter', priceDelta: 0 },
-        ],
-      },
-      {
-        id: 'side-upgrade',
-        name: 'Optional Feast Upgrade',
-        required: false,
-        options: [
-          { id: 'none', name: 'Standard Communal Platter', priceDelta: 0 },
-          { id: 'double-sides', name: 'Both Rice & Mac & Cheese Platters', priceDelta: 19.99 },
-          { id: 'garlic-toum-large', name: 'Large House Garlic Toum Jar', priceDelta: 6.99 },
-        ],
-      },
-    ],
-  },
-  {
     id: 'rtom-beef-short-ribs-mac',
     name: 'Beef Short Ribs',
     description: 'Tender, fall-off-the-bone beef short ribs slow-smoked over seasoned hardwood. Served with your choice of Fragrant Spiced Basmati Rice or Mac & Cheese.',
@@ -207,6 +172,41 @@ export const DISHES: Dish[] = [
           { id: 'extra-mac', name: 'Extra Mac & Cheese', priceDelta: 5.99 },
           { id: 'extra-rice', name: 'Extra Spiced Basmati Rice Bowl', priceDelta: 4.99 },
           { id: 'garlic-toum', name: 'House-Whipped Garlic Toum', priceDelta: 2.99 },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'rtom-leg-of-lamb',
+    name: 'Leg of Lamb',
+    description: "The pitmaster's grand feast. A whole bone-in leg of lamb slow-roasted for 8+ hours (serves 6–8). Served with your choice of Fragrant Spiced Basmati Rice or Mac & Cheese.",
+    price: 199.99,
+    image: '/images/dishes/leg-of-lamb.jpg',
+    category: 'mutton',
+    dietary: 'mutton',
+    isBestSeller: false,
+    portionSize: 'Whole Leg (Serves a Group)',
+    deliveryType: 'pre-order',
+    leadTimeDays: 1,
+    availableDays: [6, 7], // Weekends only (Saturday, Sunday)
+    variationGroups: [
+      {
+        id: 'base-pairing',
+        name: 'Choose Your Base Pairing',
+        required: true,
+        options: [
+          { id: 'basmati-rice', name: 'Fragrant Spiced Basmati Rice Platter', priceDelta: 0 },
+          { id: 'mac-cheese', name: 'Mac & Cheese Platter', priceDelta: 0 },
+        ],
+      },
+      {
+        id: 'side-upgrade',
+        name: 'Optional Feast Upgrade',
+        required: false,
+        options: [
+          { id: 'none', name: 'Standard Communal Platter', priceDelta: 0 },
+          { id: 'double-sides', name: 'Both Rice & Mac & Cheese Platters', priceDelta: 19.99 },
+          { id: 'garlic-toum-large', name: 'Large House Garlic Toum Jar', priceDelta: 6.99 },
         ],
       },
     ],
