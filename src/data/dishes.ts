@@ -177,7 +177,7 @@ export const DISHES: Dish[] = [
     name: 'House-Whipped Garlic Toum',
     description: 'Authentic artisan whipped Lebanese garlic sauce emulsified cold with fresh garlic cloves, lemon juice, sea salt, and pure oil.',
     price: 2.99,
-    image: 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=800&auto=format&fit=crop&q=80',
+    image: '/images/dishes/garlic-toum.jpg',
     category: 'sides',
     dietary: 'veg',
     isBestSeller: false,

@@ -18,7 +18,7 @@ const LOCAL_IMAGE_MAP: Record<string, string> = {
   'beef-shank': '/images/dishes/beef-shank-mac.jpg',
   'mac-cheese': '/images/dishes/extra-mac-bowl.jpg',
   'spiced-rice': '/images/dishes/extra-spiced-rice.jpg',
-  'garlic-toum': 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=800&auto=format&fit=crop&q=80',
+  'garlic-toum': '/images/dishes/garlic-toum.jpg',
 };
 
 function resolveFallbackImage(name: string): string {
@@ -90,11 +90,7 @@ function mapSupabaseDish(row: any): Dish {
     name,
     description: String(row.description || ''),
     price: Number(row.base_price || 0),
-    image: lowerName.includes('rice')
-      ? '/images/dishes/extra-spiced-rice.jpg'
-      : lowerName.includes('mac')
-      ? '/images/dishes/extra-mac-bowl.jpg'
-      : (row.image_url || resolveFallbackImage(name)),
+    image: row.image_url || resolveFallbackImage(name),
     category,
     dietary: (category === 'sides' ? 'veg' : category) as 'mutton' | 'chicken' | 'beef' | 'veg' | 'halal',
     isBestSeller: !isLegOfLamb && !lowerName.includes('beef shank'),
