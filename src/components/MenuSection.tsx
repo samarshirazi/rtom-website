@@ -658,7 +658,7 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
             </span>
             <input
               type="text"
-              placeholder="Search smokehouse dishes (e.g. Biryani, Shami, Ribs)..."
+              placeholder="Search smokehouse dishes (e.g. Lamb Shank, Brisket, Ribs, Chicken)..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               style={{
