@@ -55,6 +55,11 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
     return null;
   };
 
+  const isLambShankDish = (d: Dish): boolean =>
+    d.id === 'rtom-lamb-shank' ||
+    d.id === '8626cb5f-58d5-4317-ab52-4b1726b10fd0' ||
+    (d.name.toLowerCase().includes('lamb shank') && !d.name.toLowerCase().includes('beef'));
+
   const categories = [
     { key: 'all', label: 'ALL DISHES', icon: '🔥' },
     { key: 'daily', label: 'DAILY AVAILABLE (ORDER NOW)', icon: '⚡' },
@@ -112,15 +117,15 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
               >
                 {/* Dish Photo & Portion Overlay */}
                 <div
-                  onClick={dish.id === 'rtom-lamb-shank' && onNavigateToLambShank ? onNavigateToLambShank : undefined}
+                  onClick={isLambShankDish(dish) && onNavigateToLambShank ? onNavigateToLambShank : undefined}
                   style={{
                     position: 'relative',
                     height: 210,
                     width: '100%',
                     overflow: 'hidden',
-                    cursor: dish.id === 'rtom-lamb-shank' && onNavigateToLambShank ? 'pointer' : 'default',
+                    cursor: isLambShankDish(dish) && onNavigateToLambShank ? 'pointer' : 'default',
                   }}
-                  title={dish.id === 'rtom-lamb-shank' ? 'Click to view 5-Hour Lamb Shank Feast Story' : undefined}
+                  title={isLambShankDish(dish) ? 'Click to view 5-Hour Lamb Shank Feast Story' : undefined}
                 >
                   <img
                     src={dish.image}
@@ -186,7 +191,7 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
                   </div>
 
                   {/* Special Funnel Banner on Lamb Shank Image */}
-                  {dish.id === 'rtom-lamb-shank' && (
+                  {isLambShankDish(dish) && (
                     <div
                       style={{
                         position: 'absolute',
@@ -239,14 +244,14 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
                 >
                   <div>
                     <h3
-                      onClick={dish.id === 'rtom-lamb-shank' && onNavigateToLambShank ? onNavigateToLambShank : undefined}
+                      onClick={isLambShankDish(dish) && onNavigateToLambShank ? onNavigateToLambShank : undefined}
                       style={{
                         fontSize: '1.45rem',
                         fontFamily: 'var(--font-woodcut)',
                         letterSpacing: '0.04em',
                         color: 'var(--text-dark)',
                         marginBottom: 6,
-                        cursor: dish.id === 'rtom-lamb-shank' && onNavigateToLambShank ? 'pointer' : 'default',
+                        cursor: isLambShankDish(dish) && onNavigateToLambShank ? 'pointer' : 'default',
                       }}
                     >
                       {dish.name}
@@ -421,7 +426,7 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
                       >
                         <span>Sold Out Today</span>
                       </button>
-                    ) : dish.id === 'rtom-lamb-shank' && onNavigateToLambShank ? (
+                    ) : isLambShankDish(dish) && onNavigateToLambShank ? (
                       <div style={{ display: 'flex', gap: 6 }}>
                         <button
                           onClick={onNavigateToLambShank}
