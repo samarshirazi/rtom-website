@@ -23,17 +23,6 @@ export const DISHES: Dish[] = [
           { id: 'mac-cheese', name: 'Mac & Cheese', priceDelta: 0 },
         ],
       },
-      {
-        id: 'side-upgrade',
-        name: 'Optional Add-on / Extra Side',
-        required: false,
-        options: [
-          { id: 'none', name: 'No Extra Add-on', priceDelta: 0 },
-          { id: 'extra-rice', name: 'Extra Spiced Basmati Rice Bowl', priceDelta: 4.99 },
-          { id: 'extra-mac', name: 'Extra Mac & Cheese', priceDelta: 5.99 },
-          { id: 'garlic-toum', name: 'House-Whipped Garlic Toum', priceDelta: 2.99 },
-        ],
-      },
     ],
   },
   {
@@ -56,17 +45,6 @@ export const DISHES: Dish[] = [
         options: [
           { id: 'basmati-rice', name: 'Fragrant Spiced Basmati Rice', priceDelta: 0 },
           { id: 'mac-cheese', name: 'Mac & Cheese', priceDelta: 0 },
-        ],
-      },
-      {
-        id: 'side-upgrade',
-        name: 'Optional Add-on / Extra Side',
-        required: false,
-        options: [
-          { id: 'none', name: 'No Extra Add-on', priceDelta: 0 },
-          { id: 'extra-rice', name: 'Extra Spiced Basmati Rice Bowl', priceDelta: 4.99 },
-          { id: 'extra-mac', name: 'Extra Mac & Cheese', priceDelta: 5.99 },
-          { id: 'garlic-toum', name: 'House-Whipped Garlic Toum', priceDelta: 2.99 },
         ],
       },
     ],
@@ -93,17 +71,6 @@ export const DISHES: Dish[] = [
           { id: 'basmati-rice', name: 'Fragrant Spiced Basmati Rice', priceDelta: 0 },
         ],
       },
-      {
-        id: 'side-upgrade',
-        name: 'Optional Add-on / Extra Side',
-        required: false,
-        options: [
-          { id: 'none', name: 'No Extra Add-on', priceDelta: 0 },
-          { id: 'extra-mac', name: 'Extra Mac & Cheese', priceDelta: 5.99 },
-          { id: 'extra-rice', name: 'Extra Spiced Basmati Rice Bowl', priceDelta: 4.99 },
-          { id: 'garlic-toum', name: 'House-Whipped Garlic Toum', priceDelta: 2.99 },
-        ],
-      },
     ],
   },
   {
@@ -126,17 +93,6 @@ export const DISHES: Dish[] = [
         options: [
           { id: 'mac-cheese', name: 'Mac & Cheese', priceDelta: 0 },
           { id: 'basmati-rice', name: 'Fragrant Spiced Basmati Rice', priceDelta: 0 },
-        ],
-      },
-      {
-        id: 'side-upgrade',
-        name: 'Optional Add-on / Extra Side',
-        required: false,
-        options: [
-          { id: 'none', name: 'No Extra Add-on', priceDelta: 0 },
-          { id: 'extra-mac', name: 'Extra Mac & Cheese', priceDelta: 5.99 },
-          { id: 'extra-rice', name: 'Extra Spiced Basmati Rice Bowl', priceDelta: 4.99 },
-          { id: 'garlic-toum', name: 'House-Whipped Garlic Toum', priceDelta: 2.99 },
         ],
       },
     ],
@@ -163,17 +119,6 @@ export const DISHES: Dish[] = [
           { id: 'basmati-rice', name: 'Fragrant Spiced Basmati Rice', priceDelta: 0 },
         ],
       },
-      {
-        id: 'side-upgrade',
-        name: 'Optional Add-on / Extra Side',
-        required: false,
-        options: [
-          { id: 'none', name: 'No Extra Add-on', priceDelta: 0 },
-          { id: 'extra-mac', name: 'Extra Mac & Cheese', priceDelta: 5.99 },
-          { id: 'extra-rice', name: 'Extra Spiced Basmati Rice Bowl', priceDelta: 4.99 },
-          { id: 'garlic-toum', name: 'House-Whipped Garlic Toum', priceDelta: 2.99 },
-        ],
-      },
     ],
   },
   {
@@ -197,16 +142,6 @@ export const DISHES: Dish[] = [
         options: [
           { id: 'basmati-rice', name: 'Fragrant Spiced Basmati Rice Platter', priceDelta: 0 },
           { id: 'mac-cheese', name: 'Mac & Cheese Platter', priceDelta: 0 },
-        ],
-      },
-      {
-        id: 'side-upgrade',
-        name: 'Optional Feast Upgrade',
-        required: false,
-        options: [
-          { id: 'none', name: 'Standard Communal Platter', priceDelta: 0 },
-          { id: 'double-sides', name: 'Both Rice & Mac & Cheese Platters', priceDelta: 19.99 },
-          { id: 'garlic-toum-large', name: 'Large House Garlic Toum Jar', priceDelta: 6.99 },
         ],
       },
     ],

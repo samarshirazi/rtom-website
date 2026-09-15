@@ -66,33 +66,6 @@ function mapSupabaseDish(row: any): Dish {
     }
   }
 
-  // Always provide the standard add-on options group if only base is configured
-  if (!variationGroups.some((g) => g.name.toLowerCase().includes('add-on') || g.name.toLowerCase().includes('upgrade'))) {
-    if (isLegOfLamb) {
-      variationGroups.push({
-        id: 'side-upgrade',
-        name: 'Optional Feast Upgrade',
-        required: false,
-        options: [
-          { id: 'none', name: 'Standard Communal Platter', priceDelta: 0 },
-          { id: 'double-sides', name: 'Both Rice & Mac & Cheese Platters', priceDelta: 19.99 },
-          { id: 'garlic-toum-large', name: 'Large House Garlic Toum Jar', priceDelta: 6.99 },
-        ],
-      });
-    } else {
-      variationGroups.push({
-        id: 'side-upgrade',
-        name: 'Optional Add-on / Extra Side',
-        required: false,
-        options: [
-          { id: 'none', name: 'No Extra Add-on', priceDelta: 0 },
-          { id: 'extra-rice', name: 'Extra Spiced Basmati Rice Bowl', priceDelta: 4.99 },
-          { id: 'extra-mac', name: 'Extra Mac & Cheese', priceDelta: 5.99 },
-          { id: 'garlic-toum', name: 'House-Whipped Garlic Toum', priceDelta: 2.99 },
-        ],
-      });
-    }
-  }
 
   const category = (['mutton', 'chicken', 'beef'].includes(row.dietary_type)
     ? row.dietary_type

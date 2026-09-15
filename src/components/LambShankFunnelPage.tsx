@@ -903,10 +903,10 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
                     <span style={{ fontSize: '1.25rem' }}>🧄</span>
-                    <strong style={{ fontSize: '0.92rem', color: '#1A1918' }}>Sauces & Add-ons</strong>
+                    <strong style={{ fontSize: '0.92rem', color: '#1A1918' }}>Smokehouse Sides</strong>
                   </div>
                   <div style={{ fontSize: '0.82rem', color: '#66625C', lineHeight: 1.45 }}>
-                    Add extra House Garlic Toum (+$2.99), Extra Spiced Rice (+$4.99), or Extra Mac (+$5.99).
+                    Extra Spiced Rice, Creamy Mac & Cheese, and Garlic Toum can be added as separate sides to your order.
                   </div>
                 </div>
 
@@ -956,7 +956,7 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
             CUSTOMIZE & ORDER YOUR FEAST ({currentPriceFormatted}) →
           </button>
           <div style={{ textAlign: 'center', marginTop: '8px', fontSize: '0.82rem', color: '#777169' }}>
-            👆 Tap to select Rice vs Mac & Cheese, sides, quantity & delivery date
+            👆 Tap to select Rice vs Mac & Cheese base pairing, quantity & delivery date
           </div>
 
           <div style={{ marginTop: '14px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
