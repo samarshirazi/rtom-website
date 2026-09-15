@@ -1,20 +1,59 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import type { Dish } from '../types';
 import { DISHES } from '../data/dishes';
+import { fetchLiveSameDayStock } from '../lib/supabaseDishes';
+import { SUPABASE_DISH_MAP } from '../lib/supabaseOrders';
 
 type MenuSectionProps = {
   dishes?: Dish[];
   onSelectDish: (dish: Dish) => void;
   onNavigateToLambShank?: () => void;
+  todayStock?: Record<string, number>;
 };
 
 export const MenuSection: React.FC<MenuSectionProps> = ({
   dishes = DISHES,
   onSelectDish,
   onNavigateToLambShank,
+  todayStock: propTodayStock,
 }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [internalStock, setInternalStock] = useState<Record<string, number>>({});
+
+  useEffect(() => {
+    if (propTodayStock) return;
+    let mounted = true;
+    fetchLiveSameDayStock().then((stock) => {
+      if (mounted && stock) setInternalStock(stock);
+    });
+    return () => {
+      mounted = false;
+    };
+  }, [propTodayStock]);
+
+  const liveStock = propTodayStock || internalStock;
+
+  const getDishRemainingStock = (dish: Dish): number | null => {
+    if (!liveStock) return null;
+    if (liveStock[dish.id] !== undefined) {
+      return liveStock[dish.id];
+    }
+    const uuid = SUPABASE_DISH_MAP[dish.id];
+    if (uuid && liveStock[uuid] !== undefined) {
+      return liveStock[uuid];
+    }
+    const lower = dish.name.toLowerCase();
+    for (const [stockDishId, remaining] of Object.entries(liveStock)) {
+      if (lower.includes('lamb shank') && !lower.includes('beef shank') && stockDishId === '8626cb5f-58d5-4317-ab52-4b1726b10fd0') {
+        return remaining;
+      }
+      if (lower.includes('chicken') && stockDishId === '0c614cf5-5352-4dad-aa0d-a603c185e634') {
+        return remaining;
+      }
+    }
+    return null;
+  };
 
   const categories = [
     { key: 'all', label: 'ALL DISHES', icon: '🔥' },
@@ -55,10 +94,15 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
     return dishes.filter((d) => d.category === 'sides');
   }, [dishes]);
 
-  const renderDishCard = (dish: Dish) => (
-              <div
-                key={dish.id}
-                className="paper-card"
+  const renderDishCard = (dish: Dish) => {
+    const remaining = getDishRemainingStock(dish);
+    const isSoldOut = remaining !== null && remaining === 0;
+    const showScarcity = remaining !== null && remaining > 0 && remaining < 5;
+
+    return (
+      <div
+        key={dish.id}
+        className="paper-card"
                 style={{
                   display: 'flex',
                   flexDirection: 'column',
@@ -207,87 +251,126 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
                     >
                       {dish.name}
                     </h3>
-                    {dish.deliveryType === 'same-day' && dish.category !== 'sides' ? (
-                      <div
-                        style={{
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: 5,
-                          background: '#E8F5E9',
-                          color: '#1B5E20',
-                          border: '1px solid #A5D6A7',
-                          padding: '3px 8px',
-                          borderRadius: 4,
-                          fontSize: '0.72rem',
-                          fontWeight: 700,
-                          letterSpacing: '0.02em',
-                          textTransform: 'uppercase',
-                          marginBottom: 10,
-                        }}
-                      >
-                        <span>⚡ AVAILABLE DAILY • READY TONIGHT</span>
-                      </div>
-                    ) : dish.category === 'sides' ? (
-                      <div
-                        style={{
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: 5,
-                          background: '#F1F5F9',
-                          color: '#334155',
-                          border: '1px solid #CBD5E1',
-                          padding: '3px 8px',
-                          borderRadius: 4,
-                          fontSize: '0.72rem',
-                          fontWeight: 700,
-                          letterSpacing: '0.02em',
-                          textTransform: 'uppercase',
-                          marginBottom: 10,
-                        }}
-                      >
-                        <span>🫓 SMOKEHOUSE SIDE • PAIR WITH MAINS</span>
-                      </div>
-                    ) : dish.id === 'rtom-beef-shank-mac' || dish.id === 'rtom-leg-of-lamb' ? (
-                      <div
-                        style={{
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: 5,
-                          background: '#FFF3E0',
-                          color: '#C2410C',
-                          border: '1px solid #FFCC80',
-                          padding: '3px 8px',
-                          borderRadius: 4,
-                          fontSize: '0.72rem',
-                          fontWeight: 700,
-                          letterSpacing: '0.02em',
-                          textTransform: 'uppercase',
-                          marginBottom: 10,
-                        }}
-                      >
-                        <span>📅 WEEKEND PRE-ORDER (SAT & SUN)</span>
-                      </div>
-                    ) : (
-                      <div
-                        style={{
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: 5,
-                          background: '#FFF8E1',
-                          color: '#8D6E00',
-                          border: '1px solid #FFE082',
-                          padding: '3px 8px',
-                          borderRadius: 4,
-                          fontSize: '0.72rem',
-                          fontWeight: 700,
-                          letterSpacing: '0.02em',
-                          textTransform: 'uppercase',
-                          marginBottom: 10,
-                        }}
-                      >
-                        <span>📅 24H PRE-ORDER • PICK DELIVERY DAY</span>
-                      </div>
-                    )}
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 10 }}>
+                      {/* Scarcity badge: ONLY shown when less than 5 items remain! If >= 5 or unset, customer sees nothing */}
+                      {isSoldOut ? (
+                        <div
+                          style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: 4,
+                            background: '#FFEBEE',
+                            color: '#C62828',
+                            border: '1px solid #EF9A9A',
+                            padding: '3px 8px',
+                            borderRadius: 4,
+                            fontSize: '0.72rem',
+                            fontWeight: 700,
+                            letterSpacing: '0.02em',
+                            textTransform: 'uppercase',
+                          }}
+                        >
+                          <span>Sold out today</span>
+                        </div>
+                      ) : showScarcity ? (
+                        <div
+                          style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: 4,
+                            background: '#FBE9E7',
+                            color: '#C0392B',
+                            border: '1px solid #FFAB91',
+                            padding: '3px 8px',
+                            borderRadius: 4,
+                            fontSize: '0.72rem',
+                            fontWeight: 800,
+                            letterSpacing: '0.02em',
+                            textTransform: 'uppercase',
+                          }}
+                        >
+                          <span>🔥 Only {remaining} left today!</span>
+                        </div>
+                      ) : null}
+
+                      {dish.deliveryType === 'same-day' && dish.category !== 'sides' ? (
+                        <div
+                          style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: 5,
+                            background: '#E8F5E9',
+                            color: '#1B5E20',
+                            border: '1px solid #A5D6A7',
+                            padding: '3px 8px',
+                            borderRadius: 4,
+                            fontSize: '0.72rem',
+                            fontWeight: 700,
+                            letterSpacing: '0.02em',
+                            textTransform: 'uppercase',
+                          }}
+                        >
+                          <span>⚡ AVAILABLE DAILY • READY TONIGHT</span>
+                        </div>
+                      ) : dish.category === 'sides' ? (
+                        <div
+                          style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: 5,
+                            background: '#F1F5F9',
+                            color: '#334155',
+                            border: '1px solid #CBD5E1',
+                            padding: '3px 8px',
+                            borderRadius: 4,
+                            fontSize: '0.72rem',
+                            fontWeight: 700,
+                            letterSpacing: '0.02em',
+                            textTransform: 'uppercase',
+                          }}
+                        >
+                          <span>🫓 SMOKEHOUSE SIDE • PAIR WITH MAINS</span>
+                        </div>
+                      ) : dish.id === 'rtom-beef-shank-mac' || dish.id === 'rtom-leg-of-lamb' ? (
+                        <div
+                          style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: 5,
+                            background: '#FFF3E0',
+                            color: '#C2410C',
+                            border: '1px solid #FFCC80',
+                            padding: '3px 8px',
+                            borderRadius: 4,
+                            fontSize: '0.72rem',
+                            fontWeight: 700,
+                            letterSpacing: '0.02em',
+                            textTransform: 'uppercase',
+                          }}
+                        >
+                          <span>📅 WEEKEND PRE-ORDER (SAT & SUN)</span>
+                        </div>
+                      ) : (
+                        <div
+                          style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: 5,
+                            background: '#FFF8E1',
+                            color: '#8D6E00',
+                            border: '1px solid #FFE082',
+                            padding: '3px 8px',
+                            borderRadius: 4,
+                            fontSize: '0.72rem',
+                            fontWeight: 700,
+                            letterSpacing: '0.02em',
+                            textTransform: 'uppercase',
+                          }}
+                        >
+                          <span>📅 24H PRE-ORDER • PICK DELIVERY DAY</span>
+                        </div>
+                      )}
+                    </div>
                     <p
                       style={{
                         fontFamily: 'var(--font-serif)',
@@ -322,7 +405,23 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
                     >
                       ${dish.price.toFixed(2)}
                     </span>
-                    {dish.id === 'rtom-lamb-shank' && onNavigateToLambShank ? (
+                    {isSoldOut ? (
+                      <button
+                        disabled
+                        className="btn btn-sm"
+                        style={{
+                          fontSize: '0.8rem',
+                          padding: '8px 14px',
+                          background: '#E2E8F0',
+                          color: '#64748B',
+                          cursor: 'not-allowed',
+                          border: 'none',
+                          fontWeight: 700,
+                        }}
+                      >
+                        <span>Sold Out Today</span>
+                      </button>
+                    ) : dish.id === 'rtom-lamb-shank' && onNavigateToLambShank ? (
                       <div style={{ display: 'flex', gap: 6 }}>
                         <button
                           onClick={onNavigateToLambShank}
@@ -356,7 +455,8 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
                   </div>
                 </div>
               </div>
-  );
+    );
+  };
 
   return (
     <section

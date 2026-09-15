@@ -22,6 +22,9 @@ export const SUPABASE_DISH_MAP: Record<string, string> = {
   'rtom-beef-short-ribs-mac': '7b6b96b3-9b0a-4000-85b7-856a5b6198ff',
   'rtom-brisket-mac': '9b2a25f5-fd56-40ba-b092-befed1182f24',
   'rtom-beef-shank-mac': '0b33ac6d-c6e5-4801-879d-953f0309950f',
+  'rtom-extra-rice': '5a112f1a-1c85-49be-b296-94c385f03cd8',
+  'rtom-extra-mac': '58b36edf-8cc6-46b4-bff9-566ea8da95dc',
+  'rtom-garlic-toum': '1b90444e-d30a-4741-8b82-e19352e625ae',
 };
 
 // Delivery slots in Supabase

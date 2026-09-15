@@ -189,3 +189,54 @@ export async function fetchLiveDeliverySlots(): Promise<DeliverySlotRow[]> {
   }
 }
 
+export const SUPABASE_KEY =
+  import.meta.env.VITE_SUPABASE_SERVICE_ROLE_KEY ||
+  import.meta.env.VITE_SUPABASE_ANON_KEY ||
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indpc3pybWthZGRwdnhnaGl6eW1pIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MDMwNTM3MSwiZXhwIjoyMDg1ODgxMzcxfQ.lFkEgmAEviTOD6hZ5E53_wlMdsMGBcoH8rRz74qOH1E';
+
+export const BUSINESS_TIMEZONE = 'America/Edmonton';
+
+export function getBusinessDateISO(date: Date = new Date()): string {
+  return new Intl.DateTimeFormat('en-CA', {
+    timeZone: BUSINESS_TIMEZONE,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).format(date);
+}
+
+/**
+ * Fetch live same-day cooking stock from same_day_dish_stock for today (or specified date).
+ * Returns Record<dish_id, units_remaining>.
+ */
+export async function fetchLiveSameDayStock(dateIso?: string): Promise<Record<string, number>> {
+  try {
+    const today = dateIso || getBusinessDateISO();
+    const url = `${SUPABASE_URL}/rest/v1/same_day_dish_stock?delivery_date=eq.${encodeURIComponent(today)}&select=dish_id,units_remaining`;
+    const res = await fetch(url, {
+      headers: {
+        apikey: SUPABASE_KEY,
+        Authorization: `Bearer ${SUPABASE_KEY}`,
+      },
+    });
+
+    if (!res.ok) {
+      console.warn(`[Supabase Stock] Status ${res.status}`);
+      return {};
+    }
+
+    const rows = await res.json();
+    if (!Array.isArray(rows)) return {};
+
+    const stockMap: Record<string, number> = {};
+    for (const r of rows) {
+      if (r.dish_id && typeof r.units_remaining === 'number') {
+        stockMap[String(r.dish_id)] = r.units_remaining;
+      }
+    }
+    return stockMap;
+  } catch (err) {
+    console.warn('[Supabase Stock] Could not fetch live stock:', err);
+    return {};
+  }
+}

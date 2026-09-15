@@ -3,6 +3,7 @@ import type { Dish } from '../types';
 
 type DishModalProps = {
   dish: Dish | null;
+  remainingStock?: number | null;
   onClose: () => void;
   onAddToCart: (
     dish: Dish,
@@ -12,8 +13,12 @@ type DishModalProps = {
   ) => void;
 };
 
-export const DishModal: React.FC<DishModalProps> = ({ dish, onClose, onAddToCart }) => {
+export const DishModal: React.FC<DishModalProps> = ({ dish, remainingStock, onClose, onAddToCart }) => {
   if (!dish) return null;
+
+  const isSoldOut = remainingStock !== undefined && remainingStock !== null && remainingStock === 0;
+  const showScarcity = remainingStock !== undefined && remainingStock !== null && remainingStock > 0 && remainingStock < 5;
+  const maxAllowedQuantity = showScarcity && remainingStock ? remainingStock : 99;
 
   const [quantity, setQuantity] = useState(1);
   const [selectedSelections, setSelectedSelections] = useState<Record<string, { optionId: string; optionName: string; priceDelta: number }>>(() => {
@@ -139,6 +144,15 @@ export const DishModal: React.FC<DishModalProps> = ({ dish, onClose, onAddToCart
           </p>
           <div style={{ display: 'flex', gap: 8, marginTop: 12, flexWrap: 'wrap' }}>
             <span className="badge badge-rust">Portion: {dish.portionSize}</span>
+            {isSoldOut ? (
+              <span style={{ background: '#FFEBEE', color: '#C62828', border: '1px solid #EF9A9A', padding: '4px 8px', borderRadius: 4, fontSize: '0.75rem', fontWeight: 700 }}>
+                Sold out today
+              </span>
+            ) : showScarcity ? (
+              <span style={{ background: '#FBE9E7', color: '#C0392B', border: '1px solid #FFAB91', padding: '4px 8px', borderRadius: 4, fontSize: '0.75rem', fontWeight: 800 }}>
+                🔥 Only {remainingStock} left today!
+              </span>
+            ) : null}
             {dish.deliveryType === 'same-day' ? (
               <span style={{ background: '#E8F5E9', color: '#1B5E20', border: '1px solid #A5D6A7', padding: '4px 8px', borderRadius: 4, fontSize: '0.75rem', fontWeight: 700 }}>
                 ⚡ Same-Day Delivery Tonight
@@ -221,16 +235,42 @@ export const DishModal: React.FC<DishModalProps> = ({ dish, onClose, onAddToCart
               {quantity}
             </span>
             <button
-              onClick={() => setQuantity(quantity + 1)}
-              style={{ background: 'none', border: 'none', color: 'var(--text-dark)', fontSize: '1.2rem', fontWeight: 700, cursor: 'pointer', width: 28, height: 28 }}
+              onClick={() => setQuantity(Math.min(maxAllowedQuantity, quantity + 1))}
+              disabled={isSoldOut || quantity >= maxAllowedQuantity}
+              style={{
+                background: 'none',
+                border: 'none',
+                color: isSoldOut || quantity >= maxAllowedQuantity ? '#CBD5E1' : 'var(--text-dark)',
+                fontSize: '1.2rem',
+                fontWeight: 700,
+                cursor: isSoldOut || quantity >= maxAllowedQuantity ? 'not-allowed' : 'pointer',
+                width: 28,
+                height: 28,
+              }}
             >
               +
             </button>
           </div>
 
-          <button onClick={handleConfirm} className="btn btn-rust" style={{ flex: 1, padding: '14px', fontSize: '1rem' }}>
-            <span>Add to Cart</span>
-            <span style={{ fontWeight: 800 }}>• ${totalPrice.toFixed(2)}</span>
+          <button
+            onClick={handleConfirm}
+            disabled={isSoldOut}
+            className="btn btn-rust"
+            style={{
+              flex: 1,
+              padding: '14px',
+              fontSize: '1rem',
+              ...(isSoldOut ? { background: '#E2E8F0', color: '#64748B', cursor: 'not-allowed', border: 'none' } : {}),
+            }}
+          >
+            {isSoldOut ? (
+              <span>Sold Out Today</span>
+            ) : (
+              <>
+                <span>Add to Cart</span>
+                <span style={{ fontWeight: 800 }}>• ${totalPrice.toFixed(2)}</span>
+              </>
+            )}
           </button>
         </div>
 

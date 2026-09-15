@@ -12,24 +12,48 @@ import { Footer } from './components/Footer';
 import { LambShankFunnelPage } from './components/LambShankFunnelPage';
 import { LambShankDailyPopup } from './components/LambShankDailyPopup';
 import { DISHES } from './data/dishes';
-import { fetchLiveDishes } from './lib/supabaseDishes';
+import { fetchLiveDishes, fetchLiveSameDayStock } from './lib/supabaseDishes';
+import { SUPABASE_DISH_MAP } from './lib/supabaseOrders';
 import { BUSINESS_WHATSAPP } from './lib/constants';
 import { pushCateringToGhl } from './lib/ghl';
 
 export function App() {
   const [dishes, setDishes] = useState<Dish[]>(DISHES);
+  const [todayStock, setTodayStock] = useState<Record<string, number>>({});
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [selectedDishModal, setSelectedDishModal] = useState<Dish | null>(null);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
-  // Load live dishes from Supabase in background (maintains instantaneous render with DISHES fallback)
+  // Load live dishes and live stock from Supabase in background
   useEffect(() => {
     fetchLiveDishes().then((live) => {
       if (live && live.length > 0) {
         setDishes(live);
       }
     });
+    fetchLiveSameDayStock().then((stock) => {
+      if (stock) {
+        setTodayStock(stock);
+      }
+    });
   }, []);
+
+  const getDishRemainingStock = (dish: Dish | null): number | null => {
+    if (!dish || !todayStock) return null;
+    if (todayStock[dish.id] !== undefined) return todayStock[dish.id];
+    const uuid = SUPABASE_DISH_MAP[dish.id];
+    if (uuid && todayStock[uuid] !== undefined) return todayStock[uuid];
+    const lower = dish.name.toLowerCase();
+    for (const [stockDishId, remaining] of Object.entries(todayStock)) {
+      if (lower.includes('lamb shank') && !lower.includes('beef shank') && stockDishId === '8626cb5f-58d5-4317-ab52-4b1726b10fd0') {
+        return remaining;
+      }
+      if (lower.includes('chicken') && stockDishId === '0c614cf5-5352-4dad-aa0d-a603c185e634') {
+        return remaining;
+      }
+    }
+    return null;
+  };
 
   // Routing state: 'home' or 'lamb-shank'
   const [currentView, setCurrentView] = useState<'home' | 'lamb-shank'>(() => {
@@ -189,6 +213,7 @@ export function App() {
 
           <MenuSection
             dishes={dishes}
+            todayStock={todayStock}
             onSelectDish={(dish) => setSelectedDishModal(dish)}
             onNavigateToLambShank={handleNavigateToLambShank}
           />
@@ -207,6 +232,7 @@ export function App() {
         <DishModal
           key={selectedDishModal.id}
           dish={selectedDishModal}
+          remainingStock={getDishRemainingStock(selectedDishModal)}
           onClose={() => setSelectedDishModal(null)}
           onAddToCart={handleAddToCart}
         />
