@@ -184,4 +184,17 @@ export const DISHES: Dish[] = [
     portionSize: '4 oz Dip Cup',
     deliveryType: 'same-day',
   },
+  {
+    id: 'rtom-meat-jus',
+    name: 'Signature Smoked Meat Jus',
+    description: 'Velvety, slow-simmered reduction of hardwood-smoked bone broth and pan drippings seasoned with cracked black pepper and herbs. Perfect for dipping or drizzling over rice and barbecue.',
+    price: 2.99,
+    image: '/images/dishes/meat-jus.jpg',
+    category: 'sides',
+    dietary: 'halal',
+    isBestSeller: false,
+    portionSize: '4 oz Cup',
+    deliveryType: 'same-day',
+  },
 ];
+

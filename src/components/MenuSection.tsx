@@ -896,7 +896,7 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
                     ARTISAN SIDES & SAUCES
                   </h3>
                   <p style={{ margin: 0, fontSize: "0.92rem", color: "var(--text-muted)", lineHeight: 1.45 }}>
-                    Fragrant spiced basmati rice, slow-baked sharp cheddar mac & cheese, and cold-emulsified garlic toum.
+                    Fragrant spiced basmati rice, slow-baked sharp cheddar mac & cheese, signature smoked meat jus, and cold-emulsified garlic toum.
                   </p>
                 </div>
                 <div

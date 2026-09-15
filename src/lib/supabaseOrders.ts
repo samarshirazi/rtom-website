@@ -25,6 +25,7 @@ export const SUPABASE_DISH_MAP: Record<string, string> = {
   'rtom-extra-rice': '5a112f1a-1c85-49be-b296-94c385f03cd8',
   'rtom-extra-mac': '58b36edf-8cc6-46b4-bff9-566ea8da95dc',
   'rtom-garlic-toum': '1b90444e-d30a-4741-8b82-e19352e625ae',
+  'rtom-meat-jus': '16e71154-5834-4db4-9e41-93aebd888cfe',
 };
 
 // Delivery slots in Supabase

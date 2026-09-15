@@ -19,10 +19,12 @@ const LOCAL_IMAGE_MAP: Record<string, string> = {
   'mac-cheese': '/images/dishes/extra-mac-bowl.jpg',
   'spiced-rice': '/images/dishes/extra-spiced-rice.jpg',
   'garlic-toum': '/images/dishes/garlic-toum.jpg',
+  'meat-jus': '/images/dishes/meat-jus.jpg',
 };
 
 function resolveFallbackImage(name: string): string {
   const n = name.toLowerCase();
+  if (n.includes('jus')) return LOCAL_IMAGE_MAP['meat-jus'];
   if (n.includes('rice')) return LOCAL_IMAGE_MAP['spiced-rice'];
   if (n.includes('mac')) return LOCAL_IMAGE_MAP['mac-cheese'];
   if (n.includes('toum') || n.includes('garlic')) return LOCAL_IMAGE_MAP['garlic-toum'];
