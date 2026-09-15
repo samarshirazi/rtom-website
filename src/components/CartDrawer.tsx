@@ -5,6 +5,7 @@ import { BUSINESS_PHONE_DISPLAY, BUSINESS_TEL, BUSINESS_WHATSAPP } from '../lib/
 import { useGoogleAddressAutocomplete } from '../lib/addressAutocomplete';
 import { pushOrderToGhl } from '../lib/ghl';
 import { pushOrderToSupabase } from '../lib/supabaseOrders';
+import { fetchLiveDeliverySlots, type DeliverySlotRow } from '../lib/supabaseDishes';
 
 type CartDrawerProps = {
   isOpen: boolean;
@@ -130,26 +131,49 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
     return day === 0 ? 7 : day;
   }, [deliveryDate]);
 
-  // Weekend (Fri-Sun: 5,6,7) has Lunch + Dinner; Weekdays (Mon-Thu: 1,2,3,4) have Dinner only
+  // Live delivery slots from Supabase
+  const [liveSlots, setLiveSlots] = useState<DeliverySlotRow[]>([]);
+
+  useEffect(() => {
+    fetchLiveDeliverySlots().then((slots) => {
+      if (slots && slots.length > 0) {
+        setLiveSlots(slots);
+      }
+    });
+  }, []);
+
   const isWeekend = selectedDayOfWeek >= 5;
 
   const availableSlots: { id: string; label: string }[] = useMemo(() => {
+    if (liveSlots.length > 0) {
+      const activeForDay = liveSlots.filter((slot) => {
+        const days = Array.isArray(slot.active_days) && slot.active_days.length > 0
+          ? slot.active_days
+          : [1, 2, 3, 4, 5, 6, 7];
+        return days.includes(selectedDayOfWeek);
+      });
+      if (activeForDay.length > 0) {
+        return activeForDay.map((s) => ({
+          id: `${s.start_time.slice(0, 5)}-${s.end_time.slice(0, 5)} (${s.label})`,
+          label: `${s.label} (${s.start_time.slice(0, 5)} - ${s.end_time.slice(0, 5)})`,
+        }));
+      }
+    }
+    // Fallback if network/offline
     if (isWeekend) {
       return [
-        { id: '11:30-14:00 (Weekend Lunch)', label: '11:30 - 14:00 (Lunch)' },
-        { id: '17:00-19:00 (Dinner)', label: '17:00 - 19:00 (Dinner)' },
-        { id: '19:00-21:00 (Late Dinner)', label: '19:00 - 21:00 (Late Dinner)' },
+        { id: '10:00-14:00 (Lunch)', label: 'Lunch (10:00 - 14:00)' },
+        { id: '17:00-20:50 (Dinner)', label: 'Dinner (17:00 - 20:50)' },
       ];
     }
     return [
-      { id: '17:00-19:00 (Dinner)', label: '17:00 - 19:00 (Dinner)' },
-      { id: '19:00-21:00 (Late Dinner)', label: '19:00 - 21:00 (Late Dinner)' },
+      { id: '17:00-20:50 (Dinner)', label: 'Dinner (17:00 - 20:50)' },
     ];
-  }, [isWeekend]);
+  }, [liveSlots, selectedDayOfWeek, isWeekend]);
 
   useEffect(() => {
     if (!availableSlots.some((s) => s.id === timeSlot)) {
-      setTimeSlot(availableSlots[0]?.id || '17:00-19:00 (Dinner)');
+      setTimeSlot(availableSlots[0]?.id || '17:00-20:50 (Dinner)');
     }
   }, [availableSlots, timeSlot]);
 
@@ -598,7 +622,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                   </div>
                   <div>
                     <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: 4, fontFamily: 'var(--font-sans)' }}>
-                      Time Window <span style={{ color: 'var(--color-rust)', fontWeight: 600 }}>({isWeekend ? 'Lunch & Dinner' : 'Dinner Only'})</span>
+                      Time Window <span style={{ color: 'var(--color-rust)', fontWeight: 600 }}>({availableSlots.map((s) => s.label.split(' ')[0]).join(' & ') || 'Available Slots'})</span>
                     </label>
                     <select
                       value={timeSlot}

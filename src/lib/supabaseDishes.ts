@@ -158,3 +158,34 @@ export async function fetchLiveDishes(): Promise<Dish[]> {
     return FALLBACK_DISHES;
   }
 }
+
+export interface DeliverySlotRow {
+  id: string;
+  label: string;
+  start_time: string;
+  end_time: string;
+  cutoff_hours: number;
+  active_days: number[];
+  is_active: boolean;
+}
+
+export async function fetchLiveDeliverySlots(): Promise<DeliverySlotRow[]> {
+  try {
+    const url = `${SUPABASE_URL}/rest/v1/delivery_slots?select=id,label,start_time,end_time,cutoff_hours,active_days,is_active&is_active=eq.true&order=start_time.asc`;
+    const res = await fetch(url, {
+      headers: {
+        apikey: SUPABASE_ANON_KEY,
+        Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+      },
+    });
+    if (!res.ok) {
+      return [];
+    }
+    const rows = await res.json();
+    return Array.isArray(rows) ? rows : [];
+  } catch (err) {
+    console.warn('[Supabase Slots] Could not fetch live slots:', err);
+    return [];
+  }
+}
+
