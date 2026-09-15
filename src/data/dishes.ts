@@ -109,6 +109,8 @@ export const DISHES: Dish[] = [
     portionSize: 'Per Person',
     prepTimeMinutes: 25,
     deliveryType: 'pre-order',
+    leadTimeDays: 1,
+    availableDays: [6, 7], // Weekends only (Saturday, Sunday)
     variationGroups: [
       {
         id: 'base-pairing',

@@ -17,24 +17,346 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
   const [searchQuery, setSearchQuery] = useState<string>('');
 
   const categories = [
-    { key: 'all', label: 'ALL ITEMS', icon: '🔥' },
-    { key: 'mutton', label: 'MUTTON & GOAT', icon: '🍖' },
+    { key: 'all', label: 'ALL DISHES', icon: '🔥' },
+    { key: 'daily', label: '⚡ DAILY AVAILABLE (ORDER NOW)', icon: '⚡' },
+    { key: 'preorder', label: '📅 ADVANCE PRE-ORDER', icon: '📅' },
+    { key: 'sides', label: 'SMOKEHOUSE SIDES', icon: '🫓' },
+    { key: 'mutton', label: 'MUTTON & LAMB', icon: '🍖' },
     { key: 'beef', label: 'BEEF SPECIALS', icon: '🥩' },
     { key: 'chicken', label: 'CHARCOAL CHICKEN', icon: '🍗' },
-    { key: 'sides', label: 'NAAN & SIDES', icon: '🫓' },
-    { key: 'drinks', label: 'DRINKS & SWEETS', icon: '🥭' },
   ];
 
   const filteredDishes = useMemo(() => {
     return dishes.filter((dish) => {
-      const matchesCategory =
-        selectedCategory === 'all' || dish.category === selectedCategory;
+      let matchesCategory = true;
+      if (selectedCategory === 'daily') {
+        matchesCategory = dish.deliveryType === 'same-day' && dish.category !== 'sides';
+      } else if (selectedCategory === 'preorder') {
+        matchesCategory = dish.deliveryType === 'pre-order';
+      } else if (selectedCategory !== 'all') {
+        matchesCategory = dish.category === selectedCategory;
+      }
       const matchesSearch =
         dish.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         dish.description.toLowerCase().includes(searchQuery.toLowerCase());
       return matchesCategory && matchesSearch;
     });
-  }, [selectedCategory, searchQuery]);
+  }, [dishes, selectedCategory, searchQuery]);
+
+  const dailyDishes = useMemo(() => {
+    return dishes.filter((d) => d.deliveryType === 'same-day' && d.category !== 'sides');
+  }, [dishes]);
+
+  const preOrderDishes = useMemo(() => {
+    return dishes.filter((d) => d.deliveryType === 'pre-order');
+  }, [dishes]);
+
+  const sideDishes = useMemo(() => {
+    return dishes.filter((d) => d.category === 'sides');
+  }, [dishes]);
+
+  const renderDishCard = (dish: Dish) => (
+              <div
+                key={dish.id}
+                className="paper-card"
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  overflow: 'hidden',
+                  background: '#FFFFFF',
+                }}
+              >
+                {/* Dish Photo & Portion Overlay */}
+                <div
+                  onClick={dish.id === 'rtom-lamb-shank' && onNavigateToLambShank ? onNavigateToLambShank : undefined}
+                  style={{
+                    position: 'relative',
+                    height: 210,
+                    width: '100%',
+                    overflow: 'hidden',
+                    cursor: dish.id === 'rtom-lamb-shank' && onNavigateToLambShank ? 'pointer' : 'default',
+                  }}
+                  title={dish.id === 'rtom-lamb-shank' ? 'Click to view 5-Hour Lamb Shank Feast Story' : undefined}
+                >
+                  <img
+                    src={dish.image}
+                    alt={dish.name}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      transition: 'transform 0.4s ease',
+                    }}
+                  />
+                  <div
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      background: 'linear-gradient(to bottom, transparent 50%, rgba(26, 25, 24, 0.75) 100%)',
+                    }}
+                  />
+
+                  {/* Top Badges */}
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: 12,
+                      left: 12,
+                      right: 12,
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <span
+                      style={{
+                        background: 'rgba(26, 25, 24, 0.85)',
+                        color: '#FFFFFF',
+                        padding: '4px 10px',
+                        borderRadius: 'var(--radius-sm)',
+                        fontFamily: 'var(--font-heading)',
+                        fontSize: '0.72rem',
+                        fontWeight: 700,
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.05em',
+                      }}
+                    >
+                      100% HALAL
+                    </span>
+                    {dish.isBestSeller && (
+                      <span
+                        style={{
+                          background: 'var(--color-rust)',
+                          color: '#FFFFFF',
+                          padding: '4px 10px',
+                          borderRadius: 'var(--radius-sm)',
+                          fontFamily: 'var(--font-heading)',
+                          fontSize: '0.72rem',
+                          fontWeight: 700,
+                          textTransform: 'uppercase',
+                        }}
+                      >
+                        ⭐ PITMASTER CHOICE
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Special Funnel Banner on Lamb Shank Image */}
+                  {dish.id === 'rtom-lamb-shank' && (
+                    <div
+                      style={{
+                        position: 'absolute',
+                        top: 48,
+                        left: 12,
+                        background: 'linear-gradient(135deg, #D9652B 0%, #BA4E18 100%)',
+                        color: '#FFFFFF',
+                        padding: '4px 10px',
+                        borderRadius: 'var(--radius-sm)',
+                        fontFamily: 'var(--font-heading)',
+                        fontSize: '0.72rem',
+                        fontWeight: 800,
+                        letterSpacing: '0.04em',
+                        textTransform: 'uppercase',
+                        boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px',
+                      }}
+                    >
+                      <span>🔥</span>
+                      <span>CLICK IMAGE FOR FEAST STORY</span>
+                    </div>
+                  )}
+
+                  {/* Portion Tag */}
+                  <div
+                    className="script-accent"
+                    style={{
+                      position: 'absolute',
+                      bottom: 10,
+                      left: 12,
+                      fontSize: '1rem',
+                      color: '#F4F1E8',
+                    }}
+                  >
+                    Portion: {dish.portionSize}
+                  </div>
+                </div>
+
+                {/* Dish Info & Price */}
+                <div
+                  style={{
+                    padding: '22px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    flex: 1,
+                    justifyContent: 'space-between',
+                  }}
+                >
+                  <div>
+                    <h3
+                      onClick={dish.id === 'rtom-lamb-shank' && onNavigateToLambShank ? onNavigateToLambShank : undefined}
+                      style={{
+                        fontSize: '1.45rem',
+                        fontFamily: 'var(--font-woodcut)',
+                        letterSpacing: '0.04em',
+                        color: 'var(--text-dark)',
+                        marginBottom: 6,
+                        cursor: dish.id === 'rtom-lamb-shank' && onNavigateToLambShank ? 'pointer' : 'default',
+                      }}
+                    >
+                      {dish.name}
+                    </h3>
+                    {dish.deliveryType === 'same-day' && dish.category !== 'sides' ? (
+                      <div
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: 5,
+                          background: '#E8F5E9',
+                          color: '#1B5E20',
+                          border: '1px solid #A5D6A7',
+                          padding: '3px 8px',
+                          borderRadius: 4,
+                          fontSize: '0.72rem',
+                          fontWeight: 700,
+                          letterSpacing: '0.02em',
+                          textTransform: 'uppercase',
+                          marginBottom: 10,
+                        }}
+                      >
+                        <span>⚡ AVAILABLE DAILY • READY TONIGHT</span>
+                      </div>
+                    ) : dish.category === 'sides' ? (
+                      <div
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: 5,
+                          background: '#F1F5F9',
+                          color: '#334155',
+                          border: '1px solid #CBD5E1',
+                          padding: '3px 8px',
+                          borderRadius: 4,
+                          fontSize: '0.72rem',
+                          fontWeight: 700,
+                          letterSpacing: '0.02em',
+                          textTransform: 'uppercase',
+                          marginBottom: 10,
+                        }}
+                      >
+                        <span>🫓 SMOKEHOUSE SIDE • PAIR WITH MAINS</span>
+                      </div>
+                    ) : dish.id === 'rtom-beef-shank-mac' || dish.id === 'rtom-leg-of-lamb' ? (
+                      <div
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: 5,
+                          background: '#FFF3E0',
+                          color: '#C2410C',
+                          border: '1px solid #FFCC80',
+                          padding: '3px 8px',
+                          borderRadius: 4,
+                          fontSize: '0.72rem',
+                          fontWeight: 700,
+                          letterSpacing: '0.02em',
+                          textTransform: 'uppercase',
+                          marginBottom: 10,
+                        }}
+                      >
+                        <span>📅 WEEKEND PRE-ORDER (SAT & SUN)</span>
+                      </div>
+                    ) : (
+                      <div
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: 5,
+                          background: '#FFF8E1',
+                          color: '#8D6E00',
+                          border: '1px solid #FFE082',
+                          padding: '3px 8px',
+                          borderRadius: 4,
+                          fontSize: '0.72rem',
+                          fontWeight: 700,
+                          letterSpacing: '0.02em',
+                          textTransform: 'uppercase',
+                          marginBottom: 10,
+                        }}
+                      >
+                        <span>📅 24H PRE-ORDER • PICK DELIVERY DAY</span>
+                      </div>
+                    )}
+                    <p
+                      style={{
+                        fontFamily: 'var(--font-serif)',
+                        fontSize: '0.92rem',
+                        color: 'var(--text-muted)',
+                        marginBottom: 20,
+                        lineHeight: 1.6,
+                      }}
+                    >
+                      {dish.description}
+                    </p>
+                  </div>
+
+                  {/* Price & Action Button */}
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      borderTop: '1px solid var(--border-subtle)',
+                      paddingTop: 16,
+                      gap: 8,
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontFamily: 'var(--font-heading)',
+                        fontSize: '1.4rem',
+                        fontWeight: 700,
+                        color: 'var(--color-rust)',
+                      }}
+                    >
+                      ${dish.price.toFixed(2)}
+                    </span>
+                    {dish.id === 'rtom-lamb-shank' && onNavigateToLambShank ? (
+                      <div style={{ display: 'flex', gap: 6 }}>
+                        <button
+                          onClick={onNavigateToLambShank}
+                          className="btn btn-primary btn-sm"
+                          style={{
+                            background: 'var(--color-rust)',
+                            color: '#FFFFFF',
+                            fontSize: '0.8rem',
+                            padding: '8px 12px',
+                            fontWeight: 700,
+                          }}
+                        >
+                          <span>🔥 View Feast</span>
+                        </button>
+                        <button
+                          onClick={() => onSelectDish(dish)}
+                          className="btn btn-dark btn-sm"
+                          style={{ fontSize: '0.8rem', padding: '8px 12px' }}
+                        >
+                          <span>+ Customize</span>
+                        </button>
+                      </div>
+                    ) : (
+                      <button
+                        onClick={() => onSelectDish(dish)}
+                        className="btn btn-dark btn-sm"
+                      >
+                        <span>+ Customize & Add</span>
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
+  );
 
   return (
     <section
@@ -319,276 +641,185 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
               Try searching another dish name or pick a different category.
             </p>
           </div>
+        ) : selectedCategory === "all" && !searchQuery ? (
+          <div style={{ display: "flex", flexDirection: "column", gap: 48 }}>
+            {/* 1. Daily Available Dishes */}
+            {dailyDishes.length > 0 && (
+              <section style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+                <div
+                  style={{
+                    padding: "20px 24px",
+                    background: "linear-gradient(135deg, rgba(6, 95, 70, 0.08) 0%, rgba(16, 185, 129, 0.12) 100%)",
+                    border: "1.5px solid rgba(16, 185, 129, 0.35)",
+                    borderRadius: "var(--radius-md)",
+                  }}
+                >
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", marginBottom: 6 }}>
+                    <span
+                      style={{
+                        background: "#065F46",
+                        color: "#FFFFFF",
+                        fontSize: "0.75rem",
+                        fontWeight: 800,
+                        padding: "3px 9px",
+                        borderRadius: "var(--radius-sm)",
+                        letterSpacing: "0.04em",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      ⚡ AVAILABLE DAILY • READY TONIGHT
+                    </span>
+                    <span style={{ fontSize: "0.88rem", color: "#047857", fontWeight: 700 }}>
+                      Same-Day Dinner Delivery
+                    </span>
+                  </div>
+                  <h3
+                    style={{
+                      margin: "0 0 4px",
+                      fontSize: "1.45rem",
+                      fontFamily: "var(--font-woodcut)",
+                      color: "var(--text-dark)",
+                    }}
+                  >
+                    DAILY AVAILABLE SMOKEHOUSE DISHES (ORDER NOW)
+                  </h3>
+                  <p style={{ margin: 0, fontSize: "0.92rem", color: "var(--text-muted)", lineHeight: 1.45 }}>
+                    Slow-smoked fresh each morning over hardwood embers. Order by 2 PM for delivery tonight (or schedule any future date).
+                  </p>
+                </div>
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
+                    gap: 28,
+                  }}
+                >
+                  {dailyDishes.map(renderDishCard)}
+                </div>
+              </section>
+            )}
+
+            {/* 2. Advance Pre-Order Dishes */}
+            {preOrderDishes.length > 0 && (
+              <section style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+                <div
+                  style={{
+                    padding: "20px 24px",
+                    background: "linear-gradient(135deg, rgba(120, 53, 15, 0.08) 0%, rgba(245, 158, 11, 0.12) 100%)",
+                    border: "1.5px solid rgba(245, 158, 11, 0.35)",
+                    borderRadius: "var(--radius-md)",
+                  }}
+                >
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", marginBottom: 6 }}>
+                    <span
+                      style={{
+                        background: "#7C2D12",
+                        color: "#FFFFFF",
+                        fontSize: "0.75rem",
+                        fontWeight: 800,
+                        padding: "3px 9px",
+                        borderRadius: "var(--radius-sm)",
+                        letterSpacing: "0.04em",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      📅 ADVANCE PRE-ORDER • PITMASTER SPECIALS
+                    </span>
+                    <span style={{ fontSize: "0.88rem", color: "#B45309", fontWeight: 700 }}>
+                      14-Hour Low & Slow Smokes
+                    </span>
+                  </div>
+                  <h3
+                    style={{
+                      margin: "0 0 4px",
+                      fontSize: "1.45rem",
+                      fontFamily: "var(--font-woodcut)",
+                      color: "var(--text-dark)",
+                    }}
+                  >
+                    PRE-ORDER DISHES (SELECT YOUR DELIVERY DATE)
+                  </h3>
+                  <p style={{ margin: 0, fontSize: "0.92rem", color: "var(--text-muted)", lineHeight: 1.45 }}>
+                    Artisan barbecue prepared in limited small batches. Beef Shank & Leg of Lamb are smoked fresh for weekend delivery (Saturday & Sunday).
+                  </p>
+                </div>
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
+                    gap: 28,
+                  }}
+                >
+                  {preOrderDishes.map(renderDishCard)}
+                </div>
+              </section>
+            )}
+
+            {/* 3. Smokehouse Sides & Sauces */}
+            {sideDishes.length > 0 && (
+              <section style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+                <div
+                  style={{
+                    padding: "20px 24px",
+                    background: "linear-gradient(135deg, rgba(30, 41, 59, 0.05) 0%, rgba(71, 85, 105, 0.08) 100%)",
+                    border: "1.5px solid rgba(100, 116, 139, 0.3)",
+                    borderRadius: "var(--radius-md)",
+                  }}
+                >
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", marginBottom: 6 }}>
+                    <span
+                      style={{
+                        background: "#1E293B",
+                        color: "#F8FAFC",
+                        fontSize: "0.75rem",
+                        fontWeight: 700,
+                        padding: "3px 9px",
+                        borderRadius: "var(--radius-sm)",
+                        letterSpacing: "0.04em",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      🫓 SMOKEHOUSE SIDES & SAUCES
+                    </span>
+                    <span style={{ fontSize: "0.88rem", color: "#475569", fontWeight: 600 }}>
+                      Pair with any main barbecue dish
+                    </span>
+                  </div>
+                  <h3
+                    style={{
+                      margin: "0 0 4px",
+                      fontSize: "1.45rem",
+                      fontFamily: "var(--font-woodcut)",
+                      color: "var(--text-dark)",
+                    }}
+                  >
+                    ARTISAN SIDES & SAUCES
+                  </h3>
+                  <p style={{ margin: 0, fontSize: "0.92rem", color: "var(--text-muted)", lineHeight: 1.45 }}>
+                    Fragrant spiced basmati rice, slow-baked sharp cheddar mac & cheese, and cold-emulsified garlic toum.
+                  </p>
+                </div>
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
+                    gap: 28,
+                  }}
+                >
+                  {sideDishes.map(renderDishCard)}
+                </div>
+              </section>
+            )}
+          </div>
         ) : (
           <div
             style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
               gap: 28,
             }}
           >
-            {filteredDishes.map((dish) => (
-              <div
-                key={dish.id}
-                className="paper-card"
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  overflow: 'hidden',
-                  background: '#FFFFFF',
-                }}
-              >
-                {/* Dish Photo & Portion Overlay */}
-                <div
-                  onClick={dish.id === 'rtom-lamb-shank' && onNavigateToLambShank ? onNavigateToLambShank : undefined}
-                  style={{
-                    position: 'relative',
-                    height: 210,
-                    width: '100%',
-                    overflow: 'hidden',
-                    cursor: dish.id === 'rtom-lamb-shank' && onNavigateToLambShank ? 'pointer' : 'default',
-                  }}
-                  title={dish.id === 'rtom-lamb-shank' ? 'Click to view 5-Hour Lamb Shank Feast Story' : undefined}
-                >
-                  <img
-                    src={dish.image}
-                    alt={dish.name}
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      transition: 'transform 0.4s ease',
-                    }}
-                  />
-                  <div
-                    style={{
-                      position: 'absolute',
-                      inset: 0,
-                      background: 'linear-gradient(to bottom, transparent 50%, rgba(26, 25, 24, 0.75) 100%)',
-                    }}
-                  />
-
-                  {/* Top Badges */}
-                  <div
-                    style={{
-                      position: 'absolute',
-                      top: 12,
-                      left: 12,
-                      right: 12,
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <span
-                      style={{
-                        background: 'rgba(26, 25, 24, 0.85)',
-                        color: '#FFFFFF',
-                        padding: '4px 10px',
-                        borderRadius: 'var(--radius-sm)',
-                        fontFamily: 'var(--font-heading)',
-                        fontSize: '0.72rem',
-                        fontWeight: 700,
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.05em',
-                      }}
-                    >
-                      100% HALAL
-                    </span>
-                    {dish.isBestSeller && (
-                      <span
-                        style={{
-                          background: 'var(--color-rust)',
-                          color: '#FFFFFF',
-                          padding: '4px 10px',
-                          borderRadius: 'var(--radius-sm)',
-                          fontFamily: 'var(--font-heading)',
-                          fontSize: '0.72rem',
-                          fontWeight: 700,
-                          textTransform: 'uppercase',
-                        }}
-                      >
-                        ⭐ PITMASTER CHOICE
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Special Funnel Banner on Lamb Shank Image */}
-                  {dish.id === 'rtom-lamb-shank' && (
-                    <div
-                      style={{
-                        position: 'absolute',
-                        top: 48,
-                        left: 12,
-                        background: 'linear-gradient(135deg, #D9652B 0%, #BA4E18 100%)',
-                        color: '#FFFFFF',
-                        padding: '4px 10px',
-                        borderRadius: 'var(--radius-sm)',
-                        fontFamily: 'var(--font-heading)',
-                        fontSize: '0.72rem',
-                        fontWeight: 800,
-                        letterSpacing: '0.04em',
-                        textTransform: 'uppercase',
-                        boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '4px',
-                      }}
-                    >
-                      <span>🔥</span>
-                      <span>CLICK IMAGE FOR FEAST STORY</span>
-                    </div>
-                  )}
-
-                  {/* Portion Tag */}
-                  <div
-                    className="script-accent"
-                    style={{
-                      position: 'absolute',
-                      bottom: 10,
-                      left: 12,
-                      fontSize: '1rem',
-                      color: '#F4F1E8',
-                    }}
-                  >
-                    Portion: {dish.portionSize}
-                  </div>
-                </div>
-
-                {/* Dish Info & Price */}
-                <div
-                  style={{
-                    padding: '22px',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    flex: 1,
-                    justifyContent: 'space-between',
-                  }}
-                >
-                  <div>
-                    <h3
-                      onClick={dish.id === 'rtom-lamb-shank' && onNavigateToLambShank ? onNavigateToLambShank : undefined}
-                      style={{
-                        fontSize: '1.45rem',
-                        fontFamily: 'var(--font-woodcut)',
-                        letterSpacing: '0.04em',
-                        color: 'var(--text-dark)',
-                        marginBottom: 6,
-                        cursor: dish.id === 'rtom-lamb-shank' && onNavigateToLambShank ? 'pointer' : 'default',
-                      }}
-                    >
-                      {dish.name}
-                    </h3>
-                    {dish.deliveryType === 'same-day' ? (
-                      <div
-                        style={{
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: 5,
-                          background: '#E8F5E9',
-                          color: '#1B5E20',
-                          border: '1px solid #A5D6A7',
-                          padding: '3px 8px',
-                          borderRadius: 4,
-                          fontSize: '0.72rem',
-                          fontWeight: 700,
-                          letterSpacing: '0.02em',
-                          textTransform: 'uppercase',
-                          marginBottom: 10,
-                        }}
-                      >
-                        <span>⚡ SAME-DAY DELIVERY TONIGHT</span>
-                      </div>
-                    ) : (
-                      <div
-                        style={{
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: 5,
-                          background: '#FFF8E1',
-                          color: '#8D6E00',
-                          border: '1px solid #FFE082',
-                          padding: '3px 8px',
-                          borderRadius: 4,
-                          fontSize: '0.72rem',
-                          fontWeight: 700,
-                          letterSpacing: '0.02em',
-                          textTransform: 'uppercase',
-                          marginBottom: 10,
-                        }}
-                      >
-                        <span>📅 PRE-ORDER • PICK DELIVERY DAY</span>
-                      </div>
-                    )}
-                    <p
-                      style={{
-                        fontFamily: 'var(--font-serif)',
-                        fontSize: '0.92rem',
-                        color: 'var(--text-muted)',
-                        marginBottom: 20,
-                        lineHeight: 1.6,
-                      }}
-                    >
-                      {dish.description}
-                    </p>
-                  </div>
-
-                  {/* Price & Action Button */}
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      borderTop: '1px solid var(--border-subtle)',
-                      paddingTop: 16,
-                      gap: 8,
-                    }}
-                  >
-                    <span
-                      style={{
-                        fontFamily: 'var(--font-heading)',
-                        fontSize: '1.4rem',
-                        fontWeight: 700,
-                        color: 'var(--color-rust)',
-                      }}
-                    >
-                      ${dish.price.toFixed(2)}
-                    </span>
-                    {dish.id === 'rtom-lamb-shank' && onNavigateToLambShank ? (
-                      <div style={{ display: 'flex', gap: 6 }}>
-                        <button
-                          onClick={onNavigateToLambShank}
-                          className="btn btn-primary btn-sm"
-                          style={{
-                            background: 'var(--color-rust)',
-                            color: '#FFFFFF',
-                            fontSize: '0.8rem',
-                            padding: '8px 12px',
-                            fontWeight: 700,
-                          }}
-                        >
-                          <span>🔥 View Feast</span>
-                        </button>
-                        <button
-                          onClick={() => onSelectDish(dish)}
-                          className="btn btn-dark btn-sm"
-                          style={{ fontSize: '0.8rem', padding: '8px 12px' }}
-                        >
-                          <span>+ Customize</span>
-                        </button>
-                      </div>
-                    ) : (
-                      <button
-                        onClick={() => onSelectDish(dish)}
-                        className="btn btn-dark btn-sm"
-                      >
-                        <span>+ Customize & Add</span>
-                      </button>
-                    )}
-                  </div>
-                </div>
-              </div>
-            ))}
+            {filteredDishes.map(renderDishCard)}
           </div>
         )}
       </div>
