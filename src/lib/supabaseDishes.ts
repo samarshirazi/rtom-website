@@ -16,10 +16,16 @@ const LOCAL_IMAGE_MAP: Record<string, string> = {
   'short-ribs': '/images/dishes/beef-short-ribs-mac.jpg',
   'brisket': '/images/dishes/brisket-mac.jpg',
   'beef-shank': '/images/dishes/beef-shank-mac.jpg',
+  'mac-cheese': '/images/dishes/extra-mac-bowl.jpg',
+  'spiced-rice': '/images/dishes/extra-spiced-rice.jpg',
+  'garlic-toum': 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=800&auto=format&fit=crop&q=80',
 };
 
 function resolveFallbackImage(name: string): string {
   const n = name.toLowerCase();
+  if (n.includes('rice')) return LOCAL_IMAGE_MAP['spiced-rice'];
+  if (n.includes('mac')) return LOCAL_IMAGE_MAP['mac-cheese'];
+  if (n.includes('toum') || n.includes('garlic')) return LOCAL_IMAGE_MAP['garlic-toum'];
   if (n.includes('chicken')) return LOCAL_IMAGE_MAP['chicken'];
   if (n.includes('leg of lamb')) return LOCAL_IMAGE_MAP['leg-of-lamb'];
   if (n.includes('short rib')) return LOCAL_IMAGE_MAP['short-ribs'];
@@ -67,13 +73,17 @@ function mapSupabaseDish(row: any): Dish {
   }
 
 
-  const category = (['mutton', 'chicken', 'beef'].includes(row.dietary_type)
+  const category = (['mutton', 'chicken', 'beef', 'sides', 'drinks'].includes(row.category)
+    ? row.category
+    : ['mutton', 'chicken', 'beef', 'sides', 'drinks'].includes(row.dietary_type)
     ? row.dietary_type
+    : lowerName.includes('rice') || lowerName.includes('mac') || lowerName.includes('toum')
+    ? 'sides'
     : lowerName.includes('chicken')
     ? 'chicken'
     : lowerName.includes('beef') || lowerName.includes('brisket') || lowerName.includes('rib')
     ? 'beef'
-    : 'mutton') as 'mutton' | 'chicken' | 'beef';
+    : 'mutton') as 'mutton' | 'chicken' | 'beef' | 'sides';
 
   return {
     id: String(row.id),
@@ -82,7 +92,7 @@ function mapSupabaseDish(row: any): Dish {
     price: Number(row.base_price || 0),
     image: row.image_url || resolveFallbackImage(name),
     category,
-    dietary: category,
+    dietary: (category === 'sides' ? 'veg' : category) as 'mutton' | 'chicken' | 'beef' | 'veg' | 'halal',
     isBestSeller: !isLegOfLamb && !lowerName.includes('beef shank'),
     portionSize: isLegOfLamb ? 'Whole Leg (Serves a Group)' : 'Per Person',
     prepTimeMinutes: isLegOfLamb ? 30 : lowerName.includes('chicken') ? 20 : 25,
