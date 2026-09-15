@@ -96,7 +96,14 @@ function mapSupabaseDish(row: any): Dish {
     category,
     dietary: (category === 'sides' ? 'veg' : category) as 'mutton' | 'chicken' | 'beef' | 'veg' | 'halal',
     isBestSeller: !isLegOfLamb && !lowerName.includes('beef shank'),
-    portionSize: isLegOfLamb ? 'Whole Leg (Serves a Group)' : 'Per Person',
+    portionSize: (() => {
+      const raw = typeof row.portion_size === 'string' ? row.portion_size.trim() : '';
+      if (!raw) return isLegOfLamb || lowerName.includes('platter') ? 'Group / Catering' : 'Per Person';
+      const low = raw.toLowerCase();
+      if (low === 'per person' || low === 'individual') return 'Per Person';
+      if (low === 'group / catering' || low === 'group' || low === 'catering' || low === 'group_catering') return 'Group / Catering';
+      return raw;
+    })(),
     prepTimeMinutes: isLegOfLamb ? 30 : lowerName.includes('chicken') ? 20 : 25,
     deliveryType: isSameDay ? 'same-day' : 'pre-order',
     leadTimeDays: row.lead_time_days ?? (isSameDay ? 0 : 1),
@@ -114,7 +121,7 @@ function mapSupabaseDish(row: any): Dish {
  */
 export async function fetchLiveDishes(): Promise<Dish[]> {
   try {
-    const url = `${SUPABASE_URL}/rest/v1/dishes?brand=eq.rtom&is_active=eq.true&select=id,name,description,base_price,dietary_type,category,image_url,lead_time_days,available_days,dish_variation_groups(id,name,is_required,max_select,dish_variation_options(id,name,price_delta,is_default))&order=created_at.asc`;
+    const url = `${SUPABASE_URL}/rest/v1/dishes?brand=eq.rtom&is_active=eq.true&select=id,name,description,base_price,dietary_type,category,image_url,lead_time_days,available_days,portion_size,dish_variation_groups(id,name,is_required,max_select,dish_variation_options(id,name,price_delta,is_default))&order=created_at.asc`;
 
     const res = await fetch(url, {
       headers: {
