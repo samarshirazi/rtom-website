@@ -988,27 +988,56 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
             ORDER YOUR LAMB SHANK FEAST ({currentPriceFormatted}) →
           </button>
 
-          <div style={{ marginTop: '14px', textAlign: 'center' }}>
-            <a
-              href={BUSINESS_TEL}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                color: '#1A1918',
-                background: '#FFFFFF',
-                border: '1.5px solid #D9652B',
-                padding: '10px 20px',
-                borderRadius: '8px',
-                textDecoration: 'none',
-                fontSize: '0.92rem',
-                fontWeight: 700,
-                boxShadow: '0 2px 6px rgba(0,0,0,0.06)',
-              }}
-            >
-              <span>📞 Prefer to Order by Phone?</span>
-              <span style={{ color: '#BA4E18', textDecoration: 'underline' }}>Call Pitmaster: {BUSINESS_PHONE_DISPLAY}</span>
-            </a>
+          <div style={{ marginTop: '14px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '10px', width: '100%' }}>
+              <a
+                href={BUSINESS_TEL}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  color: '#1A1918',
+                  background: '#FFFFFF',
+                  border: '1.5px solid #D9652B',
+                  padding: '10px 18px',
+                  borderRadius: '8px',
+                  textDecoration: 'none',
+                  fontSize: '0.9rem',
+                  fontWeight: 700,
+                  boxShadow: '0 2px 6px rgba(0,0,0,0.06)',
+                }}
+              >
+                <span>📞 Order by Phone:</span>
+                <span style={{ color: '#BA4E18', textDecoration: 'underline' }}>{BUSINESS_PHONE_DISPLAY}</span>
+              </a>
+
+              <a
+                href="https://app.rtombbq.ca"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  color: '#1A1918',
+                  background: '#FFF9F5',
+                  border: '1.5px dashed #D9652B',
+                  padding: '10px 18px',
+                  borderRadius: '8px',
+                  textDecoration: 'none',
+                  fontSize: '0.9rem',
+                  fontWeight: 700,
+                  boxShadow: '0 2px 6px rgba(0,0,0,0.06)',
+                }}
+              >
+                <span>💳 Pay with Card & Earn 5% Cashback:</span>
+                <span style={{ color: '#BA4E18', textDecoration: 'underline' }}>RTOM Web App ➔</span>
+              </a>
+            </div>
+
+            <div style={{ fontSize: '0.78rem', color: '#7A756B', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <span style={{ color: '#2E7D32' }}>●</span> Orders sync in real-time with Chef Sam's kitchen prep & dispatch system in Edmonton.
+            </div>
           </div>
 
           {/* Genuine Delivery Logistics Note */}

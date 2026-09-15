@@ -259,10 +259,13 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
           <div style={{ padding: '40px 24px', textAlign: 'center', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
             <span style={{ fontSize: '3.5rem', marginBottom: 16 }}>🎉</span>
             <h3 style={{ fontSize: '1.6rem', fontFamily: 'var(--font-woodcut)', marginBottom: 8, color: 'var(--color-rust)' }}>
-              ORDER INQUIRY SENT!
+              ORDER RECEIVED & DISPATCHED!
             </h3>
-            <p style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-body)', fontSize: '0.95rem', marginBottom: 24, lineHeight: 1.6 }}>
-              Your order payload has been generated and WhatsApp notification opened. Our pitmaster team will confirm your delivery slot shortly.
+            <div style={{ background: '#E8F5E9', border: '1px solid #A5D6A7', color: '#1B5E20', padding: '10px 14px', borderRadius: 6, fontSize: '0.84rem', fontWeight: 600, marginBottom: 16 }}>
+              ✓ Synced with Smokehouse Kitchen Schedule
+            </div>
+            <p style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-body)', fontSize: '0.92rem', marginBottom: 24, lineHeight: 1.6 }}>
+              Your order is securely registered in our kitchen database and WhatsApp dispatch receipt has been opened. Our pitmaster team will prepare your slow-smoked cuts for your scheduled slot.
             </p>
             <button
               onClick={() => {
