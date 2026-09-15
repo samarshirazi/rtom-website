@@ -161,6 +161,10 @@ export async function pushOrderToSupabase(
       return { error: 'Customer profile setup skipped' };
     }
 
+    // Extract Canadian postal code (e.g. T5J 0K1 or T5J0K1) or default to Edmonton central T5J 0K1
+    const postalMatch = (payload.customerAddress || '').match(/[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d/);
+    const postalCode = postalMatch ? postalMatch[0].toUpperCase() : 'T5J 0K1';
+
     // 2. Create Address record
     const addrRes = await fetch(`${SUPABASE_URL}/rest/v1/addresses`, {
       method: 'POST',
@@ -176,7 +180,7 @@ export async function pushOrderToSupabase(
         line1: payload.customerAddress || 'Edmonton, AB',
         city: 'Edmonton',
         state: 'AB',
-        country: 'CA',
+        postal_code: postalCode,
         is_default: true,
       }),
     });
