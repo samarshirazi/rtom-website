@@ -37,6 +37,18 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
     return cartItems.map((item) => findDish(item.dishId)).filter(Boolean) as Dish[];
   }, [cartItems]);
 
+  const isSideDish = (dish: Dish) => {
+    return dish.category === 'sides' || dish.category === 'drinks';
+  };
+
+  const hasMainDish = useMemo(() => {
+    return cartDishes.some((dish) => !isSideDish(dish));
+  }, [cartDishes]);
+
+  const hasOnlySides = useMemo(() => {
+    return cartItems.length > 0 && !hasMainDish;
+  }, [cartItems, hasMainDish]);
+
   const hasPreOrderItems = useMemo(() => {
     return cartDishes.some((dish) => dish.deliveryType === 'pre-order' || (dish.leadTimeDays && dish.leadTimeDays > 0));
   }, [cartDishes]);
@@ -147,6 +159,10 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
 
   const handleCheckout = (e: React.FormEvent) => {
     e.preventDefault();
+    if (hasOnlySides) {
+      alert('Please add at least one main barbecue dish. Smokehouse sides (Rice, Mac & Cheese, Garlic Toum) cannot be ordered alone.');
+      return;
+    }
     if (!customerName || !customerPhone || !customerAddress) {
       alert('Please fill out your name, phone number, and delivery address.');
       return;
@@ -613,7 +629,49 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                 </div>
               </div>
 
-              <button type="submit" className="btn btn-dark" style={{ width: '100%', padding: '14px', fontSize: '1rem', justifyContent: 'center' }}>
+              {hasOnlySides && (
+                <div
+                  style={{
+                    background: '#FFF3E0',
+                    border: '1.5px solid #FFB74D',
+                    borderRadius: 'var(--radius-sm)',
+                    padding: '12px 14px',
+                    marginBottom: 16,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 6,
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: '#E65100', fontWeight: 700, fontSize: '0.88rem' }}>
+                    <span>⚠️</span> Main Meat Dish Required
+                  </div>
+                  <div style={{ fontSize: '0.82rem', color: '#5D4037', lineHeight: 1.45 }}>
+                    Smokehouse sides (Rice, Mac & Cheese, Garlic Toum) are freshly crafted alongside our pit-smoked meats and cannot be ordered alone. Please add at least one main barbecue dish to checkout.
+                  </div>
+                  <button
+                    type="button"
+                    onClick={onClose}
+                    className="btn btn-outline btn-sm"
+                    style={{ alignSelf: 'flex-start', marginTop: 4, padding: '6px 14px', fontSize: '0.78rem' }}
+                  >
+                    + Add Main Barbecue Dish
+                  </button>
+                </div>
+              )}
+
+              <button
+                type="submit"
+                disabled={hasOnlySides}
+                className="btn btn-dark"
+                style={{
+                  width: '100%',
+                  padding: '14px',
+                  fontSize: '1rem',
+                  justifyContent: 'center',
+                  opacity: hasOnlySides ? 0.5 : 1,
+                  cursor: hasOnlySides ? 'not-allowed' : 'pointer',
+                }}
+              >
                 🔥 Place Order via WhatsApp
               </button>
             </form>
