@@ -21,6 +21,7 @@ type LambShankFunnelPageProps = {
     selectedOptions: { groupId: string; groupName: string; optionId: string; optionName: string; priceDelta: number }[],
     unitPrice: number
   ) => void;
+  onOpenDishModal?: (dish: Dish) => void;
   cartItemCount?: number;
   onOpenCart?: () => void;
 };
@@ -29,6 +30,7 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
   dish,
   onBackToMenu,
   onAddToCart,
+  onOpenDishModal,
   cartItemCount = 0,
   onOpenCart,
 }) => {
@@ -39,44 +41,16 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
     DISHES[0];
 
   const basePrice = lambShankDish.price || 29.99;
+  const currentPriceFormatted = `$${basePrice.toFixed(2)}`;
 
   const [activeFaq, setActiveFaq] = useState<number | null>(0);
-  const [selectedAddon, setSelectedAddon] = useState<'none' | 'extra-shank' | 'mac-cheese'>('none');
-
-  // Calculate dynamic price based on feast upgrade
-  const calculateTotal = () => {
-    if (selectedAddon === 'extra-shank') return basePrice + 19.99;
-    if (selectedAddon === 'mac-cheese') return basePrice + 9.99;
-    return basePrice;
-  };
-
-  const currentPriceFormatted = `$${calculateTotal().toFixed(2)}`;
 
   const handleOrderNow = () => {
-    const options: { groupId: string; groupName: string; optionId: string; optionName: string; priceDelta: number }[] = [];
-    let unitPrice = lambShankDish.price;
-
-    if (selectedAddon === 'extra-shank') {
-      options.push({
-        groupId: 'feast-addon',
-        groupName: 'Feast Upgrade',
-        optionId: 'extra-shank',
-        optionName: 'Extra 5-Hour Smoked Shank',
-        priceDelta: 19.99,
-      });
-      unitPrice += 19.99;
-    } else if (selectedAddon === 'mac-cheese') {
-      options.push({
-        groupId: 'feast-addon',
-        groupName: 'Feast Upgrade',
-        optionId: 'mac-side',
-        optionName: 'Mac & Cheese',
-        priceDelta: 9.99,
-      });
-      unitPrice += 9.99;
+    if (onOpenDishModal) {
+      onOpenDishModal(lambShankDish);
+      return;
     }
-
-    onAddToCart(lambShankDish, 1, options, unitPrice);
+    onAddToCart(lambShankDish, 1, [], basePrice);
   };
 
   const scrollToStack = () => {
@@ -872,9 +846,9 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
             </div>
           </div>
 
-          {/* Pricing & Add-on Selection */}
-          <div style={{ borderTop: '2px solid #EAE6D9', paddingTop: '28px', marginBottom: '32px' }}>
-            <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+          {/* Pricing & Customization Guide */}
+          <div style={{ borderTop: '2px solid #EAE6D9', paddingTop: '28px', marginBottom: '28px' }}>
+            <div style={{ textAlign: 'center', marginBottom: '22px' }}>
               <div style={{ fontSize: '0.85rem', fontWeight: 800, color: '#777169', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
                 COMPLETE SMOKEHOUSE BANQUET
               </div>
@@ -890,73 +864,67 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
                 {currentPriceFormatted}
               </div>
               <div style={{ fontSize: '0.92rem', color: '#66625C', marginTop: '6px' }}>
-                Full Meal (Serves 1–2 generously) • 100% Halal Certified
+                Generous 18–20 oz Bone-In Shank • 100% Halal Certified • Serves 1–2
               </div>
             </div>
 
-            {/* Optional Feast Upgrade Cards */}
-            <div style={{ marginBottom: '24px' }}>
-              <div style={{ fontWeight: 800, fontSize: '0.95rem', color: '#1A1918', marginBottom: '10px' }}>
-                Customize Your Feast (Optional Upgrades):
+            {/* Customization Steps (Matching the App & Storefront Dish Modal) */}
+            <div style={{ marginBottom: '20px' }}>
+              <div style={{ fontWeight: 800, fontSize: '0.95rem', color: '#1A1918', marginBottom: '12px', textAlign: 'center' }}>
+                🍽️ What's Included & Customizable:
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '12px' }}>
                 <div
-                  onClick={() => setSelectedAddon('none')}
                   style={{
-                    border: selectedAddon === 'none' ? '2px solid #D9652B' : '1px solid #DCD8CF',
-                    background: selectedAddon === 'none' ? '#FFF9F5' : '#FFFFFF',
+                    border: '1px solid #DCD8CF',
+                    background: '#FFFFFF',
                     borderRadius: '8px',
-                    padding: '14px 16px',
-                    cursor: 'pointer',
-                    transition: 'all 0.15s ease',
+                    padding: '16px',
+                    boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
                   }}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '4px' }}>
-                    <strong style={{ fontSize: '0.95rem' }}>Standard Feast</strong>
-                    <span style={{ fontWeight: 800, color: '#BA4E18' }}>$29.99</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+                    <span style={{ fontSize: '1.25rem' }}>🍚</span>
+                    <strong style={{ fontSize: '0.92rem', color: '#1A1918' }}>Choice of Base Pairing</strong>
                   </div>
-                  <div style={{ fontSize: '0.82rem', color: '#66625C' }}>
-                    1 Shank + Full Rice & Sides
+                  <div style={{ fontSize: '0.82rem', color: '#66625C', lineHeight: 1.45 }}>
+                    Choose between Fragrant Spiced Saffron Basmati Rice OR Creamy Mac & Cheese.
                   </div>
                 </div>
 
                 <div
-                  onClick={() => setSelectedAddon('extra-shank')}
                   style={{
-                    border: selectedAddon === 'extra-shank' ? '2px solid #D9652B' : '1px solid #DCD8CF',
-                    background: selectedAddon === 'extra-shank' ? '#FFF9F5' : '#FFFFFF',
+                    border: '1px solid #DCD8CF',
+                    background: '#FFFFFF',
                     borderRadius: '8px',
-                    padding: '14px 16px',
-                    cursor: 'pointer',
-                    transition: 'all 0.15s ease',
+                    padding: '16px',
+                    boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
                   }}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '4px' }}>
-                    <strong style={{ fontSize: '0.95rem' }}>Add 2nd Shank</strong>
-                    <span style={{ fontWeight: 800, color: '#BA4E18' }}>+$19.99</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+                    <span style={{ fontSize: '1.25rem' }}>🧄</span>
+                    <strong style={{ fontSize: '0.92rem', color: '#1A1918' }}>Sauces & Add-ons</strong>
                   </div>
-                  <div style={{ fontSize: '0.82rem', color: '#66625C' }}>
-                    Two 5-hr shanks (Best for 2 people)
+                  <div style={{ fontSize: '0.82rem', color: '#66625C', lineHeight: 1.45 }}>
+                    Add extra House Garlic Toum (+$2.99), Extra Spiced Rice (+$4.99), or Extra Mac (+$5.99).
                   </div>
                 </div>
 
                 <div
-                  onClick={() => setSelectedAddon('mac-cheese')}
                   style={{
-                    border: selectedAddon === 'mac-cheese' ? '2px solid #D9652B' : '1px solid #DCD8CF',
-                    background: selectedAddon === 'mac-cheese' ? '#FFF9F5' : '#FFFFFF',
+                    border: '1px solid #DCD8CF',
+                    background: '#FFFFFF',
                     borderRadius: '8px',
-                    padding: '14px 16px',
-                    cursor: 'pointer',
-                    transition: 'all 0.15s ease',
+                    padding: '16px',
+                    boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
                   }}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '4px' }}>
-                    <strong style={{ fontSize: '0.95rem' }}>Add Mac & Cheese</strong>
-                    <span style={{ fontWeight: 800, color: '#BA4E18' }}>+$9.99</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+                    <span style={{ fontSize: '1.25rem' }}>⚡</span>
+                    <strong style={{ fontSize: '0.92rem', color: '#1A1918' }}>Same-Day Delivery</strong>
                   </div>
-                  <div style={{ fontSize: '0.82rem', color: '#66625C' }}>
-                    Mac & Cheese
+                  <div style={{ fontSize: '0.82rem', color: '#66625C', lineHeight: 1.45 }}>
+                    Order for hot delivery tonight in Edmonton or pick an advance weekend/weekday slot.
                   </div>
                 </div>
               </div>
@@ -985,8 +953,11 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
             onMouseOver={(e) => (e.currentTarget.style.transform = 'translateY(-2px)')}
             onMouseOut={(e) => (e.currentTarget.style.transform = 'translateY(0)')}
           >
-            ORDER YOUR LAMB SHANK FEAST ({currentPriceFormatted}) →
+            CUSTOMIZE & ORDER YOUR FEAST ({currentPriceFormatted}) →
           </button>
+          <div style={{ textAlign: 'center', marginTop: '8px', fontSize: '0.82rem', color: '#777169' }}>
+            👆 Tap to select Rice vs Mac & Cheese, sides, quantity & delivery date
+          </div>
 
           <div style={{ marginTop: '14px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
             <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '10px', width: '100%' }}>
@@ -1266,7 +1237,7 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
             boxShadow: '0 12px 35px rgba(217, 101, 43, 0.45)',
           }}
         >
-          ORDER YOUR 5-HR LAMB SHANK FEAST ({currentPriceFormatted}) →
+          CUSTOMIZE & ORDER YOUR FEAST ({currentPriceFormatted}) →
         </button>
       </section>
 
@@ -1321,7 +1292,7 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
               whiteSpace: 'nowrap',
             }}
           >
-            ORDER FEAST ({currentPriceFormatted}) →
+            CUSTOMIZE & ORDER ({currentPriceFormatted}) →
           </button>
         </div>
       </div>

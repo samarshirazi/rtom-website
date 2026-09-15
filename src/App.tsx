@@ -175,6 +175,7 @@ export function App() {
             dish={dishes.find((d) => d.id === 'rtom-lamb-shank' || d.name.toLowerCase().includes('lamb shank')) || dishes[0]}
             onBackToMenu={handleBackToHome}
             onAddToCart={handleAddToCart}
+            onOpenDishModal={(dish) => setSelectedDishModal(dish)}
             cartItemCount={cartItemCount}
             onOpenCart={() => setIsCartOpen(true)}
           />
