@@ -21,5 +21,8 @@ dist-ssr
 *.ntvs*
 *.njsproj
 *.sln
-*.sw?
 .vercel
+
+# Local test & seed scripts
+scripts/seed-showcase-orders.mjs
+scripts/test-total-system-suite.mjs

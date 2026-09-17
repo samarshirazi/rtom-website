@@ -126,8 +126,8 @@ export const LambShankDailyPopup: React.FC<LambShankDailyPopupProps> = ({
               gap: '6px',
             }}
           >
-            <span>🔥</span>
-            <span>DAILY PITMASTER SPECIAL</span>
+            <span>🪵</span>
+            <span>ARTISAN CELEBRATION DELICACY</span>
           </div>
 
           <div
@@ -145,7 +145,7 @@ export const LambShankDailyPopup: React.FC<LambShankDailyPopupProps> = ({
               border: '1px solid rgba(255, 255, 255, 0.2)',
             }}
           >
-            $29.99 <span style={{ fontSize: '0.75rem', fontWeight: 500, color: '#DDD' }}>Complete Platter</span>
+            $38.00 <span style={{ fontSize: '0.75rem', fontWeight: 500, color: '#DDD' }}>Complete Platter</span>
           </div>
         </div>
 
@@ -154,14 +154,14 @@ export const LambShankDailyPopup: React.FC<LambShankDailyPopupProps> = ({
           <div
             style={{
               fontFamily: 'var(--font-woodcut), Impact, sans-serif',
-              fontSize: 'clamp(1.5rem, 3.5vw, 1.85rem)',
+              fontSize: 'clamp(1.4rem, 3.5vw, 1.8rem)',
               color: '#1A1918',
               lineHeight: 1.15,
               textTransform: 'uppercase',
               marginBottom: '10px',
             }}
           >
-            Did You Know? We Slow-Smoke Lamb Shank Fresh Daily!
+            Tender Slow-Smoked Lamb Shank Delicacy
           </div>
 
           <p
@@ -169,10 +169,10 @@ export const LambShankDailyPopup: React.FC<LambShankDailyPopupProps> = ({
               fontSize: '0.95rem',
               lineHeight: 1.6,
               color: '#555047',
-              margin: '0 0 20px',
+              margin: '0 0 16px',
             }}
           >
-            Every single day, our pitmaster crafts a limited batch of tender, fall-off-the-bone lamb shanks smoked 5 hours over seasoned hardwood. Served over a mountain of saffron spiced basmati rice with signature sauce and jus.
+            Slow-smoked 5 hours over seasoned hardwood with minimum 1-day notice. Handcrafted for celebrations, dinner parties, and special gatherings. Served over fragrant saffron spiced basmati rice with house garlic toum and smoked rosemary jus. (Optional extra shank +$23.00).
           </p>
 
           {/* Tenderness Callout */}
@@ -193,7 +193,7 @@ export const LambShankDailyPopup: React.FC<LambShankDailyPopupProps> = ({
           >
             <span style={{ fontSize: '1.1rem' }}>🥄</span>
             <div>
-              <strong>100% Spoon-Tender:</strong> Soft enough for toddlers & grandparents with zero chewing effort!
+              <strong>100% Spoon-Tender:</strong> Fall-off-the-bone soft with zero chewing effort!
             </div>
           </div>
 
@@ -221,7 +221,7 @@ export const LambShankDailyPopup: React.FC<LambShankDailyPopupProps> = ({
                 transition: 'transform 0.15s ease',
               }}
             >
-              <span>🔥 View Daily Lamb Shank Feast</span>
+              <span>🔥 View Lamb Shank Feast Story</span>
               <span>→</span>
             </button>
 
@@ -244,7 +244,7 @@ export const LambShankDailyPopup: React.FC<LambShankDailyPopupProps> = ({
                   gap: '6px',
                 }}
               >
-                <span>+ Add to Cart ($29.99)</span>
+                <span>+ Add to Cart ($38.00)</span>
               </button>
 
               <button

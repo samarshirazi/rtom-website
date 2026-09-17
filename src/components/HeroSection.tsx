@@ -56,15 +56,15 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             textTransform: 'uppercase',
           }}
         >
-          🔥 100% Halal Certified Pitmaster BBQ • Edmonton Delivery
+          🪵 100% Halal Artisan Pitmaster BBQ • Delicacies for Celebrations & Events
         </div>
       </div>
 
       {/* 2. Franklin BBQ Iconic Statement Press Quote Banner */}
       <div className="franklin-quote-banner">
         <div className="container">
-          <h2>“SERVING AUTHENTIC 100% HALAL SMOKEHOUSE BBQ IN ALBERTA.”</h2>
-          <div className="attribution">— RTOM Pitmaster Smokehouse</div>
+          <h2>“ARTISAN SLOW-SMOKED DELICACIES FOR CELEBRATIONS, PARTIES & SPECIAL GATHERINGS.”</h2>
+          <div className="attribution">— RTOM Pitmaster Smokehouse • Edmonton Metro</div>
         </div>
       </div>
 
@@ -81,7 +81,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 marginBottom: 16,
               }}
             >
-              SMOKED LOW & SLOW OVER REAL HICKORY & CHARCOAL
+              SLOW-SMOKED DELICACIES FOR MEMORABLE CELEBRATIONS
             </div>
             <p
               style={{
@@ -92,7 +92,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 marginBottom: 36,
               }}
             >
-              From 5-hour slow-smoked lamb shanks and 14-hour hickory brisket over mac & cheese to whole charcoal chicken legs and whole leg of lamb pit feasts. Order online for daily delivery or book custom BBQ catering for weddings, family feasts, and corporate events.
+              Real wood-fired smokehouse barbecue crafted with patience over seasoned hardwood coals. Every feast is smoked fresh to order with a <strong>minimum of 1 day advance notice</strong> for family celebrations, dinner parties, weekend gatherings, and special events. Fall-off-the-bone lamb shanks, whole charcoal chicken, and legendary pit platters.
             </p>
 
             {/* CTAs */}
@@ -105,15 +105,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 marginBottom: 48,
               }}
             >
-              <a
-                href="https://app.rtombbq.ca"
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                onClick={onExploreMenu}
                 className="btn btn-rust"
                 style={{ fontSize: '1rem', padding: '14px 28px' }}
               >
-                📱 Order on App (app.rtombbq.ca)
-              </a>
+                🔥 View Delicacy Menu
+              </button>
               <a
                 href={BUSINESS_TEL}
                 className="btn btn-dark"
@@ -121,49 +119,51 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 title="Call to Order directly"
               >
                 <span>📞</span>
-                <span>Call: <strong>{BUSINESS_PHONE_DISPLAY}</strong></span>
+                <span>Call to Reserve: <strong>{BUSINESS_PHONE_DISPLAY}</strong></span>
               </a>
-              <button
-                onClick={onExploreMenu}
-                className="btn btn-outline"
-                style={{ fontSize: '1rem', padding: '14px 24px' }}
-              >
-                🔥 Smokehouse Menu
-              </button>
               <button
                 onClick={onOpenCatering}
                 className="btn btn-outline"
                 style={{ fontSize: '1rem', padding: '14px 24px' }}
               >
-                🍖 Catering Calculator
+                🍖 Party & Event Calculator
               </button>
+              <a
+                href="https://app.rtombbq.ca"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-outline"
+                style={{ fontSize: '1rem', padding: '14px 24px' }}
+              >
+                📱 RTOM App
+              </a>
             </div>
 
             {/* Smokehouse Feature Badges */}
             <div
               style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-                gap: 20,
+                gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                gap: 16,
                 textAlign: 'left',
               }}
             >
               <div
                 className="paper-card"
                 style={{
-                  padding: '20px',
+                  padding: '18px',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: 14,
+                  gap: 12,
                 }}
               >
-                <span style={{ fontSize: '2rem' }}>🥩</span>
+                <span style={{ fontSize: '1.8rem' }}>🥩</span>
                 <div>
-                  <div style={{ fontFamily: 'var(--font-heading)', fontSize: '0.95rem', fontWeight: 700, textTransform: 'uppercase' }}>
-                    100% Halal Meats
+                  <div style={{ fontFamily: 'var(--font-heading)', fontSize: '0.92rem', fontWeight: 700, textTransform: 'uppercase' }}>
+                    100% Halal Certified
                   </div>
-                  <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>
-                    Hand-cut, premium quality cuts
+                  <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                    Hand-selected premium cuts
                   </div>
                 </div>
               </div>
@@ -171,19 +171,19 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               <div
                 className="paper-card"
                 style={{
-                  padding: '20px',
+                  padding: '18px',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: 14,
+                  gap: 12,
                 }}
               >
-                <span style={{ fontSize: '2rem' }}>🪵</span>
+                <span style={{ fontSize: '1.8rem' }}>🪵</span>
                 <div>
-                  <div style={{ fontFamily: 'var(--font-heading)', fontSize: '0.95rem', fontWeight: 700, textTransform: 'uppercase' }}>
-                    12-Hr Wood Smoked
+                  <div style={{ fontFamily: 'var(--font-heading)', fontSize: '0.92rem', fontWeight: 700, textTransform: 'uppercase' }}>
+                    Artisan Delicacy
                   </div>
-                  <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>
-                    Hickory coals & slow pit fires
+                  <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                    Real oak & hickory smoke
                   </div>
                 </div>
               </div>
@@ -191,19 +191,39 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               <div
                 className="paper-card"
                 style={{
-                  padding: '20px',
+                  padding: '18px',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: 14,
+                  gap: 12,
                 }}
               >
-                <span style={{ fontSize: '2rem' }}>🛵</span>
+                <span style={{ fontSize: '1.8rem' }}>📅</span>
                 <div>
-                  <div style={{ fontFamily: 'var(--font-heading)', fontSize: '0.95rem', fontWeight: 700, textTransform: 'uppercase' }}>
-                    Fresh & Hot Delivery
+                  <div style={{ fontFamily: 'var(--font-heading)', fontSize: '0.92rem', fontWeight: 700, textTransform: 'uppercase' }}>
+                    Min. 1 Day Notice
                   </div>
-                  <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>
-                    Edmonton region
+                  <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                    Smoked to order for your date
+                  </div>
+                </div>
+              </div>
+
+              <div
+                className="paper-card"
+                style={{
+                  padding: '18px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 12,
+                }}
+              >
+                <span style={{ fontSize: '1.8rem' }}>🥂</span>
+                <div>
+                  <div style={{ fontFamily: 'var(--font-heading)', fontSize: '0.92rem', fontWeight: 700, textTransform: 'uppercase' }}>
+                    Parties & Events
+                  </div>
+                  <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                    Celebration dining in Edmonton
                   </div>
                 </div>
               </div>

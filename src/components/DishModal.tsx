@@ -153,19 +153,23 @@ export const DishModal: React.FC<DishModalProps> = ({ dish, remainingStock, onCl
                 🔥 Only {remainingStock} left today!
               </span>
             ) : null}
-            {dish.deliveryType === 'same-day' ? (
-              <span style={{ background: '#E8F5E9', color: '#1B5E20', border: '1px solid #A5D6A7', padding: '4px 8px', borderRadius: 4, fontSize: '0.75rem', fontWeight: 700 }}>
-                ⚡ Same-Day Delivery Tonight
+            {dish.category === 'sides' ? (
+              <span style={{ background: '#F1F5F9', color: '#334155', border: '1px solid #CBD5E1', padding: '4px 8px', borderRadius: 4, fontSize: '0.75rem', fontWeight: 700 }}>
+                🫓 Smokehouse Side • Pair With Mains
+              </span>
+            ) : dish.id === 'rtom-beef-shank-mac' || dish.id === 'rtom-leg-of-lamb' ? (
+              <span style={{ background: '#FFF3E0', color: '#C2410C', border: '1px solid #FFCC80', padding: '4px 8px', borderRadius: 4, fontSize: '0.75rem', fontWeight: 700 }}>
+                📅 Weekend Celebration Feast (Sat & Sun)
               </span>
             ) : (
-              <span style={{ background: '#FFF8E1', color: '#8D6E00', border: '1px solid #FFE082', padding: '4px 8px', borderRadius: 4, fontSize: '0.75rem', fontWeight: 700 }}>
-                📅 Pre-Order • Pick Delivery Day
+              <span style={{ background: '#FEF3C7', color: '#92400E', border: '1px solid #FCD34D', padding: '4px 8px', borderRadius: 4, fontSize: '0.75rem', fontWeight: 800 }}>
+                🪵 Artisan Delicacy • Min. 1 Day Notice
               </span>
             )}
           </div>
 
           <div style={{ background: 'rgba(217, 101, 43, 0.07)', borderLeft: '3px solid var(--color-rust)', padding: '10px 12px', borderRadius: '0 6px 6px 0', marginTop: 14, fontSize: '0.82rem', color: 'var(--text-charcoal)', lineHeight: 1.45 }}>
-            <strong style={{ color: 'var(--color-rust)' }}>🪵 Why Advance Ordering?</strong> Real Texas barbecue cannot be rushed in 30 minutes. We smoke low & slow over hardwood embers for up to 14 hours and rest each cut so it reaches mouthwatering tenderness—never reheated under fast-food heat lamps.
+            <strong style={{ color: 'var(--color-rust)' }}>🪵 Smoked Fresh for Your Celebration:</strong> Authentic wood-fired barbecue cannot be rushed. Every order is smoked low & slow over hardwood embers with at least 24 hours notice and rested to melt-in-your-mouth tenderness—delivered hot and fresh for your event or family dinner.
           </div>
         </div>
 

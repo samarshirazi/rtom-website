@@ -61,25 +61,16 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
     (d.name.toLowerCase().includes('lamb shank') && !d.name.toLowerCase().includes('beef'));
 
   const categories = [
-    { key: 'all', label: 'ALL DISHES', icon: '🔥' },
-    { key: 'daily', label: 'DAILY AVAILABLE (ORDER NOW)', icon: '⚡' },
-    { key: 'preorder', label: 'ADVANCE PRE-ORDER', icon: '📅' },
-    { key: 'sides', label: 'SMOKEHOUSE SIDES', icon: '🫓' },
+    { key: 'all', label: 'ALL DELICACIES', icon: '🔥' },
     { key: 'mutton', label: 'MUTTON & LAMB', icon: '🍖' },
-    { key: 'beef', label: 'BEEF SPECIALS', icon: '🥩' },
     { key: 'chicken', label: 'CHARCOAL CHICKEN', icon: '🍗' },
+    { key: 'beef', label: 'BEEF SPECIALS', icon: '🥩' },
+    { key: 'sides', label: 'SMOKEHOUSE SIDES', icon: '🫓' },
   ];
 
   const filteredDishes = useMemo(() => {
     return dishes.filter((dish) => {
-      let matchesCategory = true;
-      if (selectedCategory === 'daily') {
-        matchesCategory = dish.deliveryType === 'same-day' && dish.category !== 'sides';
-      } else if (selectedCategory === 'preorder') {
-        matchesCategory = dish.deliveryType === 'pre-order';
-      } else if (selectedCategory !== 'all') {
-        matchesCategory = dish.category === selectedCategory;
-      }
+      const matchesCategory = selectedCategory === 'all' || dish.category === selectedCategory;
       const matchesSearch =
         dish.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         dish.description.toLowerCase().includes(searchQuery.toLowerCase());
@@ -87,12 +78,8 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
     });
   }, [dishes, selectedCategory, searchQuery]);
 
-  const dailyDishes = useMemo(() => {
-    return dishes.filter((d) => d.deliveryType === 'same-day' && d.category !== 'sides');
-  }, [dishes]);
-
-  const preOrderDishes = useMemo(() => {
-    return dishes.filter((d) => d.deliveryType === 'pre-order');
+  const feastDishes = useMemo(() => {
+    return dishes.filter((d) => d.category !== 'sides');
   }, [dishes]);
 
   const sideDishes = useMemo(() => {
@@ -219,16 +206,29 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
 
                   {/* Portion Tag */}
                   <div
-                    className="script-accent"
                     style={{
                       position: 'absolute',
                       bottom: 10,
                       left: 12,
-                      fontSize: '1rem',
-                      color: '#F4F1E8',
+                      background: 'rgba(20, 19, 18, 0.88)',
+                      backdropFilter: 'blur(6px)',
+                      color: '#FFFFFF',
+                      border: '1px solid rgba(255, 255, 255, 0.22)',
+                      padding: '4px 10px',
+                      borderRadius: 'var(--radius-sm)',
+                      fontFamily: 'var(--font-heading)',
+                      fontSize: '0.74rem',
+                      fontWeight: 700,
+                      letterSpacing: '0.04em',
+                      textTransform: 'uppercase',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '5px',
+                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.35)',
                     }}
                   >
-                    Portion: {dish.portionSize}
+                    <span style={{ fontSize: '0.82rem' }}>👥</span>
+                    <span>Portion: <strong style={{ color: '#FCD34D' }}>{dish.portionSize}</strong></span>
                   </div>
                 </div>
 
@@ -298,26 +298,7 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
                         </div>
                       ) : null}
 
-                      {dish.deliveryType === 'same-day' && dish.category !== 'sides' ? (
-                        <div
-                          style={{
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            gap: 5,
-                            background: '#E8F5E9',
-                            color: '#1B5E20',
-                            border: '1px solid #A5D6A7',
-                            padding: '3px 8px',
-                            borderRadius: 4,
-                            fontSize: '0.72rem',
-                            fontWeight: 700,
-                            letterSpacing: '0.02em',
-                            textTransform: 'uppercase',
-                          }}
-                        >
-                          <span>⚡ AVAILABLE DAILY • READY TONIGHT</span>
-                        </div>
-                      ) : dish.category === 'sides' ? (
+                      {dish.category === 'sides' ? (
                         <div
                           style={{
                             display: 'inline-flex',
@@ -353,7 +334,7 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
                             textTransform: 'uppercase',
                           }}
                         >
-                          <span>📅 WEEKEND PRE-ORDER (SAT & SUN)</span>
+                          <span>📅 WEEKEND CELEBRATION FEAST (SAT & SUN)</span>
                         </div>
                       ) : (
                         <div
@@ -361,18 +342,18 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
                             display: 'inline-flex',
                             alignItems: 'center',
                             gap: 5,
-                            background: '#FFF8E1',
-                            color: '#8D6E00',
-                            border: '1px solid #FFE082',
+                            background: '#FEF3C7',
+                            color: '#92400E',
+                            border: '1px solid #FCD34D',
                             padding: '3px 8px',
                             borderRadius: 4,
                             fontSize: '0.72rem',
-                            fontWeight: 700,
+                            fontWeight: 800,
                             letterSpacing: '0.02em',
                             textTransform: 'uppercase',
                           }}
                         >
-                          <span>📅 24H PRE-ORDER • PICK DELIVERY DAY</span>
+                          <span>🪵 SLOW-SMOKED DELICACY • MIN. 1 DAY NOTICE</span>
                         </div>
                       )}
                     </div>
@@ -381,12 +362,94 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
                         fontFamily: 'var(--font-serif)',
                         fontSize: '0.92rem',
                         color: 'var(--text-muted)',
-                        marginBottom: 20,
+                        marginBottom: 12,
                         lineHeight: 1.6,
                       }}
                     >
                       {dish.description}
                     </p>
+
+                    {/* Add-on / Pairing callouts */}
+                    {isLambShankDish(dish) && (
+                      <div
+                        style={{
+                          background: 'rgba(217, 101, 43, 0.08)',
+                          border: '1px dashed #D9652B',
+                          borderRadius: 6,
+                          padding: '6px 10px',
+                          fontSize: '0.78rem',
+                          color: '#B45309',
+                          fontWeight: 700,
+                          marginBottom: 14,
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 6,
+                        }}
+                      >
+                        <span>🔥</span>
+                        <span>Party Add-On: Add Extra Lamb Shank for +$23.00</span>
+                      </div>
+                    )}
+                    {(dish.id === 'rtom-chicken-leg' || dish.name.toLowerCase().includes('quarter chicken')) && (
+                      <div
+                        style={{
+                          background: 'rgba(217, 101, 43, 0.08)',
+                          border: '1px dashed #D9652B',
+                          borderRadius: 6,
+                          padding: '6px 10px',
+                          fontSize: '0.78rem',
+                          color: '#B45309',
+                          fontWeight: 700,
+                          marginBottom: 14,
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 6,
+                        }}
+                      >
+                        <span>🍗</span>
+                        <span>Feast Add-On: Add Extra Quarter Chicken for +$16.99</span>
+                      </div>
+                    )}
+                    {dish.name.toLowerCase().includes('half chicken') && (
+                      <div
+                        style={{
+                          background: 'rgba(5, 150, 105, 0.08)',
+                          border: '1px dashed #059669',
+                          borderRadius: 6,
+                          padding: '6px 10px',
+                          fontSize: '0.78rem',
+                          color: '#065F46',
+                          fontWeight: 700,
+                          marginBottom: 14,
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 6,
+                        }}
+                      >
+                        <span>✨</span>
+                        <span>Celebration Plate: Includes Spiced Rice or Cheddar Mac</span>
+                      </div>
+                    )}
+                    {dish.name.toLowerCase().includes('full chicken') && (
+                      <div
+                        style={{
+                          background: 'rgba(5, 150, 105, 0.08)',
+                          border: '1px dashed #059669',
+                          borderRadius: 6,
+                          padding: '6px 10px',
+                          fontSize: '0.78rem',
+                          color: '#065F46',
+                          fontWeight: 700,
+                          marginBottom: 14,
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 6,
+                        }}
+                      >
+                        <span>👑</span>
+                        <span>Family & Event Feast: Full Smoked Bird with Choice of Base</span>
+                      </div>
+                    )}
                   </div>
 
                   {/* Price & Action Button */}
@@ -490,7 +553,7 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
               marginBottom: 14,
             }}
           >
-            📖 SMOKEHOUSE MENU
+            🪵 ARTISAN SMOKEHOUSE DELICACIES
           </div>
           <h2
             style={{
@@ -501,10 +564,10 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
               letterSpacing: '0.04em',
             }}
           >
-            FRESH PITMASTER DISHES <span style={{ color: 'var(--color-rust)' }}>ORDERABLE DAILY</span>
+            FEASTS FOR CELEBRATIONS <span style={{ color: 'var(--color-rust)' }}>& PARTIES</span>
           </h2>
           <p className="script-accent" style={{ fontSize: '1.35rem', color: 'var(--text-muted)' }}>
-            Slow-smoked overnight • No weekly waiting or subscription caps
+            Reserved with minimum 1-day advance notice • Slow-smoked to order over real wood embers
           </p>
         </div>
 
@@ -748,64 +811,8 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
           </div>
         ) : selectedCategory === "all" && !searchQuery ? (
           <div style={{ display: "flex", flexDirection: "column", gap: 48 }}>
-            {/* 1. Daily Available Dishes */}
-            {dailyDishes.length > 0 && (
-              <section style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-                <div
-                  style={{
-                    padding: "20px 24px",
-                    background: "linear-gradient(135deg, rgba(6, 95, 70, 0.08) 0%, rgba(16, 185, 129, 0.12) 100%)",
-                    border: "1.5px solid rgba(16, 185, 129, 0.35)",
-                    borderRadius: "var(--radius-md)",
-                  }}
-                >
-                  <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", marginBottom: 6 }}>
-                    <span
-                      style={{
-                        background: "#065F46",
-                        color: "#FFFFFF",
-                        fontSize: "0.75rem",
-                        fontWeight: 800,
-                        padding: "3px 9px",
-                        borderRadius: "var(--radius-sm)",
-                        letterSpacing: "0.04em",
-                        textTransform: "uppercase",
-                      }}
-                    >
-                      ⚡ AVAILABLE DAILY • READY TONIGHT
-                    </span>
-                    <span style={{ fontSize: "0.88rem", color: "#047857", fontWeight: 700 }}>
-                      Same-Day Dinner Delivery
-                    </span>
-                  </div>
-                  <h3
-                    style={{
-                      margin: "0 0 4px",
-                      fontSize: "1.45rem",
-                      fontFamily: "var(--font-woodcut)",
-                      color: "var(--text-dark)",
-                    }}
-                  >
-                    DAILY AVAILABLE SMOKEHOUSE DISHES (ORDER NOW)
-                  </h3>
-                  <p style={{ margin: 0, fontSize: "0.92rem", color: "var(--text-muted)", lineHeight: 1.45 }}>
-                    Slow-smoked fresh each morning over hardwood embers. Order by 2 PM for delivery tonight (or schedule any future date).
-                  </p>
-                </div>
-                <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
-                    gap: 28,
-                  }}
-                >
-                  {dailyDishes.map(renderDishCard)}
-                </div>
-              </section>
-            )}
-
-            {/* 2. Advance Pre-Order Dishes */}
-            {preOrderDishes.length > 0 && (
+            {/* 1. Artisan Smokehouse Feasts & Delicacies */}
+            {feastDishes.length > 0 && (
               <section style={{ display: "flex", flexDirection: "column", gap: 20 }}>
                 <div
                   style={{
@@ -828,10 +835,10 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
                         textTransform: "uppercase",
                       }}
                     >
-                      📅 ADVANCE PRE-ORDER • PITMASTER SPECIALS
+                      🪵 ARTISAN SMOKEHOUSE DELICACIES • MIN. 1 DAY ADVANCE NOTICE
                     </span>
                     <span style={{ fontSize: "0.88rem", color: "#B45309", fontWeight: 700 }}>
-                      14-Hour Low & Slow Smokes
+                      Crafted for Celebrations, Parties & Events
                     </span>
                   </div>
                   <h3
@@ -842,10 +849,10 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
                       color: "var(--text-dark)",
                     }}
                   >
-                    PRE-ORDER DISHES (SELECT YOUR DELIVERY DATE)
+                    CENTERPIECE SMOKED FEASTS
                   </h3>
                   <p style={{ margin: 0, fontSize: "0.92rem", color: "var(--text-muted)", lineHeight: 1.45 }}>
-                    Artisan barbecue prepared in limited small batches. Beef Shank & Leg of Lamb are smoked fresh for weekend delivery (Saturday & Sunday).
+                    Every order is slow-smoked fresh over seasoned hardwood embers with at least 24 hours advance notice. Select your event date and enjoy restaurant-surpassing pitmaster craft delivered steaming hot.
                   </p>
                 </div>
                 <div
@@ -855,7 +862,7 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
                     gap: 28,
                   }}
                 >
-                  {preOrderDishes.map(renderDishCard)}
+                  {feastDishes.map(renderDishCard)}
                 </div>
               </section>
             )}

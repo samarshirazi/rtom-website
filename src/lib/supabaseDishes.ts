@@ -41,12 +41,7 @@ function mapSupabaseDish(row: any): Dish {
   const name = String(row.name || '').trim();
   const lowerName = name.toLowerCase();
 
-  const isLeadTimeZero = typeof row.lead_time_days === 'number' ? row.lead_time_days === 0 : null;
-  const isSameDay =
-    isLeadTimeZero !== null
-      ? isLeadTimeZero
-      : ((lowerName.includes('lamb shank') && !lowerName.includes('beef shank')) ||
-         lowerName.includes('chicken'));
+  const isSameDay = typeof row.lead_time_days === 'number' ? row.lead_time_days === 0 : false;
 
   const isLegOfLamb = lowerName.includes('leg of lamb');
 

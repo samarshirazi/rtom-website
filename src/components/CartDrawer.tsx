@@ -29,7 +29,6 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
   const findDish = (dishId: string) =>
     dishes.find((d) => d.id === dishId) || DISHES.find((d) => d.id === dishId);
 
-  const todayStr = new Date().toISOString().split('T')[0];
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
   const tomorrowStr = tomorrow.toISOString().split('T')[0];
@@ -59,14 +58,14 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
     const dates: Array<{ iso: string; label: string }> = [];
     const now = new Date();
 
-    for (let offset = 0; offset <= 35; offset++) {
+    for (let offset = 1; offset <= 35; offset++) {
       const candidate = new Date(now);
       candidate.setDate(now.getDate() + offset);
       const iso = candidate.toISOString().split('T')[0];
       const dow = candidate.getDay() === 0 ? 7 : candidate.getDay(); // 1=Mon..7=Sun
 
       const isValid = cartDishes.every((dish) => {
-        const minLead = dish.leadTimeDays ?? (dish.deliveryType === 'pre-order' ? 1 : 0);
+        const minLead = Math.max(1, dish.leadTimeDays ?? 1);
         if (offset < minLead) return false;
         if (Array.isArray(dish.availableDays) && dish.availableDays.length > 0) {
           if (!dish.availableDays.includes(dow)) return false;
@@ -75,7 +74,6 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
       });
 
       if (isValid) {
-        const isToday = offset === 0;
         const isTomorrow = offset === 1;
         const formatted = candidate.toLocaleDateString('en-US', {
           weekday: 'short',
@@ -83,9 +81,8 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
           day: 'numeric',
         });
         let badge = '';
-        if (isToday) badge = ' (Today)';
-        else if (isTomorrow) badge = ' (Tomorrow)';
-        else if (dates.length === 0) badge = ' (Earliest)';
+        if (isTomorrow) badge = ' (Tomorrow - Earliest)';
+        else if (dates.length === 0) badge = ' (Earliest Available)';
         else if (dow === 6 || dow === 7) badge = ' (Weekend)';
 
         dates.push({
@@ -195,14 +192,12 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
     const itemsSummary = cartItems
       .map((item) => {
         const dish = findDish(item.dishId);
-        const tag = dish?.deliveryType === 'same-day' ? '[SAME-DAY]' : '[PRE-ORDER]';
+        const tag = dish?.category === 'sides' ? '[SIDE]' : '[ARTISAN-FEAST]';
         return `• ${tag} ${item.name} x${item.quantity} ($${item.itemTotal.toFixed(2)})`;
       })
       .join('\n');
 
-    const deliveryTypeNote = hasPreOrderItems
-      ? '📅 *Delivery Type: Pre-Order Scheduled (Fresh Pit Smoke)*'
-      : '⚡ *Delivery Type: Same-Day Delivery Tonight*';
+    const deliveryTypeNote = '🪵 *Order Policy: Advance Artisan Feast (Min. 1-Day Notice)*';
 
     // 1. Push directly into Supabase (orders, order_items, addresses, profiles) for Chef Sam & Rider Routing
     pushOrderToSupabase({
@@ -361,13 +356,13 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                             <div style={{ fontSize: '1.1rem', fontFamily: 'var(--font-woodcut)', color: 'var(--text-dark)' }}>
                               {item.name}
                             </div>
-                            {dish?.deliveryType === 'same-day' ? (
-                              <span style={{ fontSize: '0.68rem', fontWeight: 700, color: '#1B5E20', background: '#E8F5E9', border: '1px solid #A5D6A7', padding: '1px 6px', borderRadius: 3, display: 'inline-block', marginTop: 3 }}>
-                                ⚡ Same-Day Tonight
+                            {dish?.category === 'sides' ? (
+                              <span style={{ fontSize: '0.68rem', fontWeight: 700, color: '#334155', background: '#F1F5F9', border: '1px solid #CBD5E1', padding: '1px 6px', borderRadius: 3, display: 'inline-block', marginTop: 3 }}>
+                                🫓 Side Dish
                               </span>
                             ) : (
                               <span style={{ fontSize: '0.68rem', fontWeight: 700, color: '#8D6E00', background: '#FFF8E1', border: '1px solid #FFE082', padding: '1px 6px', borderRadius: 3, display: 'inline-block', marginTop: 3 }}>
-                                📅 Pre-Order Scheduled
+                                🪵 Artisan Delicacy • Min. 1 Day Notice
                               </span>
                             )}
                           </div>
@@ -494,51 +489,30 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
               </div>
 
               {/* Delivery Availability Notice Banner */}
-              {hasPreOrderItems ? (
-                <div
-                  style={{
-                    background: '#FFF8E1',
-                    border: '1px solid #FFE082',
-                    borderRadius: 'var(--radius-sm)',
-                    padding: '12px 14px',
-                    marginBottom: 16,
-                    display: 'flex',
-                    gap: 10,
-                    alignItems: 'flex-start',
-                  }}
-                >
-                  <span style={{ fontSize: '1.2rem', lineHeight: 1 }}>📅</span>
-                  <div style={{ fontSize: '0.82rem', color: '#5D4037', lineHeight: 1.45 }}>
-                    <strong style={{ display: 'block', marginBottom: 2 }}>
-                      {cartDishes.some((d) => d.id === 'rtom-leg-of-lamb')
-                        ? 'Weekend Smoked Feast in Cart (Saturday & Sunday Only):'
-                        : 'Pre-Order Items in Cart:'}
-                    </strong>
+              <div
+                style={{
+                  background: '#FFF8E1',
+                  border: '1px solid #FFE082',
+                  borderRadius: 'var(--radius-sm)',
+                  padding: '12px 14px',
+                  marginBottom: 16,
+                  display: 'flex',
+                  gap: 10,
+                  alignItems: 'flex-start',
+                }}
+              >
+                <span style={{ fontSize: '1.2rem', lineHeight: 1 }}>🪵</span>
+                <div style={{ fontSize: '0.82rem', color: '#5D4037', lineHeight: 1.45 }}>
+                  <strong style={{ display: 'block', marginBottom: 2 }}>
                     {cartDishes.some((d) => d.id === 'rtom-leg-of-lamb')
-                      ? `Our 8+ hr whole Leg of Lamb is slow-roasted exclusively on weekends. Earliest delivery date is ${earliestAllowedDate}. Please pick your preferred weekend below!`
-                      : `Slow-smoked fresh to order with advance preparation. Earliest delivery date is ${earliestAllowedDate}. Please pick your preferred date below!`}
-                  </div>
+                      ? 'Weekend Smoked Feast in Cart (Saturday & Sunday Only):'
+                      : 'Artisan Delicacy Smoked to Order (Min. 1 Day Notice):'}
+                  </strong>
+                  {cartDishes.some((d) => d.id === 'rtom-leg-of-lamb')
+                    ? `Our 8+ hr whole Leg of Lamb is slow-roasted exclusively on weekends. Earliest delivery date is ${earliestAllowedDate}. Please pick your preferred weekend below!`
+                    : `Every order is slow-smoked over seasoned hardwood coals with advance notice for parties, celebrations, and gatherings. Earliest delivery date is ${earliestAllowedDate}. Please select your date and time below!`}
                 </div>
-              ) : (
-                <div
-                  style={{
-                    background: '#E8F5E9',
-                    border: '1px solid #C8E6C9',
-                    borderRadius: 'var(--radius-sm)',
-                    padding: '12px 14px',
-                    marginBottom: 16,
-                    display: 'flex',
-                    gap: 10,
-                    alignItems: 'flex-start',
-                  }}
-                >
-                  <span style={{ fontSize: '1.2rem', lineHeight: 1 }}>⚡</span>
-                  <div style={{ fontSize: '0.82rem', color: '#1B5E20', lineHeight: 1.45 }}>
-                    <strong style={{ display: 'block', marginBottom: 2 }}>Same-Day Delivery Available:</strong>
-                    Lamb Shank & Chicken Leg are smoked fresh today! You can order for delivery <strong>tonight ({todayStr})</strong> or pick any future date.
-                  </div>
-                </div>
-              )}
+              </div>
 
               {/* Smokehouse Difference Explainer */}
               <div

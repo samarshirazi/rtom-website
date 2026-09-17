@@ -5,11 +5,12 @@ import { BUSINESS_PHONE_DISPLAY, BUSINESS_TEL } from '../lib/constants';
 
 // Authentic Feast Constants
 export const FEAST_DETAILS = {
-  PRICE: '$29.99',
-  PRICE_NUM: 29.99,
+  PRICE: '$38.00',
+  PRICE_NUM: 38.00,
+  EXTRA_LAMB_PRICE: '$23.00',
   PORTION: 'Generous 18–20 oz Bone-In Shank with Rice & Sides (Serves 1–2)',
   GARLIC_SAUCE: 'House-Whipped Garlic Toum & Smoked Rosemary Pan Jus',
-  DELIVERY_NOTICE: 'Delivered Fresh & Steaming Hot Across Edmonton Metro',
+  DELIVERY_NOTICE: 'Slow-Smoked to Order (Min. 1-Day Notice) Across Edmonton Metro',
 };
 
 type LambShankFunnelPageProps = {
@@ -40,7 +41,7 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
     DISHES.find((d) => d.id === 'rtom-lamb-shank' || d.name.toLowerCase().includes('lamb shank')) ||
     DISHES[0];
 
-  const basePrice = lambShankDish.price || 29.99;
+  const basePrice = lambShankDish.price || 38.00;
   const currentPriceFormatted = `$${basePrice.toFixed(2)}`;
 
   const [activeFaq, setActiveFaq] = useState<number | null>(0);
@@ -842,7 +843,7 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
             }}
           >
             <div style={{ fontSize: '0.95rem', color: '#4A4640', lineHeight: 1.6 }}>
-              💡 <strong>Edmonton Dining Comparison:</strong> A slow-braised lamb shank entrée at a downtown steakhouse typically runs <strong>$45–$55+</strong>. We deliver pitmaster-grade hardwood smoked craftsmanship directly to your home for just <strong>$29.99</strong>.
+              💡 <strong>Edmonton Dining Comparison:</strong> A slow-braised lamb shank entrée at a downtown steakhouse typically runs <strong>$55–$65+</strong>. We deliver pitmaster-grade hardwood smoked craftsmanship directly to your home for just <strong>$38.00</strong> (with optional extra lamb shank for +$23.00).
             </div>
           </div>
 
@@ -855,77 +856,86 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
               <div
                 style={{
                   fontFamily: 'var(--font-woodcut), Impact, sans-serif',
-                  fontSize: 'clamp(2.8rem, 6vw, 3.8rem)',
-                  color: '#BA4E18',
-                  lineHeight: 1.1,
-                  letterSpacing: '0.02em',
+                  fontSize: 'clamp(1.6rem, 3.8vw, 2.2rem)',
+                  color: '#1A1918',
+                  lineHeight: 1.15,
                 }}
               >
-                {currentPriceFormatted}
-              </div>
-              <div style={{ fontSize: '0.92rem', color: '#66625C', marginTop: '6px' }}>
-                Generous 18–20 oz Bone-In Shank • 100% Halal Certified • Serves 1–2
+                WHAT'S INCLUDED IN EVERY FEAST
               </div>
             </div>
 
-            {/* Customization Steps (Matching the App & Storefront Dish Modal) */}
-            <div style={{ marginBottom: '20px' }}>
-              <div style={{ fontWeight: 800, fontSize: '0.95rem', color: '#1A1918', marginBottom: '12px', textAlign: 'center' }}>
-                🍽️ What's Included & Customizable:
+            {/* Inclusions Grid */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '14px' }}>
+              <div
+                style={{
+                  border: '1px solid #DCD8CF',
+                  background: '#FFFFFF',
+                  borderRadius: '8px',
+                  padding: '16px',
+                  boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+                  <span style={{ fontSize: '1.25rem' }}>🍖</span>
+                  <strong style={{ fontSize: '0.92rem', color: '#1A1918' }}>18–20 oz Lamb Shank</strong>
+                </div>
+                <div style={{ fontSize: '0.82rem', color: '#66625C', lineHeight: 1.45 }}>
+                  Smoked 5 hours over real wood until spoon-tender, pull-apart succulent.
+                </div>
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '12px' }}>
-                <div
-                  style={{
-                    border: '1px solid #DCD8CF',
-                    background: '#FFFFFF',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
-                  }}
-                >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
-                    <span style={{ fontSize: '1.25rem' }}>🍚</span>
-                    <strong style={{ fontSize: '0.92rem', color: '#1A1918' }}>Choice of Base Pairing</strong>
-                  </div>
-                  <div style={{ fontSize: '0.82rem', color: '#66625C', lineHeight: 1.45 }}>
-                    Choose between Fragrant Spiced Saffron Basmati Rice OR Creamy Mac & Cheese.
-                  </div>
-                </div>
 
-                <div
-                  style={{
-                    border: '1px solid #DCD8CF',
-                    background: '#FFFFFF',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
-                  }}
-                >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
-                    <span style={{ fontSize: '1.25rem' }}>🧄</span>
-                    <strong style={{ fontSize: '0.92rem', color: '#1A1918' }}>Smokehouse Sides</strong>
-                  </div>
-                  <div style={{ fontSize: '0.82rem', color: '#66625C', lineHeight: 1.45 }}>
-                    Extra Spiced Rice, Creamy Mac & Cheese, and Garlic Toum can be added as separate sides to your order.
-                  </div>
+              <div
+                style={{
+                  border: '1px solid #DCD8CF',
+                  background: '#FFFFFF',
+                  borderRadius: '8px',
+                  padding: '16px',
+                  boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+                  <span style={{ fontSize: '1.25rem' }}>🍚</span>
+                  <strong style={{ fontSize: '0.92rem', color: '#1A1918' }}>Saffron Spiced Basmati</strong>
                 </div>
+                <div style={{ fontSize: '0.82rem', color: '#66625C', lineHeight: 1.45 }}>
+                  Steamed with cardamom pods, cloves, caramelized sumac onions, and fresh herbs.
+                </div>
+              </div>
 
-                <div
-                  style={{
-                    border: '1px solid #DCD8CF',
-                    background: '#FFFFFF',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
-                  }}
-                >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
-                    <span style={{ fontSize: '1.25rem' }}>⚡</span>
-                    <strong style={{ fontSize: '0.92rem', color: '#1A1918' }}>Same-Day Delivery</strong>
-                  </div>
-                  <div style={{ fontSize: '0.82rem', color: '#66625C', lineHeight: 1.45 }}>
-                    Order for hot delivery tonight in Edmonton or pick an advance weekend/weekday slot.
-                  </div>
+              <div
+                style={{
+                  border: '1px solid #DCD8CF',
+                  background: '#FFFFFF',
+                  borderRadius: '8px',
+                  padding: '16px',
+                  boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+                  <span style={{ fontSize: '1.25rem' }}>🧄</span>
+                  <strong style={{ fontSize: '0.92rem', color: '#1A1918' }}>Toum & Rosemary Jus</strong>
+                </div>
+                <div style={{ fontSize: '0.82rem', color: '#66625C', lineHeight: 1.45 }}>
+                  House-emulsified garlic whip and rich smoked drippings pan jus reduction.
+                </div>
+              </div>
+
+              <div
+                style={{
+                  border: '1px solid #DCD8CF',
+                  background: '#FFFFFF',
+                  borderRadius: '8px',
+                  padding: '16px',
+                  boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+                  <span style={{ fontSize: '1.25rem' }}>🪵</span>
+                  <strong style={{ fontSize: '0.92rem', color: '#1A1918' }}>Advance Notice Craft</strong>
+                </div>
+                <div style={{ fontSize: '0.82rem', color: '#66625C', lineHeight: 1.45 }}>
+                  Slow-smoked fresh to order with minimum 1-day advance notice for celebrations & dinner feasts in Edmonton.
                 </div>
               </div>
             </div>
@@ -1154,8 +1164,8 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
                 a: 'Every feast includes our fresh House-Whipped Garlic Toum alongside savory smokehouse pan reduction jus and pickled sumac onions.',
               },
               {
-                q: 'Can I order for tonight or pre-order for tomorrow?',
-                a: 'Because our pit batches take 5 full hours of low-and-slow hardwood smoking, daily quantities are limited. We recommend ordering early in the evening before the daily pit batch runs out.',
+                q: 'How far in advance do I need to order?',
+                a: 'All our meats are authentic artisan smokehouse delicacies smoked to order over real oak and hickory coals. We require at least 24 hours (1 day) advance notice so our pitmaster can season, smoke, and cambro-rest your feast to spoon-tender perfection.',
               },
               {
                 q: "Why isn't this available on DoorDash or UberEats for instant 30-minute delivery?",
@@ -1214,10 +1224,10 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
             marginBottom: '16px',
           }}
         >
-          Taste Edmonton's Most Tender Lamb Feast Tonight
+          Taste Edmonton's Most Tender Lamb Delicacy
         </h2>
         <p style={{ fontSize: '1.15rem', color: '#66625C', marginBottom: '32px' }}>
-          Slow-smoked for 5 hours over authentic hardwood embers. Handcrafted and delivered fresh to your door.
+          Slow-smoked for 5 hours over authentic hardwood embers. Handcrafted for celebrations and delivered fresh to your door.
         </p>
 
         <button
