@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import type { Dish } from '../types';
+import { getAppDishUrl } from '../lib/constants';
 
 type DishModalProps = {
   dish: Dish | null;
@@ -280,7 +281,7 @@ export const DishModal: React.FC<DishModalProps> = ({ dish, remainingStock, onCl
 
         <div style={{ textAlign: 'center', marginTop: 14 }}>
           <a
-            href="https://app.rtombbq.ca"
+            href={getAppDishUrl(dish.id)}
             target="_blank"
             rel="noopener noreferrer"
             style={{
@@ -294,7 +295,7 @@ export const DishModal: React.FC<DishModalProps> = ({ dish, remainingStock, onCl
               gap: 4,
             }}
           >
-            <span>📱 Or order directly on RTOM App (app.rtombbq.ca) ➔</span>
+            <span>📱 Or order directly on RTOM App with Apple Pay / Card ➔</span>
           </a>
         </div>
       </div>

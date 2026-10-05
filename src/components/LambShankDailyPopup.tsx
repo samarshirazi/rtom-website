@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BUSINESS_PHONE_DISPLAY, BUSINESS_TEL } from '../lib/constants';
+import { BUSINESS_PHONE_DISPLAY, BUSINESS_TEL, getAppDishUrl } from '../lib/constants';
 
 type LambShankDailyPopupProps = {
   onViewFeast: () => void;
@@ -264,21 +264,38 @@ export const LambShankDailyPopup: React.FC<LambShankDailyPopupProps> = ({
               </button>
             </div>
 
-            <div style={{ marginTop: '12px', textAlign: 'center' }}>
+            <div style={{ marginTop: '12px', textAlign: 'center', display: 'flex', flexDirection: 'column', gap: 6 }}>
               <a
-                href={BUSINESS_TEL}
+                href={getAppDishUrl('rtom-lamb-shank')}
+                target="_blank"
+                rel="noopener noreferrer"
                 style={{
-                  fontSize: '0.82rem',
+                  fontSize: '0.84rem',
                   color: '#BA4E18',
                   fontWeight: 700,
                   textDecoration: 'none',
                   display: 'inline-flex',
                   alignItems: 'center',
+                  justifyContent: 'center',
                   gap: '4px',
                 }}
               >
-                <span>📞 Order by phone:</span>
-                <span style={{ textDecoration: 'underline' }}>{BUSINESS_PHONE_DISPLAY}</span>
+                <span>📱 Order on App with Apple Pay / Card ➔</span>
+              </a>
+              <a
+                href={BUSINESS_TEL}
+                style={{
+                  fontSize: '0.80rem',
+                  color: '#66625C',
+                  fontWeight: 600,
+                  textDecoration: 'none',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '4px',
+                }}
+              >
+                <span>📞 Or call to order: {BUSINESS_PHONE_DISPLAY}</span>
               </a>
             </div>
           </div>

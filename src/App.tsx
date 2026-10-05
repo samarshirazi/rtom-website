@@ -16,6 +16,7 @@ import { fetchLiveDishes, fetchLiveSameDayStock } from './lib/supabaseDishes';
 import { SUPABASE_DISH_MAP } from './lib/supabaseOrders';
 import { BUSINESS_WHATSAPP } from './lib/constants';
 import { pushCateringToGhl } from './lib/ghl';
+import { trackPageView, trackViewContent, trackAddToCart, trackLead } from './lib/metaPixel';
 
 export function App() {
   const [dishes, setDishes] = useState<Dish[]>(DISHES);
@@ -85,6 +86,18 @@ export function App() {
     };
   }, []);
 
+  // Track page view on currentView change
+  useEffect(() => {
+    trackPageView(currentView === 'lamb-shank' ? 'Lamb Shank Landing Page' : 'Storefront Home');
+  }, [currentView]);
+
+  // Track ViewContent when dish modal is opened
+  useEffect(() => {
+    if (selectedDishModal) {
+      trackViewContent(selectedDishModal);
+    }
+  }, [selectedDishModal]);
+
   const handleNavigateToLambShank = () => {
     window.history.pushState(null, '', '/lamb-shank');
     setCurrentView('lamb-shank');
@@ -148,6 +161,14 @@ export function App() {
       return [...prev, newItem];
     });
 
+    // Track AddToCart in Meta Pixel
+    trackAddToCart({
+      id: dish.id,
+      name: dish.name,
+      price: unitPrice,
+      quantity,
+    });
+
     setIsCartOpen(true);
   };
 
@@ -166,6 +187,9 @@ export function App() {
   };
 
   const handleOpenCateringInquiry = (summary: string) => {
+    // Track Lead in Meta Pixel
+    trackLead('Catering Inquiry', { summary });
+
     pushCateringToGhl({
       customerName: 'Catering Lead',
       customerPhone: '',

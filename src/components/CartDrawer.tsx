@@ -6,6 +6,7 @@ import { useGoogleAddressAutocomplete } from '../lib/addressAutocomplete';
 import { pushOrderToGhl } from '../lib/ghl';
 import { pushOrderToSupabase } from '../lib/supabaseOrders';
 import { fetchLiveDeliverySlots, type DeliverySlotRow } from '../lib/supabaseDishes';
+import { trackInitiateCheckout, trackPurchase } from '../lib/metaPixel';
 
 type CartDrawerProps = {
   isOpen: boolean;
@@ -24,8 +25,6 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
   onClearCart,
   dishes = DISHES,
 }) => {
-  if (!isOpen) return null;
-
   const findDish = (dishId: string) =>
     dishes.find((d) => d.id === dishId) || DISHES.find((d) => d.id === dishId);
 
@@ -178,6 +177,21 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
   const deliveryFee = subtotal === 0 ? 0 : subtotal >= 40 ? 0 : 5.00;
   const grandTotal = subtotal + deliveryFee;
 
+  // Track InitiateCheckout when cart drawer opens with items
+  useEffect(() => {
+    if (isOpen && cartItems.length > 0) {
+      trackInitiateCheckout(
+        cartItems.map((ci) => ({
+          dishId: ci.dishId,
+          name: ci.name,
+          unitPrice: ci.unitPrice,
+          quantity: ci.quantity,
+        })),
+        grandTotal
+      );
+    }
+  }, [isOpen]);
+
   const handleCheckout = (e: React.FormEvent) => {
     e.preventDefault();
     if (hasOnlySides) {
@@ -233,13 +247,28 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
       deliveryType: hasPreOrderItems ? 'pre-order' : 'same-day',
     });
 
-    // 2. Open WhatsApp order dispatch
+    // 3. Track Purchase event in Meta Pixel
+    trackPurchase({
+      orderId: `RTOM-${Date.now()}`,
+      items: cartItems.map((ci) => ({
+        dishId: ci.dishId,
+        name: ci.name,
+        unitPrice: ci.unitPrice,
+        quantity: ci.quantity,
+      })),
+      totalValue: grandTotal,
+      currency: 'CAD',
+    });
+
+    // 4. Open WhatsApp order dispatch
     const whatsappMessage = `🔥 *NEW RTOM BBQ ORDER*\n\n👤 *Customer:* ${customerName}\n📞 *Phone:* ${customerPhone}\n📍 *Address:* ${customerAddress}\n📅 *Delivery Date:* ${deliveryDate}\n⏰ *Time Slot:* ${timeSlot}\n${deliveryTypeNote}\n\n*Order Items:*\n${itemsSummary}\n\n💵 *Subtotal:* $${subtotal.toFixed(2)}\n🚚 *Delivery:* $${deliveryFee.toFixed(2)}\n💰 *Grand Total:* $${grandTotal.toFixed(2)}`;
 
     const encoded = encodeURIComponent(whatsappMessage);
     window.open(`${BUSINESS_WHATSAPP}?text=${encoded}`, '_blank');
     setOrderPlacedSuccess(true);
   };
+
+  if (!isOpen) return null;
 
   return (
     <div className="modal-overlay" onClick={onClose} style={{ justifyContent: 'flex-end', padding: 0 }}>
