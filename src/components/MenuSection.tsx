@@ -3,6 +3,7 @@ import type { Dish } from '../types';
 import { DISHES } from '../data/dishes';
 import { fetchLiveSameDayStock } from '../lib/supabaseDishes';
 import { SUPABASE_DISH_MAP } from '../lib/supabaseOrders';
+import { getAppDishUrl } from '../lib/constants';
 
 type MenuSectionProps = {
   dishes?: Dish[];
@@ -490,35 +491,66 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
                         <span>Sold Out Today</span>
                       </button>
                     ) : isLambShankDish(dish) && onNavigateToLambShank ? (
-                      <div style={{ display: 'flex', gap: 6 }}>
+                      <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
                         <button
+                          type="button"
                           onClick={onNavigateToLambShank}
-                          className="btn btn-primary btn-sm"
+                          className="btn btn-outline btn-sm"
                           style={{
-                            background: 'var(--color-rust)',
-                            color: '#FFFFFF',
                             fontSize: '0.8rem',
                             padding: '8px 12px',
                             fontWeight: 700,
                           }}
                         >
-                          <span>🔥 View Feast</span>
+                          <span>📖 Story</span>
                         </button>
-                        <button
-                          onClick={() => onSelectDish(dish)}
-                          className="btn btn-dark btn-sm"
-                          style={{ fontSize: '0.8rem', padding: '8px 12px' }}
+                        <a
+                          href={getAppDishUrl('rtom-lamb-shank')}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="btn btn-rust btn-sm"
+                          style={{
+                            fontSize: '0.82rem',
+                            padding: '8px 14px',
+                            fontWeight: 700,
+                            textDecoration: 'none',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: 4,
+                          }}
                         >
-                          <span>+ Customize</span>
-                        </button>
+                          <span>Order on App ➔</span>
+                        </a>
                       </div>
                     ) : (
-                      <button
-                        onClick={() => onSelectDish(dish)}
-                        className="btn btn-dark btn-sm"
-                      >
-                        <span>+ Customize & Add</span>
-                      </button>
+                      <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+                        <button
+                          type="button"
+                          onClick={() => onSelectDish(dish)}
+                          className="btn btn-outline btn-sm"
+                          style={{ fontSize: '0.8rem', padding: '8px 10px', color: 'var(--text-dark)' }}
+                          title="View dish details and pitmaster story"
+                        >
+                          <span>📖 Story</span>
+                        </button>
+                        <a
+                          href={getAppDishUrl(dish.id)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="btn btn-dark btn-sm"
+                          style={{
+                            fontSize: '0.82rem',
+                            padding: '8px 14px',
+                            fontWeight: 700,
+                            textDecoration: 'none',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: 4,
+                          }}
+                        >
+                          <span>Order on App ➔</span>
+                        </a>
+                      </div>
                     )}
                   </div>
                 </div>

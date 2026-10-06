@@ -188,18 +188,18 @@ export const Header: React.FC<HeaderProps> = ({
             Order on App
           </a>
 
-          {/* Cart Button */}
-          <button
-            onClick={onOpenCart}
-            className="btn btn-dark"
-            style={{
-              position: 'relative',
-              padding: '10px 18px',
-              fontSize: '0.85rem',
-            }}
-          >
-            <span>🛒 Cart</span>
-            {cartItemCount > 0 && (
+          {/* Cart Button (only if items added locally) */}
+          {cartItemCount > 0 && (
+            <button
+              onClick={onOpenCart}
+              className="btn btn-dark"
+              style={{
+                position: 'relative',
+                padding: '10px 18px',
+                fontSize: '0.85rem',
+              }}
+            >
+              <span>🛒 Cart</span>
               <span
                 style={{
                   position: 'absolute',
@@ -220,8 +220,8 @@ export const Header: React.FC<HeaderProps> = ({
               >
                 {cartItemCount}
               </span>
-            )}
-          </button>
+            </button>
+          )}
 
           {/* Mobile Hamburger Toggle */}
           <button

@@ -14,7 +14,7 @@ type DishModalProps = {
   ) => void;
 };
 
-export const DishModal: React.FC<DishModalProps> = ({ dish, remainingStock, onClose, onAddToCart }) => {
+export const DishModal: React.FC<DishModalProps> = ({ dish, remainingStock, onClose, onAddToCart: _onAddToCart }) => {
   if (!dish) return null;
 
   const isSoldOut = remainingStock !== undefined && remainingStock !== null && remainingStock === 0;
@@ -71,23 +71,6 @@ export const DishModal: React.FC<DishModalProps> = ({ dish, remainingStock, onCl
       ...prev,
       [groupId]: { optionId, optionName, priceDelta },
     }));
-  };
-
-  const handleConfirm = () => {
-    const formattedSelections = Object.entries(selectedSelections)
-      .filter(([_, val]) => val.optionId !== 'none')
-      .map(([groupId, val]) => {
-        const group = dish.variationGroups?.find((g) => g.id === groupId);
-        return {
-          groupId,
-          groupName: group?.name || 'Option',
-          optionId: val.optionId,
-          optionName: val.optionName,
-          priceDelta: val.priceDelta,
-        };
-      });
-    onAddToCart(dish, quantity, formattedSelections, unitPrice);
-    onClose();
   };
 
   return (
@@ -257,45 +240,29 @@ export const DishModal: React.FC<DishModalProps> = ({ dish, remainingStock, onCl
             </button>
           </div>
 
-          <button
-            onClick={handleConfirm}
-            disabled={isSoldOut}
+          <a
+            href={getAppDishUrl(dish.id)}
+            target="_blank"
+            rel="noopener noreferrer"
             className="btn btn-rust"
             style={{
               flex: 1,
               padding: '14px',
               fontSize: '1rem',
-              ...(isSoldOut ? { background: '#E2E8F0', color: '#64748B', cursor: 'not-allowed', border: 'none' } : {}),
+              textDecoration: 'none',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 8,
+              fontWeight: 800,
+              ...(isSoldOut ? { background: '#E2E8F0', color: '#64748B', pointerEvents: 'none', border: 'none' } : {}),
             }}
           >
             {isSoldOut ? (
               <span>Sold Out Today</span>
             ) : (
-              <>
-                <span>Add to Cart</span>
-                <span style={{ fontWeight: 800 }}>• ${totalPrice.toFixed(2)}</span>
-              </>
+              <span>📱 Order on RTOM App • ${totalPrice.toFixed(2)} ➔</span>
             )}
-          </button>
-        </div>
-
-        <div style={{ textAlign: 'center', marginTop: 14 }}>
-          <a
-            href={getAppDishUrl(dish.id)}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              fontSize: '0.85rem',
-              color: 'var(--color-rust)',
-              textDecoration: 'none',
-              fontFamily: 'var(--font-heading)',
-              fontWeight: 600,
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 4,
-            }}
-          >
-            <span>📱 Or order directly on RTOM App with Apple Pay / Card ➔</span>
           </a>
         </div>
       </div>

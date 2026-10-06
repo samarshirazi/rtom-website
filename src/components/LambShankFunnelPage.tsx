@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import type { Dish } from '../types';
 import { DISHES } from '../data/dishes';
-import { BUSINESS_PHONE_DISPLAY, BUSINESS_TEL } from '../lib/constants';
+import { BUSINESS_PHONE_DISPLAY, BUSINESS_TEL, getAppDishUrl } from '../lib/constants';
 
 // Authentic Feast Constants
 export const FEAST_DETAILS = {
@@ -30,8 +30,8 @@ type LambShankFunnelPageProps = {
 export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
   dish,
   onBackToMenu,
-  onAddToCart,
-  onOpenDishModal,
+  onAddToCart: _onAddToCart,
+  onOpenDishModal: _onOpenDishModal,
   cartItemCount = 0,
   onOpenCart,
 }) => {
@@ -47,11 +47,7 @@ export const LambShankFunnelPage: React.FC<LambShankFunnelPageProps> = ({
   const [activeFaq, setActiveFaq] = useState<number | null>(0);
 
   const handleOrderNow = () => {
-    if (onOpenDishModal) {
-      onOpenDishModal(lambShankDish);
-      return;
-    }
-    onAddToCart(lambShankDish, 1, [], basePrice);
+    window.open(getAppDishUrl('rtom-lamb-shank'), '_blank');
   };
 
   const scrollToStack = () => {

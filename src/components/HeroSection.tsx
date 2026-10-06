@@ -105,37 +105,36 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 marginBottom: 48,
               }}
             >
+              <a
+                href="https://app.rtombbq.ca"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-rust"
+                style={{ fontSize: '1rem', padding: '14px 28px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6 }}
+              >
+                🔥 Order Online on App ➔
+              </a>
               <button
                 onClick={onExploreMenu}
-                className="btn btn-rust"
-                style={{ fontSize: '1rem', padding: '14px 28px' }}
-              >
-                🔥 View Delicacy Menu
-              </button>
-              <a
-                href={BUSINESS_TEL}
                 className="btn btn-dark"
-                style={{ fontSize: '1rem', padding: '14px 24px', display: 'flex', alignItems: 'center', gap: 6 }}
-                title="Call to Order directly"
+                style={{ fontSize: '1rem', padding: '14px 24px' }}
               >
-                <span>📞</span>
-                <span>Call to Reserve: <strong>{BUSINESS_PHONE_DISPLAY}</strong></span>
-              </a>
+                📜 View Menu & Stories
+              </button>
               <button
                 onClick={onOpenCatering}
                 className="btn btn-outline"
                 style={{ fontSize: '1rem', padding: '14px 24px' }}
               >
-                🍖 Party & Event Calculator
+                🍖 Catering Calculator
               </button>
               <a
-                href="https://app.rtombbq.ca"
-                target="_blank"
-                rel="noopener noreferrer"
+                href={BUSINESS_TEL}
                 className="btn btn-outline"
-                style={{ fontSize: '1rem', padding: '14px 24px' }}
+                style={{ fontSize: '1rem', padding: '14px 24px', display: 'flex', alignItems: 'center', gap: 6 }}
+                title="Call to Order directly"
               >
-                📱 RTOM App
+                <span>📞 Call: {BUSINESS_PHONE_DISPLAY}</span>
               </a>
             </div>
 
