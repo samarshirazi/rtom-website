@@ -213,6 +213,7 @@ export function App() {
           cartItemCount={cartItemCount}
           onOpenCart={() => setIsCartOpen(true)}
           onNavigateSection={handleNavigateSection}
+          onNavigateToLambShank={handleNavigateToLambShank}
         />
       )}
 

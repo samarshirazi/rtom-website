@@ -5,17 +5,28 @@ type HeaderProps = {
   cartItemCount: number;
   onOpenCart: () => void;
   onNavigateSection: (sectionId: string) => void;
+  onNavigateToLambShank?: () => void;
 };
 
 export const Header: React.FC<HeaderProps> = ({
   cartItemCount,
   onOpenCart,
   onNavigateSection,
+  onNavigateToLambShank,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleNavClick = (sectionId: string) => {
     onNavigateSection(sectionId);
+    setMobileMenuOpen(false);
+  };
+
+  const handleLambShankClick = () => {
+    if (onNavigateToLambShank) {
+      onNavigateToLambShank();
+    } else {
+      onNavigateSection('menu');
+    }
     setMobileMenuOpen(false);
   };
 
@@ -139,7 +150,9 @@ export const Header: React.FC<HeaderProps> = ({
           <button onClick={() => handleNavClick('menu')} style={navLinkStyle}>
             MENU
           </button>
-
+          <button onClick={handleLambShankClick} style={{ ...navLinkStyle, color: 'var(--color-rust)', fontWeight: 700 }}>
+            🔥 LAMB SHANK
+          </button>
           <button onClick={() => handleNavClick('catering')} style={navLinkStyle}>
             CATERING
           </button>
@@ -289,7 +302,9 @@ export const Header: React.FC<HeaderProps> = ({
           <button onClick={() => handleNavClick('menu')} style={mobileBtnStyle}>
             SMOKEHOUSE MENU
           </button>
-
+          <button onClick={handleLambShankClick} style={{ ...mobileBtnStyle, color: 'var(--color-rust)' }}>
+            🔥 LAMB SHANK FEAST
+          </button>
           <button onClick={() => handleNavClick('catering')} style={mobileBtnStyle}>
             BBQ CATERING CALCULATOR
           </button>
