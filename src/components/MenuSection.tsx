@@ -537,7 +537,7 @@ export const MenuSection: React.FC<MenuSectionProps> = ({
                           href={getAppDishUrl(dish.id)}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="btn btn-dark btn-sm"
+                          className="btn btn-rust btn-sm"
                           style={{
                             fontSize: '0.82rem',
                             padding: '8px 14px',
